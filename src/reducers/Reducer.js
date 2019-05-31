@@ -13,6 +13,9 @@ let initialState = {
     },
     currentFilm: {
         film: {},
+        videos: {
+            results: []
+        },
         reviews: {
             results: []
         },
@@ -44,6 +47,7 @@ let reducer = (state = initialState, action) => {
                 ...state,
                 currentFilm: {
                     film: action.payload.film,
+                    videos: action.payload.videos,
                     reviews: action.payload.reviews,
                     similarFilms: action.payload.similar
                 }

@@ -8,6 +8,9 @@ class FilmService {
     getFilm = async (filmId) => {
         return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}?api_key=${this.apiKey}`);
     }
+    getFilmVideos = async (filmId) => {
+        return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}/videos?api_key=${this.apiKey}`);
+    }
     getFilmReviews = async (filmId) => {
         return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}/reviews?api_key=${this.apiKey}`);
     }

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Preloader from '../components/Preloader';
 import FilmReviews from '../components/FilmReviews';
 import SimilarFilmsSlider from '../components/SimilarFilmsSlider';
+import FilmVideos from '../components/FilmVideos';
 
 let FilmCardWrapper = styled.div`
     width: 100%;
@@ -66,10 +67,12 @@ class FilmPage extends Component {
         this.setState({isLoading: true});
         let { service, setCurrentFilm } = this.props;
         let filmData = await service.getFilm(id);
+        let filmVideos = await service.getFilmVideos(id);
         let filmReviews = await service.getFilmReviews(id);
         let similarFilms = await service.getSimilarFilms(id);
         setCurrentFilm({
             film: filmData,
+            videos: filmVideos,
             reviews: filmReviews,
             similar: similarFilms
         });
@@ -96,6 +99,7 @@ class FilmPage extends Component {
                                 <h3>Status: {film.status}</h3>
                             </FilmCardInfo>
                         </FilmCardWrapper>
+                        <FilmVideos />
                         <FilmReviews />
                         <SimilarFilmsSlider />
                     </div>

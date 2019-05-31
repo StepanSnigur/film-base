@@ -30,7 +30,15 @@ let ShowReviewsBtn = styled.button`
 
 class FilmReviews extends Component {
     state = {
-        reviewsLimiter: 3
+        reviewsLimiter: 0
+    }
+
+    initialReviewsLimiter = 3;
+
+    componentDidMount() {
+        this.setState({
+            reviewsLimiter: this.initialReviewsLimiter
+        })
     }
 
     moveReviewsLimiter = () => {
@@ -38,10 +46,26 @@ class FilmReviews extends Component {
             reviewsLimiter: this.state.reviewsLimiter + 3
         })
     }
+    returnReviewsLimiterToInitial = () => {
+        this.setState({
+            reviewsLimiter: this.initialReviewsLimiter
+        })
+    }
 
     render() {
         let filmReviews = this.props.reviews.results;
         let { reviewsLimiter } = this.state;
+        let showContentBtn = () => {
+            return (
+                <>
+                    {
+                        filmReviews.length > reviewsLimiter ?
+                            <ShowReviewsBtn onClick={this.moveReviewsLimiter}>View more</ShowReviewsBtn> :
+                            <ShowReviewsBtn onClick={this.returnReviewsLimiterToInitial}>Close</ShowReviewsBtn>
+                    }
+                </>
+            )
+        }
         return (
             <>
                 {
@@ -59,7 +83,11 @@ class FilmReviews extends Component {
                                     )
                                 })
                             }
-                            {filmReviews.length > reviewsLimiter ? <ShowReviewsBtn onClick={this.moveReviewsLimiter}>View more</ShowReviewsBtn> : null}
+                            {
+                                filmReviews.length <= this.initialReviewsLimiter ?
+                                null :
+                                showContentBtn()
+                            }
                         </div>
                     </div> :
                     null
