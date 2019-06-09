@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import WithService from '../hoc/WithService';
 import Preloader from '../components/Preloader';
 
 let HomePageText = styled.p`
@@ -125,4 +126,4 @@ let mapStateToProps = ({ topRelatedFilms }) => {
     }
 }
 
-export default connect(mapStateToProps)(HomePage);
+export default WithService(connect(mapStateToProps)(HomePage));

@@ -81,29 +81,29 @@ class FilmVideos extends Component {
             <>
                 {
                     filmVideos.length > 0 ?
-                    <div>
-                        <h2>Videos:</h2>
-                        <FilmVideosWrapper>
+                        <div>
+                            <h2>Videos:</h2>
+                            <FilmVideosWrapper>
+                                {
+                                    filmVideos.slice(0, videosLimiter).map((el) => {
+                                        return (
+                                            <YouTube
+                                                key={el.id}
+                                                videoId={el.key}
+                                                opts={opts}
+                                                onReady={this._onReady}
+                                            />
+                                        )
+                                    })
+                                }
+                            </FilmVideosWrapper>
                             {
-                                filmVideos.slice(0, videosLimiter).map((el) => {
-                                    return (
-                                        <YouTube
-                                            key={el.id}
-                                            videoId={el.key}
-                                            opts={opts}
-                                            onReady={this._onReady}
-                                        />
-                                    )
-                                })
+                                filmVideos.length <= this.initialVideosLimiter ?
+                                null :
+                                showContentBtn()
                             }
-                        </FilmVideosWrapper>
-                        {
-                            filmVideos.length <= this.initialVideosLimiter ?
-                            null :
-                            showContentBtn()
-                        }
-                    </div> :
-                    null
+                        </div> :
+                        null
                 }
             </>
         );

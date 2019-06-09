@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import store from './reducers/Reducer';
-import FilmService from './services/FilmService';
 import { BrowserRouter as Router, Route, HashRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
+import WithService from './hoc/WithService';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import UpComingPage from './pages/UpComingPage';
@@ -30,17 +30,17 @@ let Wrapper = styled.div`
     }
 `
 
-let service = new FilmService();
-
-let getTopRelatedFilms = async () => {
-    let result = await service.getTopRatedFilms();
-    store.dispatch({type: 'LOAD_TOP_RELATED_FILMS', payload: result});
-}
-
 class App extends Component {
     componentDidMount () {
-        getTopRelatedFilms();
+        this.getTopRelatedFilms();
     }
+
+    getTopRelatedFilms = async () => {
+        let { service } = this.props;
+        let result = await service.getTopRatedFilms();
+        store.dispatch({type: 'LOAD_TOP_RELATED_FILMS', payload: result});
+    }
+
     render () {
         return (
             <Provider store={store}>
@@ -48,14 +48,14 @@ class App extends Component {
                     <HashRouter>
                         <Header />
                         <Wrapper>
-                            <Route path="/" exact component={() => <HomePage service={service} />}/>
-                            <Route path="/upcoming" component={() => <UpComingPage service={service} />}/>
-                            <Route path="/popular" component={() => <PopularFilmsPage service={service} />}/>
+                            <Route path="/" exact component={HomePage}/>
+                            <Route path="/upcoming" component={UpComingPage}/>
+                            <Route path="/popular" component={PopularFilmsPage}/>
                             <Route path="/film/:id"
                                    render={
                                        ({ match, history }) => {
                                            let { id } = match.params;
-                                           return <FilmPage service={service} history={history} filmId={id} />
+                                           return <FilmPage history={history} filmId={id} />
                                        }
                                    }
                             />
@@ -68,4 +68,4 @@ class App extends Component {
     }
 }
 
-export default App;
+export default WithService(App);

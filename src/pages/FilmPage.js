@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import WithService from '../hoc/WithService';
 import Preloader from '../components/Preloader';
 import FilmReviews from '../components/FilmReviews';
 import SimilarFilmsSlider from '../components/SimilarFilmsSlider';
@@ -121,4 +122,4 @@ let mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FilmPage);
+export default WithService(connect(mapStateToProps, mapDispatchToProps)(FilmPage));
