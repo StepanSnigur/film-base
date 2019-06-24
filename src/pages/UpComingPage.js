@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import WithService from '../hoc/WithService';
 import Preloader from '../components/Preloader';
+
+import { loadUpComingFilms } from '../actionCreators/ActionCreators';
 
 let UpComingPageContainer = styled.div`
     display: flex;
@@ -73,13 +74,7 @@ let FilmInfoDescription = styled.p`
 
 class UpComingPage extends Component {
     componentDidMount() {
-        this.loadUpComingFilms();
-    }
-
-    loadUpComingFilms = async () => {
-        let { service, loadUpComingFilms } = this.props;
-        let result = await service.getUpcomingFilms();
-        loadUpComingFilms(result);
+        this.props.loadUpComingFilms();
     }
 
     render() {
@@ -127,10 +122,5 @@ let mapStateToProps = ({ upComingFilms }) => {
         upComingFilms
     }
 }
-let mapDispatchToProps = (dispatch) => {
-    return {
-        loadUpComingFilms: (films) => dispatch({type: 'LOAD_UP_COMING_FILMS', payload: films})
-    }
-}
 
-export default WithService(connect(mapStateToProps, mapDispatchToProps)(UpComingPage));
+export default connect(mapStateToProps, { loadUpComingFilms })(UpComingPage);

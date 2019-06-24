@@ -1,6 +1,3 @@
-import { createStore } from 'redux';
-import devToolsEnhancer from 'remote-redux-devtools';
-
 let initialState = {
     topRelatedFilms: {
         results: []
@@ -21,7 +18,11 @@ let initialState = {
         },
         similarFilms: {
             results: []
-        }
+        },
+        isLoading: true
+    },
+    searchFilms: {
+        results: []
     }
 }
 
@@ -52,11 +53,22 @@ let reducer = (state = initialState, action) => {
                     similarFilms: action.payload.similar
                 }
             }
+        case 'SET_CURRENT_FILM_LOADING':
+            return {
+                ...state,
+                currentFilm: {
+                    ...state.currentFilm,
+                    isLoading: action.payload
+                }
+            }
+        case 'SEARCH_FILM':
+            return {
+                ...state,
+                searchFilms: action.payload
+            }
         default:
             return state;
     }
 }
 
-let store = createStore(reducer, devToolsEnhancer());
-
-export default store;
+export default reducer;

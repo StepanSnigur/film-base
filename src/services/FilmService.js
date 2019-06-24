@@ -26,6 +26,10 @@ class FilmService {
     getPopularFilms = async () => {
         return await this.makeRequest(`https://api.themoviedb.org/3/movie/popular?api_key=${this.apiKey}`);
     }
+
+    searchFilm = async (filmName) => {
+        return await this.makeRequest(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${filmName}&language=en-US&page=1`);
+    }
 }
 
 export default FilmService;

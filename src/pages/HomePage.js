@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import WithService from '../hoc/WithService';
 import Preloader from '../components/Preloader';
+import SearchMovieForm from '../components/SearchMovieForm';
 
 let HomePageText = styled.p`
     text-align: center;
@@ -87,6 +87,7 @@ class HomePage extends Component {
                     filmsList.length === 0 ?
                     <Preloader /> :
                     <div>
+                        <SearchMovieForm />
                         <HomePageText>Welcome to Film Base. Here you can find movies to watch. You can also see reviews and learn alot about your favorite movies.</HomePageText>
                         <TopRelatedFilmsHeadline>Top related films:</TopRelatedFilmsHeadline>
                         <TopRelatedPageContainer>
@@ -126,4 +127,4 @@ let mapStateToProps = ({ topRelatedFilms }) => {
     }
 }
 
-export default WithService(connect(mapStateToProps)(HomePage));
+export default connect(mapStateToProps)(HomePage);

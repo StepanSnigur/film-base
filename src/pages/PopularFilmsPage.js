@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-import WithService from '../hoc/WithService';
 import Preloader from '../components/Preloader';
+
+import { loadMostPopularFilms } from '../actionCreators/ActionCreators';
 
 let PopularFilmsPageContainer = styled.div`
     display: flex;
@@ -73,13 +74,7 @@ let FilmInfoDescription = styled.p`
 
 class PopularFilmsPage extends Component {
     componentDidMount() {
-        this.loadMostPopularFilms();
-    }
-
-    loadMostPopularFilms = async () => {
-        let { service, loadMostPopularFilms } = this.props;
-        let result = await service.getPopularFilms();
-        loadMostPopularFilms(result);
+        this.props.loadMostPopularFilms();
     }
 
     render() {
@@ -127,10 +122,5 @@ let mapStateToProps = ({ mostPopularFilms }) => {
         mostPopularFilms
     }
 }
-let mapDispatchToProps = (dispatch) => {
-    return {
-        loadMostPopularFilms: (films) => dispatch({type: 'LOAD_MOST_POPULAR_FILMS', payload: films})
-    }
-}
 
-export default WithService(connect(mapStateToProps, mapDispatchToProps)(PopularFilmsPage));
+export default connect(mapStateToProps, { loadMostPopularFilms })(PopularFilmsPage);

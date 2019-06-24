@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import WithService from '../hoc/WithService';
 import Preloader from '../components/Preloader';
 import FilmReviews from '../components/FilmReviews';
 import SimilarFilmsSlider from '../components/SimilarFilmsSlider';
 import FilmVideos from '../components/FilmVideos';
+
+import { setCurrentFilm } from '../actionCreators/ActionCreators';
 
 let FilmCardWrapper = styled.div`
     width: 100%;
@@ -51,40 +52,20 @@ let GoBackBtn = styled.button`
 `
 
 class FilmPage extends Component {
-    state = {
-        isLoading: true
-    }
-
     componentDidMount() {
-        this.setCurrentFilm(this.props.filmId);
+        this.props.setCurrentFilm(this.props.filmId);
     }
     componentDidUpdate(prevProps) {
         if (prevProps.filmId !== this.props.filmId) {
-            this.setCurrentFilm(this.props.filmId);
+            this.props.setCurrentFilm(this.props.filmId);
         }
     }
 
-    setCurrentFilm = async (id) => {
-        this.setState({isLoading: true});
-        let { service, setCurrentFilm } = this.props;
-        let filmData = await service.getFilm(id);
-        let filmVideos = await service.getFilmVideos(id);
-        let filmReviews = await service.getFilmReviews(id);
-        let similarFilms = await service.getSimilarFilms(id);
-        setCurrentFilm({
-            film: filmData,
-            videos: filmVideos,
-            reviews: filmReviews,
-            similar: similarFilms
-        });
-        this.setState({isLoading: false});
-    }
-
     render() {
-        let { film } = this.props.currentFilm;
+        let { film, isLoading } = this.props.currentFilm;
         return (
             <>
-                {this.state.isLoading ?
+                {isLoading ?
                     <Preloader /> :
                     <div>
                         <FilmCardWrapper>
@@ -116,10 +97,5 @@ let mapStateToProps = ({ currentFilm }) => {
         currentFilm
     }
 }
-let mapDispatchToProps = (dispatch) => {
-    return {
-        setCurrentFilm: (film) => dispatch({type: 'SET_CURRENT_FILM', payload: film})
-    }
-}
 
-export default WithService(connect(mapStateToProps, mapDispatchToProps)(FilmPage));
+export default connect(mapStateToProps, { setCurrentFilm })(FilmPage);

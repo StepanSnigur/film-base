@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import store from './reducers/Reducer';
+import store from './store/Store';
 import { BrowserRouter as Router, Route, HashRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
