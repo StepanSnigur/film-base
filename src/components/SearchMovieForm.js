@@ -29,7 +29,7 @@ let SearchMovieForm = (props) => {
 
     let searchFilm = async (e) => {
         if (e.target.value.length !== 0) {
-            props.searchFilm(e.target.value)
+            props.searchFilm(e.target.value);
         }
     }
 

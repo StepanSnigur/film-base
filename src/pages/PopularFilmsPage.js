@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import Preloader from '../components/Preloader';
+import ErrorIndicator from '../components/ErrorIndicator';
+import ExpandArrow from '../img/arrow-down-icon.png';
 
 import { loadMostPopularFilms } from '../actionCreators/ActionCreators';
 
@@ -79,38 +81,52 @@ class PopularFilmsPage extends Component {
 
     render() {
         let filmsList = this.props.mostPopularFilms.results;
+        let { error } = this.props.mostPopularFilms;
+
+        let PopularFilmsPageContent = () => {
+            return (
+                <>
+                    {
+                        filmsList.length === 0 ?
+                        <Preloader /> :
+                        <div>
+                            <h1>Popular films:</h1>
+                            <PopularFilmsPageContainer>
+                                {
+                                    filmsList.map((el) => {
+                                        return (
+                                            <FilmCard key={el.id}>
+                                                <FilmCardImg>
+                                                    <img src={`https://image.tmdb.org/t/p/w500${el.backdrop_path}`} alt="Film preview"/>
+                                                    <FilmCardImgDescription>
+                                                        <h4>Release: {el.release_date}</h4>
+                                                        <h4>Vote: {el.vote_average}</h4>
+                                                    </FilmCardImgDescription>
+                                                </FilmCardImg>
+                                                <FilmInfo>
+                                                    <FilmInfoTitle>{el.title}</FilmInfoTitle>
+                                                    <FilmInfoDescription>{el.overview.length >= 200 ? `${el.overview.slice(0, 200)}...` : el.overview}</FilmInfoDescription>
+                                                    <Link to={`/film/${el.id}`}>
+                                                        <img src={ExpandArrow} alt="open" />
+                                                    </Link>
+                                                </FilmInfo>
+                                            </FilmCard>
+                                        )
+                                    })
+                                }
+                            </PopularFilmsPageContainer>
+                        </div>
+                    }
+                </>
+            )
+        }
+
         return (
             <>
                 {
-                    filmsList.length === 0 ?
-                    <Preloader /> :
-                    <div>
-                        <h1>Popular films:</h1>
-                        <PopularFilmsPageContainer>
-                            {
-                                filmsList.map((el) => {
-                                    return (
-                                        <FilmCard key={el.id}>
-                                            <FilmCardImg>
-                                                <img src={`https://image.tmdb.org/t/p/w500${el.backdrop_path}`} alt="Film preview"/>
-                                                <FilmCardImgDescription>
-                                                    <h4>Release: {el.release_date}</h4>
-                                                    <h4>Vote: {el.vote_average}</h4>
-                                                </FilmCardImgDescription>
-                                            </FilmCardImg>
-                                            <FilmInfo>
-                                                <FilmInfoTitle>{el.title}</FilmInfoTitle>
-                                                <FilmInfoDescription>{el.overview.length >= 200 ? `${el.overview.slice(0, 200)}...` : el.overview}</FilmInfoDescription>
-                                                <Link to={`/film/${el.id}`}>
-                                                    <img src="https://cdn.icon-icons.com/icons2/936/PNG/64/angle-arrow-down_icon-icons.com_73683.png" alt="open" />
-                                                </Link>
-                                            </FilmInfo>
-                                        </FilmCard>
-                                    )
-                                })
-                            }
-                        </PopularFilmsPageContainer>
-                    </div>
+                    error ?
+                    <ErrorIndicator /> :
+                    <PopularFilmsPageContent />
                 }
             </>
         );

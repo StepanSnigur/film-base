@@ -8,6 +8,7 @@ import SimilarFilmsSlider from '../components/SimilarFilmsSlider';
 import FilmVideos from '../components/FilmVideos';
 
 import { setCurrentFilm } from '../actionCreators/ActionCreators';
+import ErrorIndicator from '../components/ErrorIndicator';
 
 let FilmCardWrapper = styled.div`
     width: 100%;
@@ -62,31 +63,45 @@ class FilmPage extends Component {
     }
 
     render() {
-        let { film, isLoading } = this.props.currentFilm;
+        let { film, isLoading, error } = this.props.currentFilm;
+
+        let FilmPageContent = () => {
+            return (
+                <>
+                    {
+                        isLoading ?
+                        <Preloader /> :
+                        <div>
+                            <FilmCardWrapper>
+                                <img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt="film"/>
+                                <FilmCardInfo>
+                                    <FilmTitle>{film.title}</FilmTitle>
+                                    <h2>{film.tagline}</h2>
+                                    <FilmOverview>{film.overview}</FilmOverview>
+                                    <h3>Vote: {film.vote_average}</h3>
+                                    <h3>Votes count: {film.vote_count}</h3>
+                                    <h3>Release: {film.release_date}</h3>
+                                    <h3>Budget: {film.budget}$</h3>
+                                    <h3>Status: {film.status}</h3>
+                                </FilmCardInfo>
+                            </FilmCardWrapper>
+                            <FilmVideos />
+                            <FilmReviews />
+                            <SimilarFilmsSlider />
+                        </div>
+                    }
+                    <GoBackBtn onClick={this.props.history.goBack}>Go back</GoBackBtn>
+                </>
+            )
+        }
+
         return (
             <>
-                {isLoading ?
-                    <Preloader /> :
-                    <div>
-                        <FilmCardWrapper>
-                            <img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt="film"/>
-                            <FilmCardInfo>
-                                <FilmTitle>{film.title}</FilmTitle>
-                                <h2>{film.tagline}</h2>
-                                <FilmOverview>{film.overview}</FilmOverview>
-                                <h3>Vote: {film.vote_average}</h3>
-                                <h3>Votes count: {film.vote_count}</h3>
-                                <h3>Release: {film.release_date}</h3>
-                                <h3>Budget: {film.budget}$</h3>
-                                <h3>Status: {film.status}</h3>
-                            </FilmCardInfo>
-                        </FilmCardWrapper>
-                        <FilmVideos />
-                        <FilmReviews />
-                        <SimilarFilmsSlider />
-                    </div>
+                {
+                    error ?
+                    <ErrorIndicator/> :
+                    <FilmPageContent/>
                 }
-                <GoBackBtn onClick={this.props.history.goBack}>Go back</GoBackBtn>
             </>
         );
     }

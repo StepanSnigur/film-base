@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 
 import Preloader from '../components/Preloader';
 import SearchMovieForm from '../components/SearchMovieForm';
+import ErrorIndicator from '../components/ErrorIndicator';
+import ExpandArrow from '../img/arrow-down-icon.png';
 
 let HomePageText = styled.p`
     text-align: center;
@@ -81,40 +83,54 @@ let FilmInfoDescription = styled.p`
 class HomePage extends Component {
     render() {
         let filmsList = this.props.topRelatedFilms.results;
+        let { error } = this.props.topRelatedFilms;
+
+        let HomePageContent = () => {
+            return (
+                <>
+                    {
+                        filmsList.length === 0 ?
+                        <Preloader /> :
+                        <div>
+                            <SearchMovieForm />
+                            <HomePageText>Welcome to Film Base. Here you can find movies to watch. You can also see reviews and learn alot about your favorite movies.</HomePageText>
+                            <TopRelatedFilmsHeadline>Top related films:</TopRelatedFilmsHeadline>
+                            <TopRelatedPageContainer>
+                                {
+                                    filmsList.map((el) => {
+                                        return (
+                                            <FilmCard key={el.id}>
+                                                <FilmCardImg>
+                                                    <img src={`https://image.tmdb.org/t/p/w500${el.backdrop_path}`} alt="Film preview"/>
+                                                    <FilmCardImgDescription>
+                                                        <h4>Release: {el.release_date}</h4>
+                                                        <h4>Vote: {el.vote_average}</h4>
+                                                    </FilmCardImgDescription>
+                                                </FilmCardImg>
+                                                <FilmInfo>
+                                                    <FilmInfoTitle>{el.title}</FilmInfoTitle>
+                                                    <FilmInfoDescription>{el.overview.length >= 200 ? `${el.overview.slice(0, 200)}...` : el.overview}</FilmInfoDescription>
+                                                    <Link to={`/film/${el.id}`}>
+                                                        <img src={ExpandArrow} alt="open" />
+                                                    </Link>
+                                                </FilmInfo>
+                                            </FilmCard>
+                                        )
+                                    })
+                                }
+                            </TopRelatedPageContainer>
+                        </div>
+                    }
+                </>
+            )
+        }
+
         return (
             <>
                 {
-                    filmsList.length === 0 ?
-                    <Preloader /> :
-                    <div>
-                        <SearchMovieForm />
-                        <HomePageText>Welcome to Film Base. Here you can find movies to watch. You can also see reviews and learn alot about your favorite movies.</HomePageText>
-                        <TopRelatedFilmsHeadline>Top related films:</TopRelatedFilmsHeadline>
-                        <TopRelatedPageContainer>
-                            {
-                                filmsList.map((el) => {
-                                    return (
-                                        <FilmCard key={el.id}>
-                                            <FilmCardImg>
-                                                <img src={`https://image.tmdb.org/t/p/w500${el.backdrop_path}`} alt="Film preview"/>
-                                                <FilmCardImgDescription>
-                                                    <h4>Release: {el.release_date}</h4>
-                                                    <h4>Vote: {el.vote_average}</h4>
-                                                </FilmCardImgDescription>
-                                            </FilmCardImg>
-                                            <FilmInfo>
-                                                <FilmInfoTitle>{el.title}</FilmInfoTitle>
-                                                <FilmInfoDescription>{el.overview.length >= 200 ? `${el.overview.slice(0, 200)}...` : el.overview}</FilmInfoDescription>
-                                                <Link to={`/film/${el.id}`}>
-                                                    <img src="https://cdn.icon-icons.com/icons2/936/PNG/64/angle-arrow-down_icon-icons.com_73683.png" alt="open" />
-                                                </Link>
-                                            </FilmInfo>
-                                        </FilmCard>
-                                    )
-                                })
-                            }
-                        </TopRelatedPageContainer>
-                    </div>
+                    error ?
+                    <ErrorIndicator /> :
+                    <HomePageContent />
                 }
             </>
         );

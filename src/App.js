@@ -37,8 +37,9 @@ class App extends Component {
 
     getTopRelatedFilms = async () => {
         let { service } = this.props;
-        let result = await service.getTopRatedFilms();
-        store.dispatch({type: 'LOAD_TOP_RELATED_FILMS', payload: result});
+        service.getTopRatedFilms()
+            .then((result) => store.dispatch({type: 'LOAD_TOP_RELATED_FILMS', payload: result}))
+            .catch((err) => store.dispatch({type: 'LOAD_TOP_RELATED_FILMS_ERROR'}))
     }
 
     render () {
