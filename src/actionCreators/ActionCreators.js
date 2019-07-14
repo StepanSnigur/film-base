@@ -2,7 +2,7 @@ import FilmService from '../services/FilmService';
 
 let service = new FilmService();
 
-export let loadMostPopularFilms = () => async (dispatch) => {
+export let loadMostPopularFilms = () => (dispatch) => {
     service.getPopularFilms()
         .then((result) => dispatch({type: 'LOAD_MOST_POPULAR_FILMS', payload: result}))
         .catch((err) => dispatch({type: 'GET_POPULAR_FILMS_ERROR'}));
@@ -33,13 +33,13 @@ export let setCurrentFilm = (id) => async (dispatch) => {
     dispatch({type: 'SET_CURRENT_FILM_LOADING', payload: false});
 }
 
-export let loadUpComingFilms = () => async (dispatch) => {
+export let loadUpComingFilms = () => (dispatch) => {
     service.getUpcomingFilms()
         .then((result) => dispatch({type: 'LOAD_UP_COMING_FILMS', payload: result}))
         .catch((err) => dispatch({type: 'LOAD_UP_COMING_FILMS_ERROR'}));
 }
 
-export let searchFilm = (inputValue) => async (dispatch) => {
+export let searchFilm = (inputValue) => (dispatch) => {
     service.searchFilm(inputValue)
         .then((result) => dispatch({type: 'SEARCH_FILM', payload: result}))
         .catch((err) => dispatch({type: 'SEARCH_FILM_ERROR'}));
