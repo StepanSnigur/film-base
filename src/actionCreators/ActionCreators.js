@@ -9,7 +9,7 @@ export let loadMostPopularFilms = () => (dispatch) => {
 }
 
 export let setCurrentFilm = (id) => async (dispatch) => {
-    dispatch({type: 'SET_CURRENT_FILM_LOADING', payload: true});
+    dispatch({type: 'SET_CURRENT_FILM_LOADING'});
     try {
         let filmData = await service.getFilm(id);
         let filmVideos = await service.getFilmVideos(id);
@@ -30,7 +30,6 @@ export let setCurrentFilm = (id) => async (dispatch) => {
     } catch (err) {
         dispatch({type: 'SET_CURRENT_FILM_ERROR'});
     }
-    dispatch({type: 'SET_CURRENT_FILM_LOADING', payload: false});
 }
 
 export let loadUpComingFilms = () => (dispatch) => {

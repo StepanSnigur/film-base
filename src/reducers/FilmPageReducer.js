@@ -21,12 +21,13 @@ let currentFilm = (state = initialState, action) => {
                 film: action.payload.film,
                 videos: action.payload.videos,
                 reviews: action.payload.reviews,
-                similarFilms: action.payload.similar
+                similarFilms: action.payload.similar,
+                isLoading: false
             }
         case 'SET_CURRENT_FILM_LOADING':
             return {
                 ...state,
-                isLoading: action.payload
+                isLoading: true
             }
         case 'SET_CURRENT_FILM_ERROR':
             return {
