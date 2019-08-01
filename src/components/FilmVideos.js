@@ -71,8 +71,8 @@ class FilmVideos extends Component {
                 <>
                     {
                         filmVideos.length > videosLimiter ?
-                            <ShowVideosBtn onClick={this.moveVideosLimiter}>View more</ShowVideosBtn> :
-                            <ShowVideosBtn onClick={this.returnVideosLimiterToInitial}>Close</ShowVideosBtn>
+                            <ShowVideosBtn onClick={this.moveVideosLimiter}>Развернуть</ShowVideosBtn> :
+                            <ShowVideosBtn onClick={this.returnVideosLimiterToInitial}>Скрыть</ShowVideosBtn>
                     }
                 </>
             )
@@ -82,7 +82,7 @@ class FilmVideos extends Component {
                 {
                     filmVideos.length > 0 ?
                         <div>
-                            <h2>Videos:</h2>
+                            <h2>Видео:</h2>
                             <FilmVideosWrapper>
                                 {
                                     filmVideos.slice(0, videosLimiter).map((el) => {

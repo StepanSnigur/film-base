@@ -30,6 +30,9 @@ let HeaderContainer = styled.div`
     @media (max-width: 550px) {
         width: 375px;
     }
+    @media (max-width: 400px) {
+        width: 345px;
+    }
 `
 let HeaderLogo = styled(Link)`
     text-decoration: none;
@@ -62,6 +65,10 @@ let HeaderLink = styled(Link)`
             transform: scaleX(1);
         }
     }
+    
+    @media (max-width: 400px) {
+        margin-left: 10px;
+    }
 `
 
 class Header extends Component {
@@ -71,9 +78,9 @@ class Header extends Component {
                 <HeaderContainer>
                     <HeaderLogo to="/">FB</HeaderLogo>
                     <div>
-                        <HeaderLink to="/">Home</HeaderLink>
-                        <HeaderLink to="/upcoming">Upcoming</HeaderLink>
-                        <HeaderLink to="/popular">Most popular</HeaderLink>
+                        <HeaderLink to="/">Главная</HeaderLink>
+                        <HeaderLink to="/upcoming">Предстоящие</HeaderLink>
+                        <HeaderLink to="/popular">Популярные</HeaderLink>
                     </div>
                 </HeaderContainer>
             </HeaderWrapper>

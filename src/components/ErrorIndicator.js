@@ -23,8 +23,8 @@ let ErrorIndicator = () => {
     return (
         <ErrorContainer>
             <img src={FilmErrorImg} alt="Error!"/>
-            <h2>Something has gone terribly wrong</h2>
-            <p>please try again later</p>
+            <h2>Что-то пошло не так</h2>
+            <p>мы уже работаем наж проблемой</p>
         </ErrorContainer>
     )
 }

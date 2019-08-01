@@ -6,29 +6,29 @@ class FilmService {
     }
 
     getFilm = async (filmId) => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}?api_key=${this.apiKey}`);
+        return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}?api_key=${this.apiKey}&language=ru-RU`);
     }
     getFilmVideos = async (filmId) => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}/videos?api_key=${this.apiKey}`);
+        return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}/videos?api_key=${this.apiKey}&language=ru-RU`);
     }
     getFilmReviews = async (filmId) => {
         return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}/reviews?api_key=${this.apiKey}`);
     }
     getSimilarFilms = async (filmId) => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}/similar?api_key=${this.apiKey}`);
+        return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}/similar?api_key=${this.apiKey}&language=ru-RU`);
     }
-    getTopRatedFilms = async () => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/movie/top_rated?api_key=${this.apiKey}`);
+    getTopRatedFilms = async (page = 1) => {
+        return await this.makeRequest(`https://api.themoviedb.org/3/movie/top_rated?api_key=${this.apiKey}&language=ru-RU&page=${page}`);
     }
-    getUpcomingFilms = async () => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/movie/upcoming?api_key=${this.apiKey}`);
+    getUpcomingFilms = async (page = 1) => {
+        return await this.makeRequest(`https://api.themoviedb.org/3/movie/upcoming?api_key=${this.apiKey}&language=ru-RU&page=${page}`);
     }
-    getPopularFilms = async () => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/movie/popular?api_key=${this.apiKey}`);
+    getPopularFilms = async (page = 1) => {
+        return await this.makeRequest(`https://api.themoviedb.org/3/movie/popular?api_key=${this.apiKey}&language=ru-RU&page=${page}`);
     }
 
     searchFilm = async (filmName) => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${filmName}&language=en-US&page=1`);
+        return await this.makeRequest(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${filmName}&language=ru-RU&page=1`);
     }
 }
 

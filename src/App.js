@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { Provider } from 'react-redux';
 import store from './store/Store';
 import { BrowserRouter as Router, Route, HashRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-import WithService from './hoc/WithService';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import UpComingPage from './pages/UpComingPage';
@@ -28,45 +27,35 @@ let Wrapper = styled.div`
     @media (max-width: 550px) {
         width: 375px;
     }
+    @media (max-width: 400px) {
+        width: 345px;
+    }
 `
 
-class App extends Component {
-    componentDidMount () {
-        this.getTopRelatedFilms();
-    }
-
-    getTopRelatedFilms = async () => {
-        let { service } = this.props;
-        service.getTopRatedFilms()
-            .then((result) => store.dispatch({type: 'LOAD_TOP_RELATED_FILMS', payload: result}))
-            .catch((err) => store.dispatch({type: 'LOAD_TOP_RELATED_FILMS_ERROR'}))
-    }
-
-    render () {
-        return (
-            <Provider store={store}>
-                <Router>
-                    <HashRouter>
-                        <Header />
-                        <Wrapper>
-                            <Route path="/" exact component={HomePage}/>
-                            <Route path="/upcoming" component={UpComingPage}/>
-                            <Route path="/popular" component={PopularFilmsPage}/>
-                            <Route path="/film/:id"
-                                   render={
-                                       ({ match, history }) => {
-                                           let { id } = match.params;
-                                           return <FilmPage history={history} filmId={id} />
-                                       }
+let App = (props) => {
+    return (
+        <Provider store={store}>
+            <Router>
+                <HashRouter>
+                    <Header />
+                    <Wrapper>
+                        <Route path="/" exact component={HomePage}/>
+                        <Route path="/upcoming" component={UpComingPage}/>
+                        <Route path="/popular" component={PopularFilmsPage}/>
+                        <Route path="/film/:id"
+                               render={
+                                   ({ match, history }) => {
+                                       let { id } = match.params;
+                                       return <FilmPage history={history} filmId={id} />
                                    }
-                            />
-                        </Wrapper>
-                        <Footer />
-                    </HashRouter>
-                </Router>
-            </Provider>
-        );
-    }
+                               }
+                        />
+                    </Wrapper>
+                    <Footer />
+                </HashRouter>
+            </Router>
+        </Provider>
+    );
 }
 
-export default WithService(App);
+export default App;

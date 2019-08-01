@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 import Preloader from '../components/Preloader';
 import ErrorIndicator from '../components/ErrorIndicator';
 import ExpandArrow from '../img/arrow-down-icon.png';
+import PaginationBar from '../components/PaginationBar';
 
-import { loadUpComingFilms } from '../actionCreators/ActionCreators';
+import { loadUpComingFilms } from '../actions/Actions';
 
 let UpComingPageContainer = styled.div`
     display: flex;
@@ -81,16 +82,16 @@ class UpComingPage extends Component {
 
     render() {
         let filmsList = this.props.upComingFilms.results;
-        let { error } = this.props.upComingFilms;
+        let { isLoading, error, page, total_pages } = this.props.upComingFilms;
 
         let UpComingPageContent = () => {
             return (
                 <>
                     {
-                        filmsList.length === 0 ?
+                        isLoading ?
                         <Preloader /> :
                         <div>
-                            <h1>Upcoming films:</h1>
+                            <h1>Новые фильмы:</h1>
                             <UpComingPageContainer>
                                 {
                                     filmsList.map((el) => {
@@ -99,8 +100,8 @@ class UpComingPage extends Component {
                                                 <FilmCardImg>
                                                     <img src={`https://image.tmdb.org/t/p/w500${el.backdrop_path}`} alt="Film preview"/>
                                                     <FilmCardImgDescription>
-                                                        <h4>Release: {el.release_date}</h4>
-                                                        <h4>Vote: {el.vote_average}</h4>
+                                                        <h4>Дата выхода: {el.release_date}</h4>
+                                                        <h4>Оценка: {el.vote_average}</h4>
                                                     </FilmCardImgDescription>
                                                 </FilmCardImg>
                                                 <FilmInfo>
@@ -115,6 +116,11 @@ class UpComingPage extends Component {
                                     })
                                 }
                             </UpComingPageContainer>
+                            <PaginationBar
+                                updatePage={(val) => this.props.loadUpComingFilms(val)}
+                                currentPage={page}
+                                maxPagesCount={total_pages}
+                            />
                         </div>
                     }
                 </>

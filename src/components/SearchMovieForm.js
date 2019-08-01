@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import WithService from '../hoc/WithService';
 import SearchedFilmsList from './SearchedFilmsList';
 
-import { searchFilm } from '../actionCreators/ActionCreators';
+import { searchFilm } from '../actions/Actions';
 
 
 let SearchFilmWrapper = styled.div`
     width: 400px;
     margin: 0 auto;
     position: relative;
+    
+    @media (max-width: 500px) {
+        width: 100%;
+    }
 `
 let SearchFilmInput = styled.input`
     display: block;
@@ -35,10 +38,10 @@ let SearchMovieForm = (props) => {
 
     return (
         <SearchFilmWrapper onSubmit={searchFilm}>
-            <SearchFilmInput onChange={(e) => getSearchInputLength(e.target.value.length)} onInput={(event) => searchFilm(event)} type="text" placeholder="Enter film title"/>
+            <SearchFilmInput onChange={(e) => getSearchInputLength(e.target.value.length)} onInput={(event) => searchFilm(event)} type="text" placeholder="Введите название фильма"/>
             <SearchedFilmsList inputLength={searchInputLength} />
         </SearchFilmWrapper>
     );
 }
 
-export default WithService(connect(null, { searchFilm })(SearchMovieForm));
+export default connect(null, { searchFilm })(SearchMovieForm);

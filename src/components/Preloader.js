@@ -96,7 +96,7 @@ class Preloader extends Component {
                     <PreloaderLine2></PreloaderLine2>
                     <PreloaderLine3></PreloaderLine3>
                 </PreloaderLines>
-                <PreloaderText>LOADING</PreloaderText>
+                <PreloaderText>ЗАГРУЗКА</PreloaderText>
             </PreloaderContainer>
         )
     }

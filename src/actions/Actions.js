@@ -2,8 +2,16 @@ import FilmService from '../services/FilmService';
 
 let service = new FilmService();
 
-export let loadMostPopularFilms = () => (dispatch) => {
-    service.getPopularFilms()
+export let getTopRelatedFilms = (page) => (dispatch) => {
+    dispatch({type: 'SET_TOP_RELATED_FILMS_LOADING'});
+    service.getTopRatedFilms(page)
+        .then((result) => dispatch({type: 'LOAD_TOP_RELATED_FILMS', payload: result}))
+        .catch((err) => dispatch({type: 'LOAD_TOP_RELATED_FILMS_ERROR'}))
+}
+
+export let loadMostPopularFilms = (page) => (dispatch) => {
+    dispatch({type: 'SET_MOST_POPULAR_FILMS_LOADING'});
+    service.getPopularFilms(page)
         .then((result) => dispatch({type: 'LOAD_MOST_POPULAR_FILMS', payload: result}))
         .catch((err) => dispatch({type: 'GET_POPULAR_FILMS_ERROR'}));
 }
@@ -32,8 +40,9 @@ export let setCurrentFilm = (id) => async (dispatch) => {
     }
 }
 
-export let loadUpComingFilms = () => (dispatch) => {
-    service.getUpcomingFilms()
+export let loadUpComingFilms = (page) => (dispatch) => {
+    dispatch({type: 'SET_UP_COMING_FILMS_LOADING'});
+    service.getUpcomingFilms(page)
         .then((result) => dispatch({type: 'LOAD_UP_COMING_FILMS', payload: result}))
         .catch((err) => dispatch({type: 'LOAD_UP_COMING_FILMS_ERROR'}));
 }

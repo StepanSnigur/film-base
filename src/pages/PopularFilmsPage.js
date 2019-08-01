@@ -6,8 +6,9 @@ import { Link } from 'react-router-dom';
 import Preloader from '../components/Preloader';
 import ErrorIndicator from '../components/ErrorIndicator';
 import ExpandArrow from '../img/arrow-down-icon.png';
+import PaginationBar from '../components/PaginationBar';
 
-import { loadMostPopularFilms } from '../actionCreators/ActionCreators';
+import { loadMostPopularFilms } from '../actions/Actions';
 
 let PopularFilmsPageContainer = styled.div`
     display: flex;
@@ -81,16 +82,16 @@ class PopularFilmsPage extends Component {
 
     render() {
         let filmsList = this.props.mostPopularFilms.results;
-        let { error } = this.props.mostPopularFilms;
+        let { isLoading, error, page, total_pages } = this.props.mostPopularFilms;
 
         let PopularFilmsPageContent = () => {
             return (
                 <>
                     {
-                        filmsList.length === 0 ?
+                        isLoading ?
                         <Preloader /> :
                         <div>
-                            <h1>Popular films:</h1>
+                            <h1>Популярные фильмы:</h1>
                             <PopularFilmsPageContainer>
                                 {
                                     filmsList.map((el) => {
@@ -99,8 +100,8 @@ class PopularFilmsPage extends Component {
                                                 <FilmCardImg>
                                                     <img src={`https://image.tmdb.org/t/p/w500${el.backdrop_path}`} alt="Film preview"/>
                                                     <FilmCardImgDescription>
-                                                        <h4>Release: {el.release_date}</h4>
-                                                        <h4>Vote: {el.vote_average}</h4>
+                                                        <h4>Дата выхода: {el.release_date}</h4>
+                                                        <h4>Оценка: {el.vote_average}</h4>
                                                     </FilmCardImgDescription>
                                                 </FilmCardImg>
                                                 <FilmInfo>
@@ -115,6 +116,11 @@ class PopularFilmsPage extends Component {
                                     })
                                 }
                             </PopularFilmsPageContainer>
+                            <PaginationBar
+                                updatePage={(val) => this.props.loadMostPopularFilms(val)}
+                                currentPage={page}
+                                maxPagesCount={total_pages}
+                            />
                         </div>
                     }
                 </>

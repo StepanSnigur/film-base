@@ -7,7 +7,7 @@ import FilmReviews from '../components/FilmReviews';
 import SimilarFilmsSlider from '../components/SimilarFilmsSlider';
 import FilmVideos from '../components/FilmVideos';
 
-import { setCurrentFilm } from '../actionCreators/ActionCreators';
+import { setCurrentFilm } from '../actions/Actions';
 import ErrorIndicator from '../components/ErrorIndicator';
 
 let FilmCardWrapper = styled.div`
@@ -78,11 +78,11 @@ class FilmPage extends Component {
                                     <FilmTitle>{film.title}</FilmTitle>
                                     <h2>{film.tagline}</h2>
                                     <FilmOverview>{film.overview}</FilmOverview>
-                                    <h3>Vote: {film.vote_average}</h3>
-                                    <h3>Votes count: {film.vote_count}</h3>
-                                    <h3>Release: {film.release_date}</h3>
-                                    <h3>Budget: {film.budget}$</h3>
-                                    <h3>Status: {film.status}</h3>
+                                    <h3>Оценка: {film.vote_average}</h3>
+                                    <h3>Количество оценок: {film.vote_count}</h3>
+                                    <h3>Дата выхода: {film.release_date}</h3>
+                                    <h3>Бюджет: {film.budget}$</h3>
+                                    <h3>Статус: {film.status}</h3>
                                 </FilmCardInfo>
                             </FilmCardWrapper>
                             <FilmVideos />
@@ -90,7 +90,7 @@ class FilmPage extends Component {
                             <SimilarFilmsSlider />
                         </div>
                     }
-                    <GoBackBtn onClick={this.props.history.goBack}>Go back</GoBackBtn>
+                    <GoBackBtn onClick={this.props.history.goBack}>Назад</GoBackBtn>
                 </>
             )
         }

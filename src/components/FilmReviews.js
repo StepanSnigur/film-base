@@ -60,8 +60,8 @@ class FilmReviews extends Component {
                 <>
                     {
                         filmReviews.length > reviewsLimiter ?
-                            <ShowReviewsBtn onClick={this.moveReviewsLimiter}>View more</ShowReviewsBtn> :
-                            <ShowReviewsBtn onClick={this.returnReviewsLimiterToInitial}>Close</ShowReviewsBtn>
+                            <ShowReviewsBtn onClick={this.moveReviewsLimiter}>Развернуть</ShowReviewsBtn> :
+                            <ShowReviewsBtn onClick={this.returnReviewsLimiterToInitial}>Скрыть</ShowReviewsBtn>
                     }
                 </>
             )
@@ -71,7 +71,7 @@ class FilmReviews extends Component {
                 {
                     filmReviews.length > 0 ?
                     <div>
-                        <h2>Reviews:</h2>
+                        <h2>Отзывы:</h2>
                         <div>
                             {
                                 filmReviews.slice(0, reviewsLimiter).map((el) => {

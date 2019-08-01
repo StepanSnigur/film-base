@@ -33,6 +33,9 @@ let FooterContainer = styled.div`
     @media (max-width: 550px) {
         width: 375px;
     }
+    @media (max-width: 400px) {
+        width: 345px;
+    }
 `
 let FooterLink = styled.a`
     text-decoration: none;
@@ -47,6 +50,10 @@ let FooterText = styled.h3`
     color: #fff;
     font-size: 19px;
     font-weight: normal;
+    
+    @media (max-width: 400px) {
+        font-size: 15px;
+    }
 `
 let HeaderLogo = styled(Link)`
     text-decoration: none;
@@ -61,8 +68,8 @@ class Footer extends Component {
             <FooterWrapper>
                 <FooterContainer>
                     <div>
-                        <FooterLink href="mailto:snigur-stepan@mail.ru">Contact us</FooterLink>
-                        <FooterText>Our phone: +7 (918) 078-03-38</FooterText>
+                        <FooterLink href="mailto:snigur-stepan@mail.ru">Связаться</FooterLink>
+                        <FooterText>Наш телефон: +7 (918) 078-03-38</FooterText>
                     </div>
                     <HeaderLogo to="/">FB</HeaderLogo>
                 </FooterContainer>

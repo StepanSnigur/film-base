@@ -27,6 +27,10 @@ let ScrollLeftBtn = styled.button`
     background: #eee;
     font-size: 20px;
     cursor: pointer;
+    
+    @media (max-width: 720px) {
+        left: -55px;
+    }
 `
 let ScrollRightBtn = styled.button`
     position: absolute;
@@ -43,6 +47,10 @@ let ScrollRightBtn = styled.button`
     background: #eee;
     font-size: 20px;
     cursor: pointer;
+    
+    @media (max-width: 720px) {
+        right: -55px;
+    }
 `
 let SimilarFilmCard = styled.div`
     position: relative;
@@ -131,7 +139,7 @@ class SimilarFilmsSlider extends Component {
                 {
                     filmsCount > 0 ?
                         <div ref={(node) => this._sliderEl = node}>
-                            <h2>Similar films:</h2>
+                            <h2>Похожие фильмы:</h2>
                             <SimilarFilmsWrapper>
                                 <Slides>
                                     <SimilarFilms style={{transform: `translate3d(-${sliderLeftIndent}px, 0, 0)`}}>
@@ -142,7 +150,7 @@ class SimilarFilmsSlider extends Component {
                                                         <SimilarFilmCardImg src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} alt="film" />
                                                         <SimilarFilmCardInfo>
                                                             <h3>{el.title}</h3>
-                                                            <Link to={`/film/${el.id}`}>View more</Link>
+                                                            <Link to={`/film/${el.id}`}>Открыть</Link>
                                                         </SimilarFilmCardInfo>
                                                     </SimilarFilmCard>
                                                 )

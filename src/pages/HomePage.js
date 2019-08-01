@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { getTopRelatedFilms } from '../actions/Actions';
 
 import Preloader from '../components/Preloader';
 import SearchMovieForm from '../components/SearchMovieForm';
 import ErrorIndicator from '../components/ErrorIndicator';
 import ExpandArrow from '../img/arrow-down-icon.png';
+import PaginationBar from '../components/PaginationBar';
 
-let HomePageText = styled.p`
-    text-align: center;
-    font-size: 18px;
-`
 let TopRelatedFilmsHeadline = styled.h1`
     margin-top: 35px;
 `
@@ -81,20 +79,23 @@ let FilmInfoDescription = styled.p`
 `
 
 class HomePage extends Component {
+    componentDidMount() {
+        this.props.getTopRelatedFilms();
+    }
+
     render() {
         let filmsList = this.props.topRelatedFilms.results;
-        let { error } = this.props.topRelatedFilms;
+        let { isLoading, error, page, total_pages } = this.props.topRelatedFilms;
 
         let HomePageContent = () => {
             return (
                 <>
                     {
-                        filmsList.length === 0 ?
+                        isLoading ?
                         <Preloader /> :
                         <div>
                             <SearchMovieForm />
-                            <HomePageText>Welcome to Film Base. Here you can find movies to watch. You can also see reviews and learn alot about your favorite movies.</HomePageText>
-                            <TopRelatedFilmsHeadline>Top related films:</TopRelatedFilmsHeadline>
+                            <TopRelatedFilmsHeadline>Лучшие фильмы:</TopRelatedFilmsHeadline>
                             <TopRelatedPageContainer>
                                 {
                                     filmsList.map((el) => {
@@ -103,8 +104,8 @@ class HomePage extends Component {
                                                 <FilmCardImg>
                                                     <img src={`https://image.tmdb.org/t/p/w500${el.backdrop_path}`} alt="Film preview"/>
                                                     <FilmCardImgDescription>
-                                                        <h4>Release: {el.release_date}</h4>
-                                                        <h4>Vote: {el.vote_average}</h4>
+                                                        <h4>Дата выхода: {el.release_date}</h4>
+                                                        <h4>Оценка: {el.vote_average}</h4>
                                                     </FilmCardImgDescription>
                                                 </FilmCardImg>
                                                 <FilmInfo>
@@ -119,6 +120,11 @@ class HomePage extends Component {
                                     })
                                 }
                             </TopRelatedPageContainer>
+                            <PaginationBar
+                                updatePage={(val) => this.props.getTopRelatedFilms(val)}
+                                currentPage={page}
+                                maxPagesCount={total_pages}
+                            />
                         </div>
                     }
                 </>
@@ -143,4 +149,4 @@ let mapStateToProps = ({ topRelatedFilms }) => {
     }
 }
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps, { getTopRelatedFilms })(HomePage);

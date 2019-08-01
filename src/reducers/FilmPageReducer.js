@@ -16,6 +16,7 @@ let initialState = {
 let currentFilm = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_CURRENT_FILM':
+            console.log(action.payload);
             return {
                 ...state,
                 film: action.payload.film,
