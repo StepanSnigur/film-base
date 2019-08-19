@@ -63,7 +63,8 @@ class FilmVideos extends Component {
             height: '390',
             width: '430',
             playerVars: {
-                autoplay: 0
+                autoplay: 0,
+                enablejsapi: 1
             }
         }
         let showContentBtn = () => {

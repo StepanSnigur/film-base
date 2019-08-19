@@ -9,6 +9,8 @@ import HomePage from './pages/HomePage';
 import UpComingPage from './pages/UpComingPage';
 import PopularFilmsPage from './pages/PopularFilmsPage';
 import FilmPage from './pages/FilmPage';
+import AuthForm from './components/AuthForm';
+import ProfilePage from './pages/ProfilePage';
 import Footer from './components/Footer';
 
 let Wrapper = styled.div`
@@ -50,6 +52,8 @@ let App = (props) => {
                                    }
                                }
                         />
+                        <Route path="/authForm" component={AuthForm}/>
+                        <Route path="/profile" component={ProfilePage}/>
                     </Wrapper>
                     <Footer />
                 </HashRouter>

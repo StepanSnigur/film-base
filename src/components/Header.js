@@ -2,18 +2,21 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import SearchMovieForm from './SearchMovieForm';
+import AuthButton from './AuthButton';
+
 let HeaderWrapper = styled.div`
     width: 100%;
-    height: 50px;
     padding-top: 20px;
-    padding-bottom: 20px;
     margin-bottom: 15px;
     background: #444444;
 `
 let HeaderContainer = styled.div`
     width: 1200px;
     height: 100%;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     align-items: center;
     justify-content: space-between;
     margin: 0 auto;
@@ -40,6 +43,12 @@ let HeaderLogo = styled(Link)`
     font-size: 40px;
     cursor: pointer;
 `
+let HeaderLinksWrapper = styled.div`
+    justify-content: center;
+    grid-column-start: 2; 
+    grid-column-end: 3;
+    text-align: center;
+`
 let HeaderLink = styled(Link)`
     position: relative;
     text-decoration: none;
@@ -60,6 +69,10 @@ let HeaderLink = styled(Link)`
         transition: .3s;
     }
     
+    &:first-child {
+        margin-left: 0;
+    }
+    
     &:hover {
         &:before {
             transform: scaleX(1);
@@ -77,11 +90,13 @@ class Header extends Component {
             <HeaderWrapper>
                 <HeaderContainer>
                     <HeaderLogo to="/">FB</HeaderLogo>
-                    <div>
-                        <HeaderLink to="/">Главная</HeaderLink>
-                        <HeaderLink to="/upcoming">Предстоящие</HeaderLink>
+                    <SearchMovieForm />
+                    <AuthButton />
+                    <HeaderLinksWrapper>
+                        <HeaderLink to="/">Лучшие</HeaderLink>
+                        <HeaderLink to="/upcoming">Скоро</HeaderLink>
                         <HeaderLink to="/popular">Популярные</HeaderLink>
-                    </div>
+                    </HeaderLinksWrapper>
                 </HeaderContainer>
             </HeaderWrapper>
         );

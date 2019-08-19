@@ -63,24 +63,30 @@ let PaginationBar = (props) => {
     }
 
     let selectPage = (pageId) => {
-        if (pageId > 0 && pageId < maxPagesCount) props.updatePage(pageId);
+        if (pageId > 0 && pageId <= maxPagesCount) props.updatePage(pageId);
     }
 
     return (
-        <Wrapper>
-            <button onClick={() => selectPage(currentPage - 1)}>&lt;</button>
-            <div>
-                {
-                    pagesCount.map((el) => {
-                        return (
-                            <PageLink isActive={el === currentPage} onClick={(e) => selectPage(e.target.innerHTML)} key={el}>{el}</PageLink>
-                        )
-                    })
-                    .slice(PaginationBarLimiter, currentPage + 10)
-                }
-            </div>
-            <button onClick={() => selectPage(currentPage + 1)}>&gt;</button>
-        </Wrapper>
+        <>
+            {
+                maxPagesCount <= 1 ?
+                null :
+                <Wrapper>
+                    <button onClick={() => selectPage(currentPage - 1)}>&lt;</button>
+                    <div>
+                        {
+                            pagesCount.map((el) => {
+                                return (
+                                    <PageLink isActive={el === currentPage} onClick={(e) => selectPage(e.target.innerHTML)} key={el}>{el}</PageLink>
+                                )
+                            })
+                                .slice(PaginationBarLimiter, currentPage + 10)
+                        }
+                    </div>
+                    <button onClick={() => selectPage(currentPage + 1)}>&gt;</button>
+                </Wrapper>
+            }
+        </>
     )
 }
 

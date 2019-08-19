@@ -9,14 +9,19 @@ let initialState = {
     similarFilms: {
         results: []
     },
+    filmStates: {
+        rated: {}
+    },
+    isFilmStatesError: false,
     isLoading: true,
+    isInFavouriteLoading: false,
+    isInWatchlistLoading: false,
     error: false
 }
 
 let currentFilm = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_CURRENT_FILM':
-            console.log(action.payload);
             return {
                 ...state,
                 film: action.payload.film,
@@ -24,6 +29,21 @@ let currentFilm = (state = initialState, action) => {
                 reviews: action.payload.reviews,
                 similarFilms: action.payload.similar,
                 isLoading: false
+            }
+        case 'SET_FILM_STATES':
+            return {
+                ...state,
+                filmStates: action.payload
+            }
+        case 'SET_FILM_RATING':
+            return {
+                ...state,
+                filmStates: {
+                    ...state.filmStates,
+                    rated: {
+                        value: action.payload
+                    }
+                }
             }
         case 'SET_CURRENT_FILM_LOADING':
             return {
@@ -34,6 +54,21 @@ let currentFilm = (state = initialState, action) => {
             return {
                 ...state,
                 error: true
+            }
+        case 'SET_IS_IN_FAVOURITE_LOADING':
+            return {
+                ...state,
+                isInFavouriteLoading: action.payload
+            }
+        case 'SET_IS_IN_WATCHLIST_LOADING':
+            return {
+                ...state,
+                isInWatchlistLoading: action.payload
+            }
+        case 'SET_FILM_STATES_ERROR':
+            return {
+                ...state,
+                isFilmStatesError: action.payload
             }
         default:
             return state;

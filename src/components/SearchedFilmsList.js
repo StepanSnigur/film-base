@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import ErrorIndicator from './ErrorIndicator';
+
 let SearchedFilmsWrapper = styled.div`
     position: absolute;
     left: 0;
@@ -13,6 +15,10 @@ let SearchedFilmsWrapper = styled.div`
     z-index: 99;
     background: #fff;
     box-sizing: border-box;
+    
+    ${({isInputEmpty}) => isInputEmpty && `
+        display: none;
+    `}
 `
 let SearchedFilmsWrapperItem = styled(Link)`
     display: flex;
@@ -39,24 +45,34 @@ let SearchedFilmsWrapperItem = styled(Link)`
 
 let SearchedFilmsList = (props) => {
     let searchedFilmsList = props.searchFilms.results;
+    let isError = props.searchFilms.error;
     let { inputLength } = props;
+
+    let SearchedFilmsListContent = () => {
+        return (
+            <SearchedFilmsWrapper isInputEmpty={inputLength === 0}>
+                {
+                    searchedFilmsList.slice(0, 5).map((el) => {
+                        return (
+                            <SearchedFilmsWrapperItem to={`/film/${el.id}`} key={el.id}>
+                                <img src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} alt="Film preview"/>
+                                <h3>{el.title}</h3>
+                            </SearchedFilmsWrapperItem>
+                        )
+                    })
+                }
+            </SearchedFilmsWrapper>
+        )
+    }
+
     return (
         <>
             {
-                inputLength === 0 ?
-                null :
-                <SearchedFilmsWrapper>
-                    {
-                        searchedFilmsList.slice(0, 5).map((el) => {
-                            return (
-                                <SearchedFilmsWrapperItem to={`/film/${el.id}`} key={el.id}>
-                                    <img src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} alt="Film preview"/>
-                                    <h3>{el.title}</h3>
-                                </SearchedFilmsWrapperItem>
-                            )
-                        })
-                    }
-                </SearchedFilmsWrapper>
+                isError ?
+                <SearchedFilmsWrapper isInputEmpty={inputLength === 0}>
+                    <ErrorIndicator />
+                </SearchedFilmsWrapper> :
+                <SearchedFilmsListContent />
             }
         </>
     )
