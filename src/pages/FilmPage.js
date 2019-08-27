@@ -29,6 +29,12 @@ let FilmCardWrapper = styled.div`
         justify-content: center;
         margin: 0 auto;
     }
+    @media (max-width: 900px) {
+        width: 375px;
+    }
+    @media (max-width: 500px) {
+        width: 345px;
+    }
 `
 let FilmCardInfo = styled.div`
     width: 50%;
@@ -40,6 +46,14 @@ let FilmCardInfo = styled.div`
 let FilmButtonsWrapper = styled.div`
     width: 100%;
     display: flex;
+    
+    @media (max-width: 900px) {
+        flex-direction: column;
+        
+        button {
+            margin: 12px auto 0 auto;
+        }
+    }
 `
 let FavouriteButton = styled.button`
     position: relative;
@@ -137,6 +151,10 @@ let StarIcon = styled.img`
     
     &:last-child {
         margin-right: 0;
+    }
+    
+    @media (max-width: 500px) {
+        width: 30px;
     }
 `
 

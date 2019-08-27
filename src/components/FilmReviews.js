@@ -10,7 +10,11 @@ let ReviewWrapper = styled.div`
     background: #daf1db;
     
     @media (max-width: 900px) {
-        width: 500px;
+        box-sizing: border-box;
+        width: 375px;
+    }
+    @media (max-width: 500px) {
+        width: 345px;
     }
 `
 let ShowReviewsBtn = styled.button`

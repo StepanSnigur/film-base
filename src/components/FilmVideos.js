@@ -12,6 +12,12 @@ let FilmVideosWrapper = styled.div`
     @media (max-width: 1000px) {
         grid-template-columns: 430px;
     }
+    @media (max-width: 900px) {
+        grid-template-columns: 375px;
+    }
+    @media (max-width: 500px) {
+        grid-template-columns: 345px;
+    }
 `
 let ShowVideosBtn = styled.button`
     display: block;
@@ -61,7 +67,7 @@ class FilmVideos extends Component {
         let { videosLimiter } = this.state;
         let opts = {
             height: '390',
-            width: '430',
+            width: '100%',
             playerVars: {
                 autoplay: 0,
                 enablejsapi: 1

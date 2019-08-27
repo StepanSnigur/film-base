@@ -1,3 +1,6 @@
+import React from 'react';
+import { shallow } from 'enzyme';
+
 import currentFilm  from './reducers/FilmPageReducer';
 
 let initialState = {
@@ -15,7 +18,7 @@ let initialState = {
     error: false
 }
 
-describe('film page reducer', () => {
+describe('film page', () => {
     it('SET_CURRENT_FILM', () => {
         expect(
             currentFilm(initialState,
@@ -34,5 +37,12 @@ describe('film page reducer', () => {
             similarFilms: [1],
             isLoading: false
         })
+    });
+
+    it('should render a label', () => {
+        const wrapper = shallow(
+            <h1>Hello Jest!</h1>
+        );
+        expect(wrapper.find('h1').text()).toEqual('Hello Jest!');
     });
 });

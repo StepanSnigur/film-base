@@ -3,6 +3,13 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 
+let ComponentWrapper = styled.div`
+    display: block;
+
+    @media (max-width: 640px) {
+        display: none;
+    }
+`
 let SimilarFilmsWrapper = styled.div`
     position: relative;
     width: 100%;
@@ -135,7 +142,7 @@ class SimilarFilmsSlider extends Component {
         let filmsCount = similarFilms.results.length;
         let { sliderLeftIndent } = this.state;
         return (
-            <>
+            <ComponentWrapper>
                 {
                     filmsCount > 0 ?
                         <div ref={(node) => this._sliderEl = node}>
@@ -164,7 +171,7 @@ class SimilarFilmsSlider extends Component {
                         </div> :
                         null
                 }
-            </>
+            </ComponentWrapper>
         );
     }
 }

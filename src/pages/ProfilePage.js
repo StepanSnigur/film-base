@@ -11,6 +11,11 @@ let UserInfoWrapper = styled.div`
     display: grid;
     align-items: center;
     grid-template-columns: 100px 1fr 8fr;
+    
+    @media (max-width: 900px) {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+    }
 `
 let UserIcon = styled.img`
     width: 100px;
@@ -31,6 +36,11 @@ let LogOutButton = styled.button`
     border: 3px solid #eee;
     background: none;
     cursor: pointer;
+    
+    @media (max-width: 900px) {
+        grid-column: 1 / 3;
+        justify-self: center;
+    }
 `
 let TabIconsWrapper = styled.div`
     width: 100%;
@@ -52,6 +62,10 @@ let TabIcon = styled.button`
     ${({isActive}) => isActive && `
         border-bottom: 2px solid #000;
     `}
+    
+    @media (max-width: 900px) {
+        font-size: 18px;
+    }
 `
 
 class ProfilePage extends Component {
