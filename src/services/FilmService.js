@@ -117,7 +117,6 @@ class FilmService {
         });
     }
     deleteFilmRating = async (sessionId, filmId) => {
-        console.log(sessionId, filmId);
         return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}/rating?api_key=${this.apiKey}&session_id=${sessionId}`,  {
             method: 'DELETE',
             headers: {

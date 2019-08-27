@@ -171,7 +171,7 @@ class FilmPage extends Component {
     }
 
     render() {
-        let { film, isLoading, error, isInFavouriteLoading, isInWatchlistLoading, isFilmStatesError, filmStates } = this.props.currentFilm;
+        let { film, isLoading, error, isInFavouriteLoading, isInWatchlistLoading, isFilmButtonsLoading, isFilmStatesError, filmStates } = this.props.currentFilm;
         let { isLogged, sessionId, userId, filmId } = this.props;
 
         let FilmButtons = () => {
@@ -186,6 +186,7 @@ class FilmPage extends Component {
                                 emptySymbol={<StarIcon src={Star} alt="star" className="icon" />}
                                 fullSymbol={<StarIcon src={StarActive} alt="star" className="icon" />}
                                 onClick={(rating) => this.props.rateFilm(sessionId, filmId, rating)}
+                                readonly={isFilmButtonsLoading}
                             />
                             <FilmButtonsWrapper>
                                 <FavouriteButton
@@ -195,7 +196,7 @@ class FilmPage extends Component {
                                             () => this.props.markAsFavourite(userId, sessionId, filmId, true)
                                     }
                                     isFavourite={filmStates.favorite}
-                                    disabled={isInFavouriteLoading}
+                                    disabled={isFilmButtonsLoading}
                                 >
                                     {isInFavouriteLoading ? <CirclePreloader /> : 'В избранные'}
                                 </FavouriteButton>
@@ -206,13 +207,13 @@ class FilmPage extends Component {
                                             () => this.props.addToWatchlist(userId, sessionId, filmId, true)
                                     }
                                     isInWatchList={filmStates.watchlist}
-                                    disabled={isInWatchlistLoading}
+                                    disabled={isFilmButtonsLoading}
                                 >
                                     {isInWatchlistLoading ? <CirclePreloader /> : 'Посмотреть позже'}
                                 </WatchListButton>
                                 {
                                     filmStates.rated.value &&
-                                    <DeleteRatingButton onClick={() => this.props.deleteFilmRating(sessionId, filmId)}>
+                                    <DeleteRatingButton onClick={() => this.props.deleteFilmRating(sessionId, filmId)} disabled={isFilmButtonsLoading}>
                                         Удалить оценку
                                     </DeleteRatingButton>
                                 }

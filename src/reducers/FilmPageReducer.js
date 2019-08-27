@@ -16,6 +16,7 @@ let initialState = {
     isLoading: true,
     isInFavouriteLoading: false,
     isInWatchlistLoading: false,
+    isFilmButtonsLoading: false,
     error: false
 }
 
@@ -43,7 +44,8 @@ let currentFilm = (state = initialState, action) => {
                     rated: {
                         value: action.payload
                     }
-                }
+                },
+                isFilmButtonsLoading: false
             }
         case 'SET_CURRENT_FILM_LOADING':
             return {
@@ -58,12 +60,19 @@ let currentFilm = (state = initialState, action) => {
         case 'SET_IS_IN_FAVOURITE_LOADING':
             return {
                 ...state,
-                isInFavouriteLoading: action.payload
+                isInFavouriteLoading: action.payload,
+                isFilmButtonsLoading: action.payload
             }
         case 'SET_IS_IN_WATCHLIST_LOADING':
             return {
                 ...state,
-                isInWatchlistLoading: action.payload
+                isInWatchlistLoading: action.payload,
+                isFilmButtonsLoading: action.payload
+            }
+        case 'SET_FILM_BUTTONS_LOADING':
+            return {
+                ...state,
+                isFilmButtonsLoading: true
             }
         case 'SET_FILM_STATES_ERROR':
             return {

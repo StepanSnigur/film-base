@@ -147,6 +147,7 @@ export let addToWatchlist = (userId, sessionId, filmId, isAdding) => async (disp
 
 export let rateFilm = (sessionId, filmId, rating) => async (dispatch) => {
     try {
+        dispatch({type: 'SET_FILM_BUTTONS_LOADING'});
         let response = await service.rateFilm(sessionId, filmId, rating);
         if (response.status_code !== 1 && response.status_code !== 12 && response.status_code !== 13) throw new Error('Что-то пошло не так, попробуйте позже');
         dispatch({type: 'SET_FILM_RATING', payload: rating});
@@ -157,6 +158,7 @@ export let rateFilm = (sessionId, filmId, rating) => async (dispatch) => {
 
 export let deleteFilmRating = (sessionId, filmId) => async (dispatch) => {
     try {
+        dispatch({type: 'SET_FILM_BUTTONS_LOADING'});
         let response = await service.deleteFilmRating(sessionId, filmId);
         if (response.status_code !== 1 && response.status_code !== 12 && response.status_code !== 13) throw new Error('Что-то пошло не так, попробуйте позже');
         dispatch({type: 'SET_FILM_RATING', payload: false});
