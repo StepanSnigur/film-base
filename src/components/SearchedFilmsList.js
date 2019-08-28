@@ -46,7 +46,7 @@ let SearchedFilmsWrapperItem = styled(Link)`
 let SearchedFilmsList = (props) => {
     let searchedFilmsList = props.searchFilms.results;
     let isError = props.searchFilms.error;
-    let { inputLength } = props;
+    let { inputLength, clearInput } = props;
 
     let SearchedFilmsListContent = () => {
         return (
@@ -54,7 +54,7 @@ let SearchedFilmsList = (props) => {
                 {
                     searchedFilmsList.slice(0, 5).map((el) => {
                         return (
-                            <SearchedFilmsWrapperItem to={`/film/${el.id}`} key={el.id}>
+                            <SearchedFilmsWrapperItem to={`/film/${el.id}`} onClick={clearInput} key={el.id}>
                                 <img src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} alt="Film preview"/>
                                 <h3>{el.title}</h3>
                             </SearchedFilmsWrapperItem>

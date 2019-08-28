@@ -28,18 +28,21 @@ let SearchFilmInput = styled.input`
     box-sizing: border-box;
 `
 let SearchMovieForm = (props) => {
-    let [searchInputLength, getSearchInputLength] = useState(0);
+    let [inputValue, setInputValue] = useState('');
 
     let searchFilm = async (e) => {
         if (e.target.value.length !== 0) {
             props.searchFilm(e.target.value);
         }
     }
+    let clearInput = () => {
+        setInputValue('');
+    }
 
     return (
         <SearchFilmWrapper onSubmit={searchFilm}>
-            <SearchFilmInput onChange={(e) => getSearchInputLength(e.target.value.length)} onInput={(event) => searchFilm(event)} type="text" placeholder="Введите название фильма"/>
-            <SearchedFilmsList inputLength={searchInputLength} />
+            <SearchFilmInput onChange={(e) => setInputValue(e.target.value)} onInput={(event) => searchFilm(event)} value={inputValue} type="text" placeholder="Введите название фильма"/>
+            <SearchedFilmsList inputLength={inputValue.length} clearInput={clearInput} />
         </SearchFilmWrapper>
     );
 }
