@@ -8,7 +8,7 @@ import FilmReviews from '../components/FilmReviews';
 import SimilarFilmsSlider from '../components/SimilarFilmsSlider';
 import FilmVideos from '../components/FilmVideos';
 
-import Checkmark from '../img/checkmark.png';
+import CheckMark from '../img/checkmark.png';
 import Star from '../img/star.png';
 import StarActive from '../img/star-active.png';
 
@@ -71,7 +71,7 @@ let FavouriteButton = styled.button`
     
     ${({isFavourite}) => isFavourite && `
         &:before {
-            content: url(${Checkmark});
+            content: url(${CheckMark});
             display: block;
             width: 30px;
             height: 30px;
@@ -99,7 +99,7 @@ let WatchListButton = styled.button`
     
     ${({isInWatchList}) => isInWatchList && `
         &:before {
-            content: url(${Checkmark});
+            content: url(${CheckMark});
             display: block;
             width: 30px;
             height: 30px;

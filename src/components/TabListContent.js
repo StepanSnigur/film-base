@@ -18,39 +18,46 @@ let TabContentList = styled.div`
 let TabListContent = (props) => {
     let { results, isLoading } = props.list;
     let { componentName, activeComponentName, isError, currentPage, pagesCount, updatePage } = props;
+    let isTabActive = componentName === activeComponentName;
+
     return (
-        <TabContent style={{display: componentName === activeComponentName ? 'block' : 'none'}}>
+        <>
             {
-                isError ?
-                <ErrorIndicator /> :
-                <>
+                isTabActive &&
+                <TabContent>
                     {
-                        isLoading ?
-                        <Preloader /> :
+                        isError ?
+                        <ErrorIndicator /> :
                         <>
                             {
-                                results.length === 0 ?
-                                    <span>Здесь пока ничего нет</span> :
-                                    <>
-                                        <TabContentList>
-                                            {
-                                                results.map((el) => {
-                                                    return <FilmCard key={el.id} film={el} />
-                                                })
-                                            }
-                                        </TabContentList>
-                                        <PaginationBar
-                                            currentPage={currentPage}
-                                            maxPagesCount={pagesCount}
-                                            updatePage={(page) => updatePage(page)}
-                                        />
-                                    </>
+                                isLoading ?
+                                <Preloader /> :
+                                <>
+                                    {
+                                        results.length === 0 ?
+                                        <span>Здесь пока ничего нет</span> :
+                                        <>
+                                            <TabContentList>
+                                                {
+                                                    results.map((el) => {
+                                                        return <FilmCard key={el.id} film={el} />
+                                                    })
+                                                }
+                                            </TabContentList>
+                                            <PaginationBar
+                                                currentPage={currentPage}
+                                                maxPagesCount={pagesCount}
+                                                updatePage={(page) => updatePage(page)}
+                                            />
+                                        </>
+                                    }
+                                </>
                             }
                         </>
                     }
-                </>
+                </TabContent>
             }
-        </TabContent>
+        </>
     )
 }
 
