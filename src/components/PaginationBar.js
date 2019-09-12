@@ -56,9 +56,9 @@ let PaginationBar = (props) => {
     let pagesCount = [];
     let currentPage = props.currentPage;
     let maxPagesCount = props.maxPagesCount;
-    let PaginationBarLimiter = currentPage - 10 <= 0 ? 0 : currentPage - 10;
+    let PaginationBarLimiter = currentPage - 10 <= 0 ? 1 : currentPage - 10;
 
-    for (let i = 1; i <= maxPagesCount; i++) {
+    for (let i = 0; i <= maxPagesCount; i++) {
         pagesCount.push(i);
     }
 
@@ -79,8 +79,7 @@ let PaginationBar = (props) => {
                                 return (
                                     <PageLink isActive={el === currentPage} onClick={(e) => selectPage(e.target.innerHTML)} key={el}>{el}</PageLink>
                                 )
-                            })
-                                .slice(PaginationBarLimiter, currentPage + 10)
+                            }).slice(PaginationBarLimiter, currentPage + 11)
                         }
                     </div>
                     <button onClick={() => selectPage(currentPage + 1)}>&gt;</button>
