@@ -171,8 +171,26 @@ class FilmPage extends Component {
     }
 
     render() {
-        let { film, isLoading, error, isInFavouriteLoading, isInWatchlistLoading, isFilmButtonsLoading, isFilmStatesError, filmStates } = this.props.currentFilm;
-        let { isLogged, sessionId, userId, filmId } = this.props;
+        let {
+            film,
+            isLoading,
+            error,
+            isInFavouriteLoading,
+            isInWatchlistLoading,
+            isFilmButtonsLoading,
+            isFilmStatesError,
+            filmStates
+        } = this.props.currentFilm;
+        let {
+            history,
+            isLogged,
+            sessionId,
+            userId,
+            filmId,
+            markAsFavourite,
+            addToWatchlist,
+            deleteFilmRating
+        } = this.props;
 
         let FilmButtons = () => {
             return (
@@ -192,8 +210,8 @@ class FilmPage extends Component {
                                 <FavouriteButton
                                     onClick={
                                         this.props.currentFilm.filmStates.favorite ?
-                                            () => this.props.markAsFavourite(userId, sessionId, filmId, false) :
-                                            () => this.props.markAsFavourite(userId, sessionId, filmId, true)
+                                            () => markAsFavourite(userId, sessionId, filmId, false) :
+                                            () => markAsFavourite(userId, sessionId, filmId, true)
                                     }
                                     isFavourite={filmStates.favorite}
                                     disabled={isFilmButtonsLoading}
@@ -203,8 +221,8 @@ class FilmPage extends Component {
                                 <WatchListButton
                                     onClick={
                                         this.props.currentFilm.filmStates.watchlist ?
-                                            () => this.props.addToWatchlist(userId, sessionId, filmId, false) :
-                                            () => this.props.addToWatchlist(userId, sessionId, filmId, true)
+                                            () => addToWatchlist(userId, sessionId, filmId, false) :
+                                            () => addToWatchlist(userId, sessionId, filmId, true)
                                     }
                                     isInWatchList={filmStates.watchlist}
                                     disabled={isFilmButtonsLoading}
@@ -213,7 +231,7 @@ class FilmPage extends Component {
                                 </WatchListButton>
                                 {
                                     filmStates.rated.value &&
-                                    <DeleteRatingButton onClick={() => this.props.deleteFilmRating(sessionId, filmId)} disabled={isFilmButtonsLoading}>
+                                    <DeleteRatingButton onClick={() => deleteFilmRating(sessionId, filmId)} disabled={isFilmButtonsLoading}>
                                         Удалить оценку
                                     </DeleteRatingButton>
                                 }
@@ -250,7 +268,7 @@ class FilmPage extends Component {
                             <SimilarFilmsSlider />
                         </div>
                     }
-                    <GoBackBtn onClick={this.props.history.goBack}>Назад</GoBackBtn>
+                    <GoBackBtn onClick={history.goBack}>Назад</GoBackBtn>
                 </>
             )
         }

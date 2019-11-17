@@ -91,6 +91,7 @@ class ProfilePage extends Component {
 
     render() {
         let {
+            isLogged,
             sessionId,
             userId,
             userName,
@@ -100,7 +101,8 @@ class ProfilePage extends Component {
             ratedMovies,
             getRatedMovies,
             watchList,
-            getWatchList
+            getWatchList,
+            logOut
         } = this.props;
         let { activeTab } = this.state;
 
@@ -110,7 +112,7 @@ class ProfilePage extends Component {
                     <UserInfoWrapper>
                         <UserIcon src={`https://secure.gravatar.com/avatar/${userAvatar}.jpg?s=100`} alt="Avatar" />
                         <UserName>{userName}</UserName>
-                        <LogOutButton onClick={() => this.props.logOut(sessionId)}>Выйти</LogOutButton>
+                        <LogOutButton onClick={() => logOut(sessionId)}>Выйти</LogOutButton>
                     </UserInfoWrapper>
                     <TabIconsWrapper>
                         <TabIcon onClick={() => this.changeActiveTab('favourite')} isActive={activeTab === 'favourite'}>Избранные</TabIcon>
@@ -153,7 +155,7 @@ class ProfilePage extends Component {
         return (
             <>
                 {
-                    this.props.isLogged ?
+                    isLogged ?
                     <ProfilePageContent /> :
                     <Redirect to={'/authForm'} />
                 }
