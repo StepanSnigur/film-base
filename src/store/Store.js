@@ -1,4 +1,4 @@
-import { applyMiddleware, createStore, combineReducers } from 'redux';
+import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import ReduxThunk from 'redux-thunk';
 
 import currentFilm from '../reducers/FilmPageReducer';
@@ -9,6 +9,8 @@ import searchFilms from '../reducers/SearchFilmReducer';
 import UserReducer from '../reducers/UserReducer';
 import { reducer as formReducer } from 'redux-form';
 
+let composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 let store = createStore(combineReducers({
     currentFilm,
     topRelatedFilms,
@@ -17,6 +19,6 @@ let store = createStore(combineReducers({
     searchFilms,
     user: UserReducer,
     form: formReducer
-}), applyMiddleware(ReduxThunk));
+}), composeEnhancers(applyMiddleware(ReduxThunk)));
 
 export default store;
