@@ -88,29 +88,29 @@ class FilmVideos extends Component {
             <>
                 {
                     filmVideos.length > 0 ?
-                        <div>
-                            <h2>Видео:</h2>
-                            <FilmVideosWrapper>
-                                {
-                                    filmVideos.slice(0, videosLimiter).map((el) => {
-                                        return (
-                                            <YouTube
-                                                key={el.id}
-                                                videoId={el.key}
-                                                opts={opts}
-                                                onReady={this._onReady}
-                                            />
-                                        )
-                                    })
-                                }
-                            </FilmVideosWrapper>
+                    <div>
+                        <h2>Видео:</h2>
+                        <FilmVideosWrapper>
                             {
-                                filmVideos.length <= this.initialVideosLimiter ?
-                                null :
-                                showContentBtn()
+                                filmVideos.slice(0, videosLimiter).map((el) => {
+                                    return (
+                                        <YouTube
+                                            key={el.id}
+                                            videoId={el.key}
+                                            opts={opts}
+                                            onReady={this._onReady}
+                                        />
+                                    )
+                                })
                             }
-                        </div> :
-                        null
+                        </FilmVideosWrapper>
+                        {
+                            filmVideos.length <= this.initialVideosLimiter ?
+                            null :
+                            showContentBtn()
+                        }
+                    </div> :
+                    null
                 }
             </>
         );
