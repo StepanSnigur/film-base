@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import Preloader from '../components/Preloader';
+import ErrorBoundary from '../hoc/ErrorBoundary';
+import LoadingBoundary from '../hoc/LoadingBoundary';
 import CirclePreloader from '../components/CirclePreloader';
 import FilmReviews from '../components/FilmReviews';
 import SimilarFilmsSlider from '../components/SimilarFilmsSlider';
@@ -13,7 +14,6 @@ import Star from '../img/star.png';
 import StarActive from '../img/star-active.png';
 
 import { setCurrentFilm, markAsFavourite, addToWatchlist, rateFilm, deleteFilmRating } from '../actions/Actions';
-import ErrorIndicator from '../components/ErrorIndicator';
 
 import Rating from 'react-rating';
 
@@ -245,9 +245,7 @@ class FilmPage extends Component {
         let FilmPageContent = () => {
             return (
                 <>
-                    {
-                        isLoading ?
-                        <Preloader /> :
+                    <LoadingBoundary isLoading={isLoading}>
                         <div>
                             <FilmCardWrapper>
                                 <img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt="film"/>
@@ -267,20 +265,16 @@ class FilmPage extends Component {
                             <FilmReviews />
                             <SimilarFilmsSlider />
                         </div>
-                    }
+                    </LoadingBoundary>
                     <GoBackBtn onClick={history.goBack}>Назад</GoBackBtn>
                 </>
             )
         }
 
         return (
-            <>
-                {
-                    error ?
-                    <ErrorIndicator/> :
-                    <FilmPageContent/>
-                }
-            </>
+            <ErrorBoundary isError={error}>
+                <FilmPageContent />
+            </ErrorBoundary>
         );
     }
 }

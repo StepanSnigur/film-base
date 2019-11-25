@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { getTopRelatedFilms } from '../actions/Actions';
 
-import Preloader from '../components/Preloader';
-import ErrorIndicator from '../components/ErrorIndicator';
+import ErrorBoundary from '../hoc/ErrorBoundary';
+import LoadingBoundary from '../hoc/LoadingBoundary';
 import PaginationBar from '../components/PaginationBar';
 import FilmCard from '../components/FilmCard';
 
@@ -28,38 +28,30 @@ class HomePage extends Component {
 
         let HomePageContent = () => {
             return (
-                <>
-                    {
-                        isLoading ?
-                        <Preloader /> :
-                        <div>
-                            <TopRelatedFilmsHeadline>Лучшие фильмы:</TopRelatedFilmsHeadline>
-                            <TopRelatedPageContainer>
-                                {
-                                    filmsList.map((el) => {
-                                        return <FilmCard key={el.id} film={el} />
-                                    })
-                                }
-                            </TopRelatedPageContainer>
-                            <PaginationBar
-                                updatePage={(val) => this.props.getTopRelatedFilms(val)}
-                                currentPage={page}
-                                maxPagesCount={total_pages}
-                            />
-                        </div>
-                    }
-                </>
+                <LoadingBoundary isLoading={isLoading}>
+                    <div>
+                        <TopRelatedFilmsHeadline>Лучшие фильмы:</TopRelatedFilmsHeadline>
+                        <TopRelatedPageContainer>
+                            {
+                                filmsList.map((el) => {
+                                    return <FilmCard key={el.id} film={el} />
+                                })
+                            }
+                        </TopRelatedPageContainer>
+                        <PaginationBar
+                            updatePage={(val) => this.props.getTopRelatedFilms(val)}
+                            currentPage={page}
+                            maxPagesCount={total_pages}
+                        />
+                    </div>
+                </LoadingBoundary>
             )
         }
 
         return (
-            <>
-                {
-                    error ?
-                    <ErrorIndicator /> :
-                    <HomePageContent />
-                }
-            </>
+            <ErrorBoundary isError={error}>
+                <HomePageContent />
+            </ErrorBoundary>
         );
     }
 }

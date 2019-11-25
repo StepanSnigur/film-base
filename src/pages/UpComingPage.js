@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import Preloader from '../components/Preloader';
-import ErrorIndicator from '../components/ErrorIndicator';
+import ErrorBoundary from '../hoc/ErrorBoundary';
+import LoadingBoundary from '../hoc/LoadingBoundary';
 import PaginationBar from '../components/PaginationBar';
 import FilmCard from '../components/FilmCard';
 
@@ -26,38 +26,30 @@ class UpComingPage extends Component {
 
         let UpComingPageContent = () => {
             return (
-                <>
-                    {
-                        isLoading ?
-                        <Preloader /> :
-                        <div>
-                            <h1>Скоро в кинотеатрах:</h1>
-                            <UpComingPageContainer>
-                                {
-                                    filmsList.map((el) => {
-                                        return <FilmCard key={el.id} film={el} />
-                                    })
-                                }
-                            </UpComingPageContainer>
-                            <PaginationBar
-                                updatePage={(val) => this.props.loadUpComingFilms(val)}
-                                currentPage={page}
-                                maxPagesCount={total_pages}
-                            />
-                        </div>
-                    }
-                </>
+                <LoadingBoundary isLoading={isLoading}>
+                    <div>
+                        <h1>Скоро в кинотеатрах:</h1>
+                        <UpComingPageContainer>
+                            {
+                                filmsList.map((el) => {
+                                    return <FilmCard key={el.id} film={el} />
+                                })
+                            }
+                        </UpComingPageContainer>
+                        <PaginationBar
+                            updatePage={(val) => this.props.loadUpComingFilms(val)}
+                            currentPage={page}
+                            maxPagesCount={total_pages}
+                        />
+                    </div>
+                </LoadingBoundary>
             )
         }
 
         return (
-            <>
-                {
-                    error ?
-                    <ErrorIndicator /> :
-                    <UpComingPageContent />
-                }
-            </>
+            <ErrorBoundary isError={error}>
+                <UpComingPageContent />
+            </ErrorBoundary>
         );
     }
 }

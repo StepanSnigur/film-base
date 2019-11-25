@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Preloader from './Preloader';
+import ErrorBoundary from '../hoc/ErrorBoundary';
+import LoadingBoundary from '../hoc/LoadingBoundary';
 import FilmCard from './FilmCard';
 import PaginationBar from './PaginationBar';
-import ErrorIndicator from './ErrorIndicator';
 
 let TabContent = styled.div`
     margin-top: 50px;
@@ -25,36 +25,28 @@ let TabListContent = (props) => {
             {
                 isTabActive &&
                 <TabContent>
-                    {
-                        isError ?
-                        <ErrorIndicator /> :
-                        <>
+                    <ErrorBoundary isError={isError}>
+                        <LoadingBoundary isLoading={isLoading}>
                             {
-                                isLoading ?
-                                <Preloader /> :
+                                results.length === 0 ?
+                                <span>Здесь пока ничего нет</span> :
                                 <>
-                                    {
-                                        results.length === 0 ?
-                                        <span>Здесь пока ничего нет</span> :
-                                        <>
-                                            <TabContentList>
-                                                {
-                                                    results.map((el) => {
-                                                        return <FilmCard key={el.id} film={el} />
-                                                    })
-                                                }
-                                            </TabContentList>
-                                            <PaginationBar
-                                                currentPage={currentPage}
-                                                maxPagesCount={pagesCount}
-                                                updatePage={(page) => updatePage(page)}
-                                            />
-                                        </>
-                                    }
+                                    <TabContentList>
+                                        {
+                                            results.map((el) => {
+                                                return <FilmCard key={el.id} film={el} />
+                                            })
+                                        }
+                                    </TabContentList>
+                                    <PaginationBar
+                                        currentPage={currentPage}
+                                        maxPagesCount={pagesCount}
+                                        updatePage={(page) => updatePage(page)}
+                                    />
                                 </>
                             }
-                        </>
-                    }
+                        </LoadingBoundary>
+                    </ErrorBoundary>
                 </TabContent>
             }
         </>
