@@ -9,9 +9,11 @@ import HomePage from './pages/HomePage';
 import UpComingPage from './pages/UpComingPage';
 import PopularFilmsPage from './pages/PopularFilmsPage';
 import FilmPage from './pages/FilmPage';
-import AuthForm from './components/AuthForm';
-import ProfilePage from './pages/ProfilePage';
 import Footer from './components/Footer';
+
+import WithSuspense from './hoc/WithSuspense';
+let ProfilePage = React.lazy(() => import('./pages/ProfilePage'));
+let AuthForm = React.lazy(() => import('./components/AuthForm'));
 
 let Wrapper = styled.div`
     width: 1200px;
@@ -52,8 +54,8 @@ let App = (props) => {
                                    }
                                }
                         />
-                        <Route path="/authForm" component={AuthForm}/>
-                        <Route path="/profile" component={ProfilePage}/>
+                        <Route path="/authForm" render={WithSuspense(AuthForm)}/>
+                        <Route path="/profile" render={WithSuspense(ProfilePage)}/>
                     </Wrapper>
                     <Footer />
                 </HashRouter>
