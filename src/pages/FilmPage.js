@@ -13,7 +13,7 @@ import CheckMark from '../img/checkmark.png';
 import Star from '../img/star.png';
 import StarActive from '../img/star-active.png';
 
-import { setCurrentFilm, markAsFavourite, addToWatchlist, rateFilm, deleteFilmRating } from '../actions/Actions';
+import { setCurrentFilm, markAsFavourite, addToWatchlist, changeFilmRating } from '../actions/Actions';
 
 import Rating from 'react-rating';
 
@@ -189,7 +189,7 @@ class FilmPage extends Component {
             filmId,
             markAsFavourite,
             addToWatchlist,
-            deleteFilmRating
+            changeFilmRating
         } = this.props;
 
         let FilmButtons = () => {
@@ -203,7 +203,7 @@ class FilmPage extends Component {
                                 stop={10}
                                 emptySymbol={<StarIcon src={Star} alt="star" className="icon" />}
                                 fullSymbol={<StarIcon src={StarActive} alt="star" className="icon" />}
-                                onClick={(rating) => this.props.rateFilm(sessionId, filmId, rating)}
+                                onClick={(rating) => changeFilmRating(sessionId, filmId, rating)}
                                 readonly={isFilmButtonsLoading}
                             />
                             <FilmButtonsWrapper>
@@ -231,7 +231,7 @@ class FilmPage extends Component {
                                 </WatchListButton>
                                 {
                                     filmStates.rated.value &&
-                                    <DeleteRatingButton onClick={() => deleteFilmRating(sessionId, filmId)} disabled={isFilmButtonsLoading}>
+                                    <DeleteRatingButton onClick={() => changeFilmRating(sessionId, filmId)} disabled={isFilmButtonsLoading}>
                                         Удалить оценку
                                     </DeleteRatingButton>
                                 }
@@ -290,4 +290,4 @@ let mapStateToProps = ({ currentFilm, user }) => {
     }
 }
 
-export default connect(mapStateToProps, { setCurrentFilm, markAsFavourite, addToWatchlist, rateFilm, deleteFilmRating })(FilmPage);
+export default connect(mapStateToProps, { setCurrentFilm, markAsFavourite, addToWatchlist, changeFilmRating })(FilmPage);

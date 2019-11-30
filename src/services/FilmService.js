@@ -32,13 +32,25 @@ class FilmService {
     }
 
     getFavouriteMovies = async (userId, sessionId, page = 1) => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/account/${userId}/favorite/movies?api_key=${this.apiKey}&session_id=${sessionId}&language=ru-RU&sort_by=created_at.asc&page=${page}`);
+        return await this.makeRequest(`https://api.themoviedb.org/3/account/${userId}/favorite/movies?api_key=${this.apiKey}&session_id=${sessionId}&language=ru-RU&sort_by=created_at.asc&page=${page}`, {
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        });
     }
     getRatedMovies = async (userId, sessionId, page = 1) => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/account/${userId}/rated/movies?api_key=${this.apiKey}&session_id=${sessionId}&language=ru-RU&sort_by=created_at.asc&page=${page}`);
+        return await this.makeRequest(`https://api.themoviedb.org/3/account/${userId}/rated/movies?api_key=${this.apiKey}&session_id=${sessionId}&language=ru-RU&sort_by=created_at.asc&page=${page}`, {
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        });
     }
     getWatchList = async (userId, sessionId, page = 1) => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/account/${userId}/watchlist/movies?api_key=${this.apiKey}&session_id=${sessionId}&language=ru-RU&sort_by=created_at.asc&page=${page}`);
+        return await this.makeRequest(`https://api.themoviedb.org/3/account/${userId}/watchlist/movies?api_key=${this.apiKey}&session_id=${sessionId}&language=ru-RU&sort_by=created_at.asc&page=${page}`, {
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        });
     }
 
     //auth
@@ -100,7 +112,11 @@ class FilmService {
         });
     }
     getMovieAccountStates = async (filmId, sessionId) => {
-        return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}/account_states?api_key=${this.apiKey}&session_id=${sessionId}`);
+        return await this.makeRequest(`https://api.themoviedb.org/3/movie/${filmId}/account_states?api_key=${this.apiKey}&session_id=${sessionId}`, {
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        });
     }
     rateFilm = async (sessionId, filmId, rating) => {
         let request = {
