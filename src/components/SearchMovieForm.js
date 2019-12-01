@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import debounce from 'lodash/debounce';
 
 import SearchedFilmsList from './SearchedFilmsList';
 
@@ -30,18 +31,20 @@ let SearchFilmInput = styled.input`
 let SearchMovieForm = (props) => {
     let [inputValue, setInputValue] = useState('');
 
-    let searchFilm = async (e) => {
-        if (e.target.value.length !== 0) {
-            props.searchFilm(e.target.value);
+    let searchFilm = (e, value) => {
+        setInputValue(value);
+        if (value.length !== 0) {
+            props.searchFilm(value);
         }
     }
+    let debouncedFilmSearch = debounce(searchFilm, 300);
     let clearInput = () => {
         setInputValue('');
     }
 
     return (
         <SearchFilmWrapper onSubmit={searchFilm}>
-            <SearchFilmInput onChange={(e) => setInputValue(e.target.value)} onInput={(event) => searchFilm(event)} value={inputValue} type="text" placeholder="Введите название фильма"/>
+            <SearchFilmInput onChange={(e) => debouncedFilmSearch(e, e.target.value)} type="text" placeholder="Введите название фильма"/>
             <SearchedFilmsList inputLength={inputValue.length} clearInput={clearInput} />
         </SearchFilmWrapper>
     );
