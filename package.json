@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "lodash": "^4.17.15",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-rating": "^1.7.2",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
+    "redux-mock-store": "^1.5.3",
     "remote-redux-devtools": "^0.5.16"
   }
 }
