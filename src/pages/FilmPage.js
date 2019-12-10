@@ -13,7 +13,8 @@ import CheckMark from '../img/checkmark.png';
 import Star from '../img/star.png';
 import StarActive from '../img/star-active.png';
 
-import { setCurrentFilm, markAsFavourite, addToWatchlist, changeFilmRating } from '../actions/Actions';
+import { setCurrentFilm } from '../actions/FilmActions';
+import { markAsFavourite, addToWatchlist, changeFilmRating } from '../actions/UserActions';
 
 import Rating from 'react-rating';
 

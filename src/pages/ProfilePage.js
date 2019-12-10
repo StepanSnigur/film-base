@@ -5,7 +5,8 @@ import { Redirect } from 'react-router-dom';
 
 import TabListContent from '../components/TabListContent';
 
-import { getFavouriteMovies, getRatedMovies, getWatchList, logOut } from '../actions/Actions';
+import { getFavouriteMovies, getRatedMovies, getWatchList } from '../actions/FilmActions';
+import { logOut } from '../actions/AuthActions';
 
 let UserInfoWrapper = styled.div`
     display: grid;

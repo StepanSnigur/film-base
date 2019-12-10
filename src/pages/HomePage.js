@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import { getTopRelatedFilms } from '../actions/Actions';
+import { getTopRelatedFilms } from '../actions/FilmActions';
 
 import ErrorBoundary from '../hoc/ErrorBoundary';
 import LoadingBoundary from '../hoc/LoadingBoundary';

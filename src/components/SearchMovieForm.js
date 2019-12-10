@@ -5,7 +5,7 @@ import debounce from 'lodash/debounce';
 
 import SearchedFilmsList from './SearchedFilmsList';
 
-import { searchFilm } from '../actions/Actions';
+import { searchFilm } from '../actions/FilmActions';
 
 
 let SearchFilmWrapper = styled.div`

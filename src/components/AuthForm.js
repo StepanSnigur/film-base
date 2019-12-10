@@ -6,7 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { required } from '../utils/Validators';
 import { Input } from './FormControls';
 
-import { AuthUser } from '../actions/Actions';
+import { AuthUser } from '../actions/AuthActions';
 import Preloader from './Preloader';
 
 let AuthFormWrapper = styled.form`

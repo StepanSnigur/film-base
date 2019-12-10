@@ -7,7 +7,7 @@ import LoadingBoundary from '../hoc/LoadingBoundary';
 import PaginationBar from '../components/PaginationBar';
 import FilmCard from '../components/FilmCard';
 
-import { loadMostPopularFilms } from '../actions/Actions';
+import { loadMostPopularFilms } from '../actions/FilmActions';
 
 let PopularFilmsPageContainer = styled.div`
     display: flex;

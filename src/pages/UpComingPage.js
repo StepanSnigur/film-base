@@ -7,7 +7,7 @@ import LoadingBoundary from '../hoc/LoadingBoundary';
 import PaginationBar from '../components/PaginationBar';
 import FilmCard from '../components/FilmCard';
 
-import { loadUpComingFilms } from '../actions/Actions';
+import { loadUpComingFilms } from '../actions/FilmActions';
 
 let UpComingPageContainer = styled.div`
     display: flex;
