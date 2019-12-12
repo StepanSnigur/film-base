@@ -79,9 +79,9 @@ class FilmService {
 
     //account
 
-    markAsFavourite = async (userId, sessionId, filmId, isAdding = true) => {
+    markAsFavourite = async (userId, sessionId, filmId, isAdding = true, mediaType = "movie") => {
         let request = {
-            "media_type": "movie",
+            "media_type": mediaType,
             "media_id": filmId,
             "favorite": isAdding,
         }
@@ -95,9 +95,9 @@ class FilmService {
             body: jsonRequest
         });
     }
-    addToWatchlist = async (userId, sessionId, filmId, isAdding = true) => {
+    addToWatchlist = async (userId, sessionId, filmId, isAdding = true, mediaType = "movie") => {
         let request = {
-            "media_type": "movie",
+            "media_type": mediaType,
             "media_id": filmId,
             "watchlist": isAdding,
         }

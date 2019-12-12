@@ -9,6 +9,8 @@ import HomePage from './pages/HomePage';
 import UpComingPage from './pages/UpComingPage';
 import PopularFilmsPage from './pages/PopularFilmsPage';
 import FilmPage from './pages/FilmPage';
+import TVSeriesPage from './pages/TVSeriesPage';
+import TVSeriesListPage from './pages/TVSeriesListPage';
 import Footer from './components/Footer';
 
 import WithSuspense from './hoc/WithSuspense';
@@ -44,8 +46,8 @@ let App = (props) => {
                     <Header />
                     <Wrapper>
                         <Route path="/" exact component={HomePage}/>
-                        <Route path="/upcoming" component={UpComingPage}/>
-                        <Route path="/popular" component={PopularFilmsPage}/>
+                        <Route path="/upcoming-films" component={UpComingPage}/>
+                        <Route path="/popular-films" component={PopularFilmsPage}/>
                         <Route path="/film/:id"
                                render={
                                    ({ match, history }) => {
@@ -54,6 +56,20 @@ let App = (props) => {
                                    }
                                }
                         />
+
+                        <Route path="/tv-series-on-air" render={() => <TVSeriesListPage listRole={"Сериалы" +
+                        " в эфире"} />}/>
+                        <Route path="/popular-tv-series" render={() => <TVSeriesListPage listRole={"Популярные сериалы"} />}/>
+                        <Route path="/best-tv-series" render={() => <TVSeriesListPage listRole={"Лучшие сериалы"} />}/>
+                        <Route path="/tv-series/:id"
+                               render={
+                                   ({ match, history }) => {
+                                       let { id } = match.params;
+                                       return <TVSeriesPage history={history} tvSeriesId={id} />
+                                   }
+                               }
+                        />
+
                         <Route path="/authForm" render={WithSuspense(AuthForm)}/>
                         <Route path="/profile" render={WithSuspense(ProfilePage)}/>
                     </Wrapper>
