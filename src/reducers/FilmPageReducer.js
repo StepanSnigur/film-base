@@ -34,17 +34,7 @@ let currentFilm = (state = initialState, action) => {
         case 'SET_FILM_STATES':
             return {
                 ...state,
-                filmStates: action.payload
-            }
-        case 'SET_FILM_RATING':
-            return {
-                ...state,
-                filmStates: {
-                    ...state.filmStates,
-                    rated: {
-                        value: action.payload
-                    }
-                },
+                filmStates: action.payload,
                 isFilmButtonsLoading: false
             }
         case 'SET_CURRENT_FILM_LOADING':

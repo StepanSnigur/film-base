@@ -7,7 +7,7 @@ import LoadingBoundary from '../hoc/LoadingBoundary';
 import ActionButtons from '../components/ActionButtons';
 
 import { setCurrentTVSeries } from '../actions/TVSeriesActions';
-import { changeTVSeriesRating } from '../actions/UserActions';
+import { changeTVSeriesRating, deleteTVSeriesRating } from '../actions/UserActions';
 
 let TVSeriesCardWrapper = styled.div`
     width: 100%;
@@ -88,6 +88,7 @@ class TVSeriesPage extends Component {
             history,
             isLogged,
             changeTVSeriesRating,
+            deleteTVSeriesRating,
             addToWatchlist,
             userId,
             sessionId
@@ -119,7 +120,8 @@ class TVSeriesPage extends Component {
                                         isFilmButtonsLoading={isTVSeriesButtonsLoading}
                                         isInWatchlistLoading={isInWatchlistLoading}
                                         rating={rated.value}
-                                        changeFilmRating={changeTVSeriesRating}
+                                        changeRating={changeTVSeriesRating}
+                                        deleteRating={deleteTVSeriesRating}
                                         addToWatchlist={addToWatchlist}
                                         mediaType={"tv"}
                                     />
@@ -150,4 +152,4 @@ let mapStateToProps = ({ currentTVSeries, user, currentFilm }) => {
     }
 }
 
-export default connect(mapStateToProps, { setCurrentTVSeries, changeTVSeriesRating })(TVSeriesPage);
+export default connect(mapStateToProps, { setCurrentTVSeries, changeTVSeriesRating, deleteTVSeriesRating })(TVSeriesPage);

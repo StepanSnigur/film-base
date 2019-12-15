@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { markAsFavourite, addToWatchlist, changeTVSeriesRating } from '../actions/UserActions';
+import { markAsFavourite, addToWatchlist } from '../actions/UserActions';
 
 import ErrorBoundary from '../hoc/ErrorBoundary';
 import Rating from 'react-rating';
@@ -119,8 +119,8 @@ let ActionButtons = (props) => {
         isInWatchlistLoading,
         rating,
         markAsFavourite,
-        changeFilmRating,
-        changeTVSeriesRating,
+        changeRating,
+        deleteRating,
         addToWatchlist,
         mediaType
     } = props;
@@ -135,7 +135,7 @@ let ActionButtons = (props) => {
                         stop={10}
                         emptySymbol={<StarIcon src={Star} alt="star" className="icon" />}
                         fullSymbol={<StarIcon src={StarActive} alt="star" className="icon" />}
-                        onClick={(rating) => changeFilmRating(sessionId, id, rating)}
+                        onClick={(rating) => changeRating(sessionId, id, rating)}
                         readonly={isFilmButtonsLoading}
                     />
                     <FilmButtonsWrapper>
@@ -164,11 +164,7 @@ let ActionButtons = (props) => {
                         {
                             rating &&
                             <DeleteRatingButton
-                                onClick={() => {
-                                    return mediaType === "tv" ?
-                                            changeTVSeriesRating(sessionId, id) :
-                                            changeFilmRating(sessionId, id)
-                                }}
+                                onClick={() => deleteRating(sessionId, id)}
                                 disabled={isFilmButtonsLoading}
                             >
                                 Удалить оценку
@@ -181,4 +177,4 @@ let ActionButtons = (props) => {
     )
 }
 
-export default connect(null, { markAsFavourite, addToWatchlist, changeTVSeriesRating })(ActionButtons);
+export default connect(null, { markAsFavourite, addToWatchlist })(ActionButtons);

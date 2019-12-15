@@ -32,17 +32,6 @@ let currentTVSeries = (state = initialState, action) => {
                 tvSeriesStates: action.payload,
                 isTVSeriesButtonsLoading: false
             }
-        case 'SET_TV_SERIES_RATING':
-            return {
-                ...state,
-                tvSeriesStates: {
-                    ...state.tvSeriesStates,
-                    rated: {
-                        value: action.payload
-                    }
-                },
-                isTVSeriesButtonsLoading: false
-            }
         case 'SET_TV_SERIES_BUTTONS_LOADING':
             return {
                 ...state,
