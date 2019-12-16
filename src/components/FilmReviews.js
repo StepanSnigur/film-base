@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import styled from 'styled-components';
 
 let ReviewWrapper = styled.div`
@@ -101,10 +100,4 @@ class FilmReviews extends Component {
     }
 }
 
-let mapStateToProps = ({ currentFilm }) => {
-    return {
-        reviews: currentFilm.reviews
-    }
-}
-
-export default connect(mapStateToProps)(FilmReviews);
+export default FilmReviews;

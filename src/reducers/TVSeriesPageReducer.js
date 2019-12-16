@@ -5,6 +5,9 @@ let initialState = {
     tvSeriesStates: {
         rated: {}
     },
+    reviews: {
+        results: []
+    },
     isTVSeriesButtonsLoading: false
 }
 
@@ -14,7 +17,8 @@ let currentTVSeries = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: false,
-                tvSeries: action.payload
+                tvSeries: action.payload.tvSeriesData,
+                reviews: action.payload.reviews
             }
         case 'SET_CURRENT_TV_SERIES_LOADING':
             return {

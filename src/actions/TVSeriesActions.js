@@ -23,13 +23,17 @@ export let setCurrentTVSeries = (id, sessionId) => async (dispatch) => {
     dispatch({type: 'SET_CURRENT_TV_SERIES_LOADING'});
     try {
         let tvSeriesData = await TVSeriesService.getTVSeries(id);
+        let tvSeriesReviews = await TVSeriesService.getTVSeriesReviews(id);
 
         if (sessionId) {
             let tvSeriesStates = await TVSeriesService.getTVSeriesAccountStates(id, sessionId);
             dispatch({type: 'SET_TV_SERIES_STATES', payload: tvSeriesStates});
         }
 
-        dispatch({type: 'SET_CURRENT_TV_SERIES', payload: tvSeriesData});
+        dispatch({type: 'SET_CURRENT_TV_SERIES', payload: {
+            tvSeriesData: tvSeriesData,
+            reviews: tvSeriesReviews
+        }});
     } catch (err) {
         dispatch({type: 'SET_CURRENT_TV_SERIES_ERROR'})
     }

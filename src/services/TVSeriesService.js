@@ -16,6 +16,10 @@ let TVSeriesService = {
         return await this.makeRequest(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${this.apiKey}&language=ru-RU&page=${page}`)
     },
 
+    async getTVSeriesReviews (id) {
+        return await this.makeRequest(`https://api.themoviedb.org/3/tv/${id}/reviews?api_key=${this.apiKey}`);
+    },
+
     async rateTVSeries (sessionId, id, rating) {
         let request = {
             "value": rating

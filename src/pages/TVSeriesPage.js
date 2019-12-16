@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import ErrorBoundary from '../hoc/ErrorBoundary';
 import LoadingBoundary from '../hoc/LoadingBoundary';
 import ActionButtons from '../components/ActionButtons';
+import FilmReviews from '../components/FilmReviews';
 
 import { setCurrentTVSeries } from '../actions/TVSeriesActions';
 import { changeTVSeriesRating, deleteTVSeriesRating } from '../actions/UserActions';
@@ -64,7 +65,7 @@ class TVSeriesPage extends Component {
     }
 
     render() {
-        let { isLoading, isError, isTVSeriesButtonsLoading } = this.props.currentTVSeries;
+        let { reviews, isLoading, isError, isTVSeriesButtonsLoading } = this.props.currentTVSeries;
         let {
             poster_path,
             name,
@@ -127,6 +128,7 @@ class TVSeriesPage extends Component {
                                     />
                                 </TVSeriesCardInfo>
                             </TVSeriesCardWrapper>
+                            <FilmReviews reviews={reviews} />
                         </div>
                     </LoadingBoundary>
                     <GoBackBtn onClick={history.goBack}>Назад</GoBackBtn>

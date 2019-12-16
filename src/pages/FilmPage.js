@@ -75,6 +75,7 @@ class FilmPage extends Component {
     render() {
         let {
             film,
+            reviews,
             isLoading,
             error,
             isInFavouriteLoading,
@@ -133,7 +134,7 @@ class FilmPage extends Component {
                                 </FilmCardInfo>
                             </FilmCardWrapper>
                             <FilmVideos />
-                            <FilmReviews />
+                            <FilmReviews reviews={reviews} />
                             <SimilarFilmsSlider />
                         </div>
                     </LoadingBoundary>
