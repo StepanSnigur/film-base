@@ -3,20 +3,20 @@ let TVSeriesService = {
 
     makeRequest: (url, options = {}) => fetch(url, options).then((data) => data.json()),
 
-    getTVSeries: async function (id) {
+    async getTVSeries (id) {
         return await this.makeRequest(`https://api.themoviedb.org/3/tv/${id}?api_key=${this.apiKey}&language=ru-RU`);
     },
-    getPopularTVSeries: async function (page = 1) {
+    async getPopularTVSeries (page = 1) {
         return await this.makeRequest(`https://api.themoviedb.org/3/tv/popular?api_key=${this.apiKey}&language=ru-RU&page=${page}`)
     },
-    getTopRatedTVSeries: async function (page = 1) {
+    async getTopRatedTVSeries (page = 1) {
         return await this.makeRequest(`https://api.themoviedb.org/3/tv/top_rated?api_key=${this.apiKey}&language=ru-RU&page=${page}`)
     },
-    getTVSeriesOnAir: async function (page = 1) {
+    async getTVSeriesOnAir (page = 1) {
         return await this.makeRequest(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${this.apiKey}&language=ru-RU&page=${page}`)
     },
 
-    rateTVSeries: async function (sessionId, id, rating) {
+    async rateTVSeries (sessionId, id, rating) {
         let request = {
             "value": rating
         }
@@ -30,7 +30,7 @@ let TVSeriesService = {
             body: jsonRequest
         });
     },
-    deleteTVSeriesRating: async function (sessionId, filmId) {
+    async deleteTVSeriesRating (sessionId, filmId) {
         return await this.makeRequest(`https://api.themoviedb.org/3/tv/${filmId}/rating?api_key=${this.apiKey}&session_id=${sessionId}`,  {
             method: 'DELETE',
             headers: {
@@ -39,28 +39,28 @@ let TVSeriesService = {
             }
         });
     },
-    getRatedTVSeries: async function (userId, sessionId, page = 1) {
+    async getRatedTVSeries (userId, sessionId, page = 1) {
         return await this.makeRequest(`https://api.themoviedb.org/3/account/${userId}/rated/tv?api_key=${this.apiKey}&session_id=${sessionId}&language=ru-RU&page=${page}`, {
             headers: {
                 'Cache-Control': 'no-cache'
             }
         });
     },
-    getFavoriteTVSeries: async function (userId, sessionId, page = 1) {
+    async getFavoriteTVSeries (userId, sessionId, page = 1) {
         return await this.makeRequest(`https://api.themoviedb.org/3/account/${userId}/favorite/tv?api_key=${this.apiKey}&session_id=${sessionId}&language=ru-RU&page=${page}`, {
             headers: {
                 'Cache-Control': 'no-cache'
             }
         });
     },
-    getTVSeriesWatchlist: async function (userId, sessionId, page = 1) {
+    async getTVSeriesWatchlist (userId, sessionId, page = 1) {
         return await this.makeRequest(`https://api.themoviedb.org/3/account/${userId}/watchlist/tv?api_key=${this.apiKey}&session_id=${sessionId}&language=ru-RU&page=${page}`, {
             headers: {
                 'Cache-Control': 'no-cache'
             }
         });
     },
-    getTVSeriesAccountStates: async function (id, sessionId) {
+    async getTVSeriesAccountStates (id, sessionId) {
         return await this.makeRequest(`https://api.themoviedb.org/3/tv/${id}/account_states?api_key=${this.apiKey}&session_id=${sessionId}`, {
             headers: {
                 'Cache-Control': 'no-cache'
