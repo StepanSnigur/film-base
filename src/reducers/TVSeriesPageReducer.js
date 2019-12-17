@@ -1,7 +1,12 @@
 let initialState = {
     isLoading: true,
     isError: false,
-    tvSeries: {},
+    tvSeries: {
+        last_episode_to_air: {},
+        next_episode_to_air: {
+            air_date: null
+        }
+    },
     tvSeriesStates: {
         rated: {}
     },

@@ -6,6 +6,7 @@ import ErrorBoundary from '../hoc/ErrorBoundary';
 import LoadingBoundary from '../hoc/LoadingBoundary';
 import ActionButtons from '../components/ActionButtons';
 import FilmReviews from '../components/FilmReviews';
+import NextEpisodeTimeCounter from '../components/NextEpisodeTimeCounter';
 
 import { setCurrentTVSeries } from '../actions/TVSeriesActions';
 import { changeTVSeriesRating, deleteTVSeriesRating } from '../actions/UserActions';
@@ -73,6 +74,10 @@ class TVSeriesPage extends Component {
             vote_average,
             vote_count,
             first_air_date,
+            number_of_seasons,
+            number_of_episodes,
+            last_episode_to_air,
+            next_episode_to_air,
             status,
             id
         } = this.props.currentTVSeries.tvSeries;
@@ -109,6 +114,9 @@ class TVSeriesPage extends Component {
                                     <h3>Количество оценок: {vote_count}</h3>
                                     <h3>Дата выхода: {first_air_date}</h3>
                                     <h3>Статус: {status}</h3>
+                                    <h3>Количество сезонов: {number_of_seasons}, эпизодов: {number_of_episodes}</h3>
+                                    <h3>Дата выхода прошлого эпизода: {last_episode_to_air.air_date}</h3>
+                                    <NextEpisodeTimeCounter date={next_episode_to_air} />
                                     <ActionButtons
                                         sessionId={sessionId}
                                         userId={userId}
