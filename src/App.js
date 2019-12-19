@@ -1,7 +1,7 @@
 import React  from 'react';
 import { Provider } from 'react-redux';
 import store from './store/Store';
-import { BrowserRouter as Router, Route, HashRouter } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Header from './components/Header';
@@ -42,9 +42,9 @@ let App = (props) => {
     return (
         <Provider store={store}>
             <Router>
-                <HashRouter>
-                    <Header />
-                    <Wrapper>
+                <Header />
+                <Wrapper>
+                    <Switch>
                         <Route path="/" exact component={HomePage}/>
                         <Route path="/upcoming-films" component={UpComingPage}/>
                         <Route path="/popular-films" component={PopularFilmsPage}/>
@@ -72,9 +72,9 @@ let App = (props) => {
 
                         <Route path="/authForm" render={WithSuspense(AuthForm)}/>
                         <Route path="/profile" render={WithSuspense(ProfilePage)}/>
-                    </Wrapper>
-                    <Footer />
-                </HashRouter>
+                    </Switch>
+                </Wrapper>
+                <Footer />
             </Router>
         </Provider>
     );

@@ -19,19 +19,28 @@ class TVSeriesListPage extends Component {
     }
 
     componentDidMount() {
-        let { getPopularTVSeries, getTopRatedTVSeries, getTVSeriesOnAir } = this.props;
+        this.changeCurrentListRole();
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.listRole !== this.props.listRole) {
+            this.changeCurrentListRole();
+        }
+    }
 
-        if (this.props.listRole === "Сериалы в эфире") {
+    changeCurrentListRole = () => {
+        let { listRole, getPopularTVSeries, getTopRatedTVSeries, getTVSeriesOnAir } = this.props;
+
+        if (listRole === "Сериалы в эфире") {
             getTVSeriesOnAir();
             this.setState({
                 getDataFunc: getTVSeriesOnAir
             })
-        } else if (this.props.listRole === "Популярные сериалы") {
+        } else if (listRole === "Популярные сериалы") {
             getPopularTVSeries();
             this.setState({
                 getDataFunc: getPopularTVSeries
             })
-        } else if (this.props.listRole === "Лучшие сериалы") {
+        } else if (listRole === "Лучшие сериалы") {
             getTopRatedTVSeries();
             this.setState({
                 getDataFunc: getTopRatedTVSeries
