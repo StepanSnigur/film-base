@@ -16,7 +16,6 @@ let HeaderContainer = styled.div`
     height: 100%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
     align-items: center;
     justify-content: space-between;
     margin: 0 auto;
@@ -45,9 +44,9 @@ let HeaderLogo = styled(Link)`
 `
 let HeaderLinksWrapper = styled.div`
     justify-content: center;
-    grid-column-start: 2; 
-    grid-column-end: 3;
     text-align: center;
+    padding-bottom: 30px;
+    margin-top: 10px;
 `
 let HeaderLink = styled(Link)`
     position: relative;
@@ -92,12 +91,15 @@ class Header extends Component {
                     <HeaderLogo to="/">FB</HeaderLogo>
                     <SearchMovieForm />
                     <AuthButton />
-                    <HeaderLinksWrapper>
-                        <HeaderLink to="/">Лучшие</HeaderLink>
-                        <HeaderLink to="/upcoming">Скоро</HeaderLink>
-                        <HeaderLink to="/popular">Популярные</HeaderLink>
-                    </HeaderLinksWrapper>
                 </HeaderContainer>
+                <HeaderLinksWrapper>
+                    <HeaderLink to="/">Лучшие фильмы</HeaderLink>
+                    <HeaderLink to="/upcoming-films">Недавно вышедшие фильмы</HeaderLink>
+                    <HeaderLink to="/popular-films">Популярные фильмы</HeaderLink>
+                    <HeaderLink to="/popular-tv-series">Популярные сериалы</HeaderLink>
+                    <HeaderLink to="/tv-series-on-air">Сериалы в эфире</HeaderLink>
+                    <HeaderLink to="/best-tv-series">Лучшие сериалы</HeaderLink>
+                </HeaderLinksWrapper>
             </HeaderWrapper>
         );
     }

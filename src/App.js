@@ -1,7 +1,7 @@
 import React  from 'react';
 import { Provider } from 'react-redux';
 import store from './store/Store';
-import { BrowserRouter as Router, Route, HashRouter } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Header from './components/Header';
@@ -9,6 +9,8 @@ import HomePage from './pages/HomePage';
 import UpComingPage from './pages/UpComingPage';
 import PopularFilmsPage from './pages/PopularFilmsPage';
 import FilmPage from './pages/FilmPage';
+import TVSeriesPage from './pages/TVSeriesPage';
+import TVSeriesListPage from './pages/TVSeriesListPage';
 import Footer from './components/Footer';
 
 import WithSuspense from './hoc/WithSuspense';
@@ -40,12 +42,12 @@ let App = (props) => {
     return (
         <Provider store={store}>
             <Router>
-                <HashRouter>
-                    <Header />
-                    <Wrapper>
+                <Header />
+                <Wrapper>
+                    <Switch>
                         <Route path="/" exact component={HomePage}/>
-                        <Route path="/upcoming" component={UpComingPage}/>
-                        <Route path="/popular" component={PopularFilmsPage}/>
+                        <Route path="/upcoming-films" component={UpComingPage}/>
+                        <Route path="/popular-films" component={PopularFilmsPage}/>
                         <Route path="/film/:id"
                                render={
                                    ({ match, history }) => {
@@ -54,11 +56,25 @@ let App = (props) => {
                                    }
                                }
                         />
+
+                        <Route path="/tv-series-on-air" render={() => <TVSeriesListPage listRole={"Сериалы" +
+                        " в эфире"} />}/>
+                        <Route path="/popular-tv-series" render={() => <TVSeriesListPage listRole={"Популярные сериалы"} />}/>
+                        <Route path="/best-tv-series" render={() => <TVSeriesListPage listRole={"Лучшие сериалы"} />}/>
+                        <Route path="/tv-series/:id"
+                               render={
+                                   ({ match, history }) => {
+                                       let { id } = match.params;
+                                       return <TVSeriesPage history={history} tvSeriesId={id} />
+                                   }
+                               }
+                        />
+
                         <Route path="/authForm" render={WithSuspense(AuthForm)}/>
                         <Route path="/profile" render={WithSuspense(ProfilePage)}/>
-                    </Wrapper>
-                    <Footer />
-                </HashRouter>
+                    </Switch>
+                </Wrapper>
+                <Footer />
             </Router>
         </Provider>
     );

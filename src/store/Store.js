@@ -6,6 +6,8 @@ import topRelatedFilms from '../reducers/TopRelatedPageReducer';
 import upComingFilms from '../reducers/UpComingPageReducer';
 import mostPopularFilms from '../reducers/MostPopularPageReducer';
 import searchFilms from '../reducers/SearchFilmReducer';
+import TVSeriesListReducer from '../reducers/TVSeriesListReducer';
+import currentTVSeries from '../reducers/TVSeriesPageReducer';
 import UserReducer from '../reducers/UserReducer';
 import { reducer as formReducer } from 'redux-form';
 
@@ -17,6 +19,8 @@ let store = createStore(combineReducers({
     upComingFilms,
     mostPopularFilms,
     searchFilms,
+    TVSeriesListReducer,
+    currentTVSeries,
     user: UserReducer,
     form: formReducer
 }), composeEnhancers(applyMiddleware(ReduxThunk)));

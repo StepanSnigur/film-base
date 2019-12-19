@@ -4,19 +4,13 @@ import styled from 'styled-components';
 
 import ErrorBoundary from '../hoc/ErrorBoundary';
 import LoadingBoundary from '../hoc/LoadingBoundary';
-import CirclePreloader from '../components/CirclePreloader';
+import ActionButtons from '../components/ActionButtons';
 import FilmReviews from '../components/FilmReviews';
 import SimilarFilmsSlider from '../components/SimilarFilmsSlider';
 import FilmVideos from '../components/FilmVideos';
 
-import CheckMark from '../img/checkmark.png';
-import Star from '../img/star.png';
-import StarActive from '../img/star-active.png';
-
 import { setCurrentFilm } from '../actions/FilmActions';
-import { markAsFavourite, addToWatchlist, changeFilmRating } from '../actions/UserActions';
-
-import Rating from 'react-rating';
+import { markAsFavourite, addToWatchlist, changeFilmRating, deleteFilmRating } from '../actions/UserActions';
 
 let FilmCardWrapper = styled.div`
     width: 100%;
@@ -44,88 +38,6 @@ let FilmCardInfo = styled.div`
         width: 100%;
     }
 `
-let FilmButtonsWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    
-    @media (max-width: 900px) {
-        flex-direction: column;
-        
-        button {
-            margin: 12px auto 0 auto;
-        }
-    }
-`
-let FavouriteButton = styled.button`
-    position: relative;
-    display: block;
-    width: 200px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    margin-top: 15px;
-    margin-right: 7px;
-    border-radius: 4px;
-    border: 3px solid #eee;
-    background: none;
-    cursor: pointer;
-    
-    ${({isFavourite}) => isFavourite && `
-        &:before {
-            content: url(${CheckMark});
-            display: block;
-            width: 30px;
-            height: 30px;
-            position: absolute;
-            top: 50%;
-            left: 10px;
-            transform: translateY(-50%);
-            z-index: 999;
-        }
-    `}
-`
-let WatchListButton = styled.button`
-    position: relative;
-    display: block;
-    width: 200px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    margin-top: 15px;
-    margin-right: 7px;
-    border-radius: 4px;
-    border: 3px solid #eee;
-    background: none;
-    cursor: pointer;
-    
-    ${({isInWatchList}) => isInWatchList && `
-        &:before {
-            content: url(${CheckMark});
-            display: block;
-            width: 30px;
-            height: 30px;
-            position: absolute;
-            top: 50%;
-            left: 10px;
-            transform: translateY(-50%);
-            z-index: 999;
-        }
-    `}
-`
-let DeleteRatingButton = styled.button`
-    position: relative;
-    display: block;
-    width: 200px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    margin-top: 15px;
-    margin-right: 0;
-    border-radius: 4px;
-    border: 3px solid #eee;
-    background: none;
-    cursor: pointer;
-`
 let FilmTitle = styled.h1`
     border-bottom: 2px solid #eee;
 `
@@ -147,17 +59,6 @@ let GoBackBtn = styled.button`
     background: none;
     cursor: pointer;
 `
-let StarIcon = styled.img`
-    margin-right: 4px;
-    
-    &:last-child {
-        margin-right: 0;
-    }
-    
-    @media (max-width: 500px) {
-        width: 30px;
-    }
-`
 
 class FilmPage extends Component {
     componentDidMount() {
@@ -174,74 +75,29 @@ class FilmPage extends Component {
     render() {
         let {
             film,
+            reviews,
             isLoading,
             error,
             isInFavouriteLoading,
             isInWatchlistLoading,
             isFilmButtonsLoading,
             isFilmStatesError,
-            filmStates
         } = this.props.currentFilm;
+        let {
+            favorite,
+            watchlist,
+            rated
+        } = this.props.currentFilm.filmStates;
         let {
             history,
             isLogged,
             sessionId,
             userId,
             filmId,
-            markAsFavourite,
             addToWatchlist,
-            changeFilmRating
+            changeFilmRating,
+            deleteFilmRating
         } = this.props;
-
-        let FilmButtons = () => {
-            return (
-                <>
-                    {
-                        isLogged &&
-                        <>
-                            <Rating
-                                initialRating={filmStates.rated.value}
-                                stop={10}
-                                emptySymbol={<StarIcon src={Star} alt="star" className="icon" />}
-                                fullSymbol={<StarIcon src={StarActive} alt="star" className="icon" />}
-                                onClick={(rating) => changeFilmRating(sessionId, filmId, rating)}
-                                readonly={isFilmButtonsLoading}
-                            />
-                            <FilmButtonsWrapper>
-                                <FavouriteButton
-                                    onClick={
-                                        this.props.currentFilm.filmStates.favorite ?
-                                            () => markAsFavourite(userId, sessionId, filmId, false) :
-                                            () => markAsFavourite(userId, sessionId, filmId, true)
-                                    }
-                                    isFavourite={filmStates.favorite}
-                                    disabled={isFilmButtonsLoading}
-                                >
-                                    {isInFavouriteLoading ? <CirclePreloader /> : 'В избранные'}
-                                </FavouriteButton>
-                                <WatchListButton
-                                    onClick={
-                                        this.props.currentFilm.filmStates.watchlist ?
-                                            () => addToWatchlist(userId, sessionId, filmId, false) :
-                                            () => addToWatchlist(userId, sessionId, filmId, true)
-                                    }
-                                    isInWatchList={filmStates.watchlist}
-                                    disabled={isFilmButtonsLoading}
-                                >
-                                    {isInWatchlistLoading ? <CirclePreloader /> : 'Посмотреть позже'}
-                                </WatchListButton>
-                                {
-                                    filmStates.rated.value &&
-                                    <DeleteRatingButton onClick={() => changeFilmRating(sessionId, filmId)} disabled={isFilmButtonsLoading}>
-                                        Удалить оценку
-                                    </DeleteRatingButton>
-                                }
-                            </FilmButtonsWrapper>
-                        </>
-                    }
-                </>
-            )
-        }
 
         let FilmPageContent = () => {
             return (
@@ -259,11 +115,26 @@ class FilmPage extends Component {
                                     <h3>Дата выхода: {film.release_date}</h3>
                                     <h3>Бюджет: {film.budget}$</h3>
                                     <h3>Статус: {film.status}</h3>
-                                    {isFilmStatesError ? <span>{isFilmStatesError}</span> : <FilmButtons />}
+                                    <ActionButtons
+                                        sessionId={sessionId}
+                                        userId={userId}
+                                        id={filmId}
+                                        isLogged={isLogged}
+                                        isFavourite={favorite}
+                                        isWatchlist={watchlist}
+                                        isError={isFilmStatesError}
+                                        isInFavouriteLoading={isInFavouriteLoading}
+                                        isFilmButtonsLoading={isFilmButtonsLoading}
+                                        isInWatchlistLoading={isInWatchlistLoading}
+                                        rating={rated.value}
+                                        changeRating={changeFilmRating}
+                                        deleteRating={deleteFilmRating}
+                                        addToWatchlist={addToWatchlist}
+                                    />
                                 </FilmCardInfo>
                             </FilmCardWrapper>
                             <FilmVideos />
-                            <FilmReviews />
+                            <FilmReviews reviews={reviews} />
                             <SimilarFilmsSlider />
                         </div>
                     </LoadingBoundary>
@@ -291,4 +162,4 @@ let mapStateToProps = ({ currentFilm, user }) => {
     }
 }
 
-export default connect(mapStateToProps, { setCurrentFilm, markAsFavourite, addToWatchlist, changeFilmRating })(FilmPage);
+export default connect(mapStateToProps, { setCurrentFilm, markAsFavourite, addToWatchlist, changeFilmRating, deleteFilmRating })(FilmPage);

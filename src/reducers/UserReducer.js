@@ -26,6 +26,27 @@ let initialState = {
         currentPage: false,
         pagesCount: false,
         results: []
+    },
+    favouriteTVSeries: {
+        isLoading: false,
+        isError: false,
+        currentPage: false,
+        pagesCount: false,
+        results: []
+    },
+    ratedTVSeries: {
+        isLoading: false,
+        isError: false,
+        currentPage: false,
+        pagesCount: false,
+        results: []
+    },
+    tvSeriesWatchList: {
+        isLoading: false,
+        isError: false,
+        currentPage: false,
+        pagesCount: false,
+        results: []
     }
 }
 
@@ -136,6 +157,87 @@ let UserReducer = (state = initialState, action) => {
                     isLoading: action.payload
                 }
             }
+        case 'LOAD_RATED_TV_SERIES':
+            return {
+                ...state,
+                ratedTVSeries: {
+                    ...state.ratedTVSeries,
+                    results: action.payload.results || [],
+                    pagesCount: action.payload.total_pages,
+                    currentPage: action.payload.page,
+                    isLoading: false
+                }
+            }
+        case 'LOAD_RATED_TV_SERIES_ERROR':
+            return {
+                ...state,
+                ratedTVSeries: {
+                    ...state.ratedTVSeries,
+                    isError: true
+                }
+            }
+        case 'SET_RATED_TV_SERIES_LOADING':
+            return {
+                ...state,
+                ratedTVSeries: {
+                    ...state.ratedTVSeries,
+                    isLoading: true
+                }
+            }
+        case 'LOAD_FAVORITE_TV_SERIES':
+            return {
+                ...state,
+                favouriteTVSeries: {
+                    ...state.favouriteTVSeries,
+                    results: action.payload.results || [],
+                    pagesCount: action.payload.total_pages,
+                    currentPage: action.payload.page,
+                    isLoading: false
+                }
+            }
+        case 'LOAD_FAVORITE_TV_SERIES_ERROR':
+            return {
+                ...state,
+                favouriteTVSeries: {
+                    ...state.favouriteTVSeries,
+                    isError: true
+                }
+            }
+        case 'SET_FAVORITE_TV_SERIES_LOADING':
+            return {
+                ...state,
+                favouriteTVSeries: {
+                    ...state.favouriteTVSeries,
+                    isLoading: true
+                }
+            }
+        case 'LOAD_TV_SERIES_WATCHLIST':
+            return {
+                ...state,
+                tvSeriesWatchList: {
+                    ...state.tvSeriesWatchList,
+                    results: action.payload.results || [],
+                    pagesCount: action.payload.total_pages,
+                    currentPage: action.payload.page,
+                    isLoading: false
+                }
+            }
+        case 'LOAD_TV_SERIES_WATCHLIST_ERROR':
+            return {
+                ...state,
+                tvSeriesWatchList: {
+                    ...state.tvSeriesWatchList,
+                    isError: true
+                }
+            }
+        case 'SET_TV_SERIES_WATCHLIST_LOADING':
+            return {
+                ...state,
+                tvSeriesWatchList: {
+                    ...state.tvSeriesWatchList,
+                    isLoading: true
+                }
+            }
         case 'CLEAR_USER_DATA':
             return {
                 ...state,
@@ -161,6 +263,27 @@ let UserReducer = (state = initialState, action) => {
                     results: []
                 },
                 watchList: {
+                    isLoading: false,
+                    isError: false,
+                    currentPage: false,
+                    pagesCount: false,
+                    results: []
+                },
+                favouriteTVSeries: {
+                    isLoading: false,
+                    isError: false,
+                    currentPage: false,
+                    pagesCount: false,
+                    results: []
+                },
+                ratedTVSeries: {
+                    isLoading: false,
+                    isError: false,
+                    currentPage: false,
+                    pagesCount: false,
+                    results: []
+                },
+                tvSeriesWatchList: {
                     isLoading: false,
                     isError: false,
                     currentPage: false,

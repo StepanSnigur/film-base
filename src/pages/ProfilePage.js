@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import TabListContent from '../components/TabListContent';
 
 import { getFavouriteMovies, getRatedMovies, getWatchList } from '../actions/FilmActions';
+import { getRatedTVSeries, getFavoriteTVSeries, getTVSeriesWatchlist } from '../actions/TVSeriesActions';
 import { logOut } from '../actions/AuthActions';
 
 let UserInfoWrapper = styled.div`
@@ -56,7 +57,7 @@ let TabIcon = styled.button`
     padding-bottom: 5px;
     border: none;
     background: none;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     
@@ -75,12 +76,25 @@ class ProfilePage extends Component {
     }
 
     componentDidMount() {
-        let { sessionId, userId, isLogged, getFavouriteMovies, getRatedMovies, getWatchList } = this.props;
+        let {
+            sessionId,
+            userId,
+            isLogged,
+            getFavouriteMovies,
+            getRatedMovies,
+            getWatchList,
+            getRatedTVSeries,
+            getFavoriteTVSeries,
+            getTVSeriesWatchlist
+        } = this.props;
 
         if (isLogged) {
             getFavouriteMovies(userId, sessionId);
             getRatedMovies(userId, sessionId);
             getWatchList(userId, sessionId);
+            getRatedTVSeries(userId, sessionId);
+            getFavoriteTVSeries(userId, sessionId);
+            getTVSeriesWatchlist(userId, sessionId);
         }
     }
 
@@ -103,6 +117,12 @@ class ProfilePage extends Component {
             getRatedMovies,
             watchList,
             getWatchList,
+            ratedTVSeries,
+            getRatedTVSeries,
+            favouriteTVSeries,
+            getFavoriteTVSeries,
+            tvSeriesWatchList,
+            getTVSeriesWatchlist,
             logOut
         } = this.props;
         let { activeTab } = this.state;
@@ -116,13 +136,16 @@ class ProfilePage extends Component {
                         <LogOutButton onClick={() => logOut(sessionId)}>Выйти</LogOutButton>
                     </UserInfoWrapper>
                     <TabIconsWrapper>
-                        <TabIcon onClick={() => this.changeActiveTab('favourite')} isActive={activeTab === 'favourite'}>Избранные</TabIcon>
-                        <TabIcon onClick={() => this.changeActiveTab('rated')} isActive={activeTab === 'rated'}>Оцененные</TabIcon>
-                        <TabIcon onClick={() => this.changeActiveTab('watchlist')} isActive={activeTab === 'watchlist'}>Посмотреть</TabIcon>
+                        <TabIcon onClick={() => this.changeActiveTab('favourite')} isActive={activeTab === 'favourite'}>Избранные фильмы</TabIcon>
+                        <TabIcon onClick={() => this.changeActiveTab('rated')} isActive={activeTab === 'rated'}>Оцененные фильмы</TabIcon>
+                        <TabIcon onClick={() => this.changeActiveTab('watchlist')} isActive={activeTab === 'watchlist'}>Посмотреть позже (фильмы)</TabIcon>
+                        <TabIcon onClick={() => this.changeActiveTab('ratedTVSeries')} isActive={activeTab === 'ratedTVSeries'}>Оцененные сериалы</TabIcon>
+                        <TabIcon onClick={() => this.changeActiveTab('favouriteTVSeries')} isActive={activeTab === 'favouriteTVSeries'}>Избранные сериалы</TabIcon>
+                        <TabIcon onClick={() => this.changeActiveTab('tvSeriesWatchlist')} isActive={activeTab === 'tvSeriesWatchlist'}>Посмотреть позже (сериалы)</TabIcon>
                     </TabIconsWrapper>
                     <div>
                         <TabListContent
-                            list={this.props.favouriteMovies}
+                            list={favouriteMovies}
                             componentName="favourite"
                             activeComponentName={activeTab}
                             currentPage={favouriteMovies.currentPage}
@@ -131,7 +154,7 @@ class ProfilePage extends Component {
                             updatePage={(page) => getFavouriteMovies(userId, sessionId, page)}
                         />
                         <TabListContent
-                            list={this.props.ratedMovies}
+                            list={ratedMovies}
                             componentName="rated"
                             activeComponentName={activeTab}
                             currentPage={ratedMovies.currentPage}
@@ -140,13 +163,43 @@ class ProfilePage extends Component {
                             updatePage={(page) => getRatedMovies(userId, sessionId, page)}
                         />
                         <TabListContent
-                            list={this.props.watchList}
+                            list={watchList}
                             componentName="watchlist"
+                            activeComponentName={activeTab}
+                            currentPage={ratedTVSeries.currentPage}
+                            pagesCount={ratedTVSeries.pagesCount}
+                            isError={ratedTVSeries.isError}
+                            updatePage={(page) => getWatchList(userId, sessionId, page)}
+                        />
+                        <TabListContent
+                            list={ratedTVSeries}
+                            componentName="ratedTVSeries"
                             activeComponentName={activeTab}
                             currentPage={watchList.currentPage}
                             pagesCount={watchList.pagesCount}
                             isError={watchList.isError}
-                            updatePage={(page) => getWatchList(userId, sessionId, page)}
+                            isTVSeries={true}
+                            updatePage={(page) => getRatedTVSeries(userId, sessionId, page)}
+                        />
+                        <TabListContent
+                            list={favouriteTVSeries}
+                            componentName="favouriteTVSeries"
+                            activeComponentName={activeTab}
+                            currentPage={favouriteTVSeries.currentPage}
+                            pagesCount={favouriteTVSeries.pagesCount}
+                            isError={favouriteTVSeries.isError}
+                            isTVSeries={true}
+                            updatePage={(page) => getFavoriteTVSeries(userId, sessionId, page)}
+                        />
+                        <TabListContent
+                            list={tvSeriesWatchList}
+                            componentName="tvSeriesWatchlist"
+                            activeComponentName={activeTab}
+                            currentPage={tvSeriesWatchList.currentPage}
+                            pagesCount={tvSeriesWatchList.pagesCount}
+                            isError={tvSeriesWatchList.isError}
+                            isTVSeries={true}
+                            updatePage={(page) => getTVSeriesWatchlist(userId, sessionId, page)}
                         />
                     </div>
                 </div>
@@ -174,8 +227,19 @@ let mapStateToProps = ({ user }) => {
         isLogged: user.isLogged,
         favouriteMovies: user.favouriteMovies,
         ratedMovies: user.ratedMovies,
-        watchList: user.watchList
+        watchList: user.watchList,
+        ratedTVSeries: user.ratedTVSeries,
+        favouriteTVSeries: user.favouriteTVSeries,
+        tvSeriesWatchList: user.tvSeriesWatchList
     }
 }
 
-export default connect(mapStateToProps, { getFavouriteMovies, getRatedMovies, getWatchList, logOut })(ProfilePage);
+export default connect(mapStateToProps, {
+    getFavouriteMovies,
+    getRatedMovies,
+    getWatchList,
+    getRatedTVSeries,
+    getFavoriteTVSeries,
+    getTVSeriesWatchlist,
+    logOut
+})(ProfilePage);
