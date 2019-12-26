@@ -4,14 +4,14 @@ let initialState = {
     },
     currentPopularPage: null,
     currentRatedPage: null,
-    currentOnAirPage: null,
+    currentUpcomingPage: null,
     isLoading: true,
     error: false
 }
 
-let TVSeriesListReducer = (state = initialState, action) => {
+let FilmListReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'SET_CURRENT_LIST_DATA_LOADING':
+        case 'SET_CURRENT_FILM_DATA_LOADING':
             return {
                 ...state,
                 isLoading: true
@@ -33,12 +33,12 @@ let TVSeriesListReducer = (state = initialState, action) => {
                 ...state,
                 currentRatedPage: action.payload
             }
-        case 'SET_CURRENT_ON_AIR_PAGE':
+        case 'SET_CURRENT_UPCOMING_PAGE':
             return {
                 ...state,
-                currentOnAirPage: action.payload
+                currentUpcomingPage: action.payload
             }
-        case 'SET_TV_SERIES_LIST_ERROR':
+        case 'SET_FILM_LIST_ERROR':
             return {
                 ...state,
                 error: true
@@ -48,4 +48,4 @@ let TVSeriesListReducer = (state = initialState, action) => {
     }
 }
 
-export default TVSeriesListReducer;
+export default FilmListReducer;

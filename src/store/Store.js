@@ -2,9 +2,7 @@ import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import ReduxThunk from 'redux-thunk';
 
 import currentFilm from '../reducers/FilmPageReducer';
-import topRelatedFilms from '../reducers/TopRelatedPageReducer';
-import upComingFilms from '../reducers/UpComingPageReducer';
-import mostPopularFilms from '../reducers/MostPopularPageReducer';
+import FilmListReducer from '../reducers/FilmListReducer';
 import searchFilms from '../reducers/SearchFilmReducer';
 import TVSeriesListReducer from '../reducers/TVSeriesListReducer';
 import currentTVSeries from '../reducers/TVSeriesPageReducer';
@@ -15,9 +13,7 @@ let composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 let store = createStore(combineReducers({
     currentFilm,
-    topRelatedFilms,
-    upComingFilms,
-    mostPopularFilms,
+    FilmListReducer,
     searchFilms,
     TVSeriesListReducer,
     currentTVSeries,

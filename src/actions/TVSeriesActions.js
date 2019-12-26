@@ -1,25 +1,40 @@
 import TVSeriesService from '../services/TVSeriesService';
 
-export let getPopularTVSeries = (page) => (dispatch) => {
-    dispatch({type: 'SET_CURRENT_LIST_DATA_LOADING'});
-    TVSeriesService.getPopularTVSeries(page)
-        .then(result => dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result}))
-        .catch(err => console.log(err))
+export let getPopularTVSeries = page => async dispatch => {
+    try {
+        dispatch({type: 'SET_CURRENT_LIST_DATA_LOADING'});
+
+        let result = await TVSeriesService.getPopularTVSeries(page);
+        dispatch({type: 'SET_CURRENT_POPULAR_PAGE', payload: result.page});
+        dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result});
+    } catch {
+        dispatch({type: 'SET_TV_SERIES_LIST_ERROR'});
+    }
 }
-export let getTopRatedTVSeries = (page) => (dispatch) => {
-    dispatch({type: 'SET_CURRENT_LIST_DATA_LOADING'});
-    TVSeriesService.getTopRatedTVSeries(page)
-        .then(result => dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result}))
-        .catch(err => console.log(err))
+export let getTopRatedTVSeries = page => async dispatch => {
+    try {
+        dispatch({type: 'SET_CURRENT_LIST_DATA_LOADING'});
+
+        let result = await TVSeriesService.getTopRatedTVSeries(page);
+        dispatch({type: 'SET_CURRENT_RATED_PAGE', payload: result.page});
+        dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result});
+    } catch {
+        dispatch({type: 'SET_TV_SERIES_LIST_ERROR'});
+    }
 }
-export let getTVSeriesOnAir = (page) => (dispatch) => {
-    dispatch({type: 'SET_CURRENT_LIST_DATA_LOADING'});
-    TVSeriesService.getTVSeriesOnAir(page)
-        .then(result => dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result}))
-        .catch(err => console.log(err))
+export let getTVSeriesOnAir = page => async dispatch => {
+    try {
+        dispatch({type: 'SET_CURRENT_LIST_DATA_LOADING'});
+
+        let result = await TVSeriesService.getTVSeriesOnAir(page);
+        dispatch({type: 'SET_CURRENT_ON_AIR_PAGE', payload: result.page});
+        dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result});
+    } catch {
+        dispatch({type: 'SET_TV_SERIES_LIST_ERROR'});
+    }
 }
 
-export let setCurrentTVSeries = (id, sessionId) => async (dispatch) => {
+export let setCurrentTVSeries = (id, sessionId) => async dispatch => {
     dispatch({type: 'SET_CURRENT_TV_SERIES_LOADING'});
     try {
         let tvSeriesData = await TVSeriesService.getTVSeries(id);
@@ -39,21 +54,21 @@ export let setCurrentTVSeries = (id, sessionId) => async (dispatch) => {
     }
 }
 
-export let getRatedTVSeries = (userId, sessionId, page) => (dispatch) => {
+export let getRatedTVSeries = (userId, sessionId, page) => dispatch => {
     dispatch({type: 'SET_RATED_TV_SERIES_LOADING'});
     TVSeriesService.getRatedTVSeries(userId, sessionId, page)
         .then((result) => dispatch({type: 'LOAD_RATED_TV_SERIES', payload: result}))
-        .catch((err) => dispatch({type: 'LOAD_RATED_TV_SERIES_ERROR'}));
+        .catch(() => dispatch({type: 'LOAD_RATED_TV_SERIES_ERROR'}));
 }
-export let getFavoriteTVSeries = (userId, sessionId, page) => (dispatch) => {
+export let getFavoriteTVSeries = (userId, sessionId, page) => dispatch => {
     dispatch({type: 'SET_FAVORITE_TV_SERIES_LOADING'});
     TVSeriesService.getFavoriteTVSeries(userId, sessionId, page)
         .then((result) => dispatch({type: 'LOAD_FAVORITE_TV_SERIES', payload: result}))
-        .catch((err) => dispatch({type: 'LOAD_FAVORITE_TV_SERIES_ERROR'}));
+        .catch(() => dispatch({type: 'LOAD_FAVORITE_TV_SERIES_ERROR'}));
 }
-export let getTVSeriesWatchlist = (userId, sessionId, page) => (dispatch) => {
+export let getTVSeriesWatchlist = (userId, sessionId, page) => dispatch => {
     dispatch({type: 'SET_TV_SERIES_WATCHLIST_LOADING'});
     TVSeriesService.getTVSeriesWatchlist(userId, sessionId, page)
         .then((result) => dispatch({type: 'LOAD_TV_SERIES_WATCHLIST', payload: result}))
-        .catch((err) => dispatch({type: 'LOAD_TV_SERIES_WATCHLIST_ERROR'}))
+        .catch(() => dispatch({type: 'LOAD_TV_SERIES_WATCHLIST_ERROR'}))
 }

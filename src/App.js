@@ -5,9 +5,7 @@ import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Header from './components/Header';
-import HomePage from './pages/HomePage';
-import UpComingPage from './pages/UpComingPage';
-import PopularFilmsPage from './pages/PopularFilmsPage';
+import FilmListPage from './pages/FilmListPage';
 import FilmPage from './pages/FilmPage';
 import TVSeriesPage from './pages/TVSeriesPage';
 import TVSeriesListPage from './pages/TVSeriesListPage';
@@ -45,9 +43,9 @@ let App = (props) => {
                 <Header />
                 <Wrapper>
                     <Switch>
-                        <Route path="/" exact component={HomePage}/>
-                        <Route path="/upcoming-films" component={UpComingPage}/>
-                        <Route path="/popular-films" component={PopularFilmsPage}/>
+                        <Route path="/" exact render={() => <FilmListPage listRole={"Лучшие фильмы"} />}/>
+                        <Route path="/upcoming-films" render={() => <FilmListPage listRole={"Недавно вышедшие фильмы"} />}/>
+                        <Route path="/popular-films" render={() => <FilmListPage listRole={"Популярные фильмы"} />}/>
                         <Route path="/film/:id"
                                render={
                                    ({ match, history }) => {
