@@ -47,19 +47,23 @@ describe('film page', () => {
         }
 
         expect(currentFilm(state, action)).toEqual({
-            filmStates: 1
+            filmStates: 1,
+            isFilmButtonsLoading: false
         })
     })
     it('should return correct film rating', () => {
         let state = {
             filmStates: {
                 rated: {}
-            },
-            isFilmButtonsLoading: true
+            }
         }
         let action = {
-            type: 'SET_FILM_RATING',
-            payload: 1
+            type: 'SET_FILM_STATES',
+            payload: {
+                rated: {
+                    value: 1
+                }
+            }
         }
 
         expect(currentFilm(state, action)).toEqual({
