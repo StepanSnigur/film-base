@@ -44,7 +44,7 @@ let SearchedFilmsWrapperItem = styled(Link)`
 `
 
 let SearchedFilmsList = (props) => {
-    let searchedFilmsList = props.searchFilms.results;
+    let searchedFilmsList = props.searchFilms.results.filter(el => el.media_type !== 'person');
     let isError = props.searchFilms.error;
     let { inputLength, clearInput } = props;
 
@@ -54,9 +54,13 @@ let SearchedFilmsList = (props) => {
                 {
                     searchedFilmsList.slice(0, 5).map((el) => {
                         return (
-                            <SearchedFilmsWrapperItem to={`/film/${el.id}`} onClick={clearInput} key={el.id}>
+                            <SearchedFilmsWrapperItem
+                                to={el.media_type === 'movie' ? `/film/${el.id}` : `/tv-series/${el.id}`}
+                                onClick={clearInput}
+                                key={el.id}
+                            >
                                 <img src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} alt="Film preview"/>
-                                <h3>{el.title}</h3>
+                                <h3>{el.title || el.name}</h3>
                             </SearchedFilmsWrapperItem>
                         )
                     })

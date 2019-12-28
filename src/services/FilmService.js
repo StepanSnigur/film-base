@@ -28,7 +28,7 @@ let FilmService = {
     },
 
     async searchFilm (filmName) {
-        return await this.makeRequest(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${filmName}&language=ru-RU&page=1`);
+        return await this.makeRequest(`https://api.themoviedb.org/3/search/multi?api_key=${this.apiKey}&query=${filmName}&language=ru-RU&page=1`);
     },
 
     async getFavouriteMovies (userId, sessionId, page = 1) {
