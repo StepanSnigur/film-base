@@ -63,7 +63,8 @@ let PaginationBar = (props) => {
     }
 
     let selectPage = (pageId) => {
-        if (pageId > 0 && pageId <= maxPagesCount) props.updatePage(pageId);
+        let pageNum = parseInt(pageId);
+        if (pageNum > 0 && pageNum <= maxPagesCount && pageNum !== currentPage) props.updatePage(pageId);
     }
 
     return (
