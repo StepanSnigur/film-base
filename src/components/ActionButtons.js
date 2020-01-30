@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import { markAsFavourite, addToWatchlist } from '../actions/UserActions';
 
@@ -8,8 +9,7 @@ import Rating from 'react-rating';
 import Star from '../img/star.png';
 import StarActive from '../img/star-active.png';
 import CirclePreloader from './CirclePreloader';
-import CheckMark from "../img/checkmark.png";
-import {connect} from "react-redux";
+import CheckMark from '../img/checkmark.png';
 
 let FilmButtonsWrapper = styled.div`
     width: 100%;
