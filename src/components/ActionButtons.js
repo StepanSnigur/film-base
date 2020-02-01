@@ -50,6 +50,9 @@ let FavouriteButton = styled.button`
             z-index: 999;
         }
     `}
+    ${({disabled}) => disabled && `
+        cursor: not-allowed;
+    `}
 `
 let WatchListButton = styled.button`
     position: relative;
@@ -78,6 +81,9 @@ let WatchListButton = styled.button`
             z-index: 999;
         }
     `}
+    ${({disabled}) => disabled && `
+        cursor: not-allowed;
+    `}
 `
 let DeleteRatingButton = styled.button`
     position: relative;
@@ -92,6 +98,10 @@ let DeleteRatingButton = styled.button`
     border: 3px solid #eee;
     background: none;
     cursor: pointer;
+    
+    ${({disabled}) => disabled && `
+        cursor: not-allowed;
+    `}
 `
 let StarIcon = styled.img`
     margin-right: 4px;
