@@ -8,7 +8,8 @@ let searchFilms = (state = initialState, action) => {
         case 'SEARCH_FILM':
             return {
                 ...state,
-                results: action.payload.results
+                results: action.payload.results,
+                error: false
             }
         case 'SEARCH_FILM_ERROR':
             return {

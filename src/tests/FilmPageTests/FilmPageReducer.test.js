@@ -39,7 +39,8 @@ describe('film page', () => {
         let state = {
             filmStates: {
                 rated: {}
-            }
+            },
+            isFilmStatesError: false
         }
         let action = {
             type: 'SET_FILM_STATES',
@@ -48,14 +49,16 @@ describe('film page', () => {
 
         expect(currentFilm(state, action)).toEqual({
             filmStates: 1,
-            isFilmButtonsLoading: false
+            isFilmButtonsLoading: false,
+            isFilmStatesError: false
         })
     })
     it('should return correct film rating', () => {
         let state = {
             filmStates: {
                 rated: {}
-            }
+            },
+            isFilmStatesError: false
         }
         let action = {
             type: 'SET_FILM_STATES',
@@ -72,7 +75,8 @@ describe('film page', () => {
                     value: 1
                 }
             },
-            isFilmButtonsLoading: false
+            isFilmButtonsLoading: false,
+            isFilmStatesError: false
         })
     })
 })

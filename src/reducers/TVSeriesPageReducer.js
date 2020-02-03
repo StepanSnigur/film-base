@@ -23,7 +23,8 @@ let currentTVSeries = (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 tvSeries: action.payload.tvSeriesData,
-                reviews: action.payload.reviews
+                reviews: action.payload.reviews,
+                isError: false
             }
         case 'SET_CURRENT_TV_SERIES_LOADING':
             return {
