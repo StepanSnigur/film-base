@@ -45,7 +45,7 @@ let SearchMovieForm = (props) => {
     }
 
     return (
-        <SearchFilmWrapper onSubmit={searchFilm}>
+        <SearchFilmWrapper>
             <SearchFilmInput
                 onChange={(e) => debouncedFilmSearch(e, e.target.value)}
                 type="text"
