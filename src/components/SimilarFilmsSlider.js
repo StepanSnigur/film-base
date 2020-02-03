@@ -144,32 +144,31 @@ class SimilarFilmsSlider extends Component {
         return (
             <ComponentWrapper>
                 {
-                    filmsCount > 0 ?
-                        <div ref={(node) => this._sliderEl = node}>
-                            <h2>Похожие фильмы:</h2>
-                            <SimilarFilmsWrapper>
-                                <Slides>
-                                    <SimilarFilms style={{transform: `translate3d(-${sliderLeftIndent}px, 0, 0)`}}>
-                                        {
-                                            similarFilms.results.map((el) => {
-                                                return (
-                                                    <SimilarFilmCard key={el.id}>
-                                                        <SimilarFilmCardImg src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} alt="film" />
-                                                        <SimilarFilmCardInfo>
-                                                            <h3>{el.title}</h3>
-                                                            <Link to={`/film/${el.id}`}>Открыть</Link>
-                                                        </SimilarFilmCardInfo>
-                                                    </SimilarFilmCard>
-                                                )
-                                            })
-                                        }
-                                    </SimilarFilms>
-                                </Slides>
-                                <ScrollLeftBtn onClick={() => this.sliderScrollLeft(filmsCount)}>&lt;</ScrollLeftBtn>
-                                <ScrollRightBtn onClick={() => this.sliderScrollRight(filmsCount)}>&gt;</ScrollRightBtn>
-                            </SimilarFilmsWrapper>
-                        </div> :
-                        null
+                    filmsCount > 0 &&
+                    <div ref={(node) => this._sliderEl = node}>
+                        <h2>Похожие фильмы:</h2>
+                        <SimilarFilmsWrapper>
+                            <Slides>
+                                <SimilarFilms style={{transform: `translate3d(-${sliderLeftIndent}px, 0, 0)`}}>
+                                    {
+                                        similarFilms.results.map((el) => {
+                                            return (
+                                                <SimilarFilmCard key={el.id}>
+                                                    <SimilarFilmCardImg src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} alt="film" />
+                                                    <SimilarFilmCardInfo>
+                                                        <h3>{el.title}</h3>
+                                                        <Link to={`/film/${el.id}`}>Открыть</Link>
+                                                    </SimilarFilmCardInfo>
+                                                </SimilarFilmCard>
+                                            )
+                                        })
+                                    }
+                                </SimilarFilms>
+                            </Slides>
+                            <ScrollLeftBtn onClick={() => this.sliderScrollLeft(filmsCount)}>&lt;</ScrollLeftBtn>
+                            <ScrollRightBtn onClick={() => this.sliderScrollRight(filmsCount)}>&gt;</ScrollRightBtn>
+                        </SimilarFilmsWrapper>
+                    </div>
                 }
             </ComponentWrapper>
         );
