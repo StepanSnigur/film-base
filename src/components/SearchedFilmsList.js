@@ -49,36 +49,28 @@ let SearchedFilmsList = (props) => {
     let { inputLength, clearInput } = props;
 
     let SearchedFilmsListContent = () => {
-        return (
-            <SearchedFilmsWrapper isInputEmpty={inputLength === 0}>
-                {
-                    searchedFilmsList.slice(0, 5).map((el) => {
-                        return (
-                            <SearchedFilmsWrapperItem
-                                to={el.media_type === 'movie' ? `/film/${el.id}` : `/tv-series/${el.id}`}
-                                onClick={clearInput}
-                                key={el.id}
-                            >
-                                <img src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} alt="Film preview"/>
-                                <h3>{el.title || el.name}</h3>
-                            </SearchedFilmsWrapperItem>
-                        )
-                    })
-                }
-            </SearchedFilmsWrapper>
-        )
+        return searchedFilmsList.slice(0, 5).map((el) => {
+            return (
+                <SearchedFilmsWrapperItem
+                    to={el.media_type === 'movie' ? `/film/${el.id}` : `/tv-series/${el.id}`}
+                    onClick={clearInput}
+                    key={el.id}
+                >
+                    <img src={`https://image.tmdb.org/t/p/w500${el.poster_path}`} alt="Film preview"/>
+                    <h3>{el.title || el.name}</h3>
+                </SearchedFilmsWrapperItem>
+            )
+        })
     }
 
     return (
-        <>
+        <SearchedFilmsWrapper isInputEmpty={inputLength === 0}>
             {
                 isError ?
-                <SearchedFilmsWrapper isInputEmpty={inputLength === 0}>
-                    <ErrorIndicator />
-                </SearchedFilmsWrapper> :
+                <ErrorIndicator /> :
                 <SearchedFilmsListContent />
             }
-        </>
+        </SearchedFilmsWrapper>
     )
 }
 
