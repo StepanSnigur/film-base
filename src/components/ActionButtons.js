@@ -136,53 +136,48 @@ let ActionButtons = (props) => {
     } = props;
 
     return (
-        <ErrorBoundary isError={isError}>
-            {
-                isLogged &&
-                <>
-                    <Rating
-                        initialRating={rating}
-                        stop={10}
-                        emptySymbol={<StarIcon src={Star} alt="star" className="icon" />}
-                        fullSymbol={<StarIcon src={StarActive} alt="star" className="icon" />}
-                        onClick={(rating) => changeRating(sessionId, id, rating)}
-                        readonly={isFilmButtonsLoading}
-                    />
-                    <FilmButtonsWrapper>
-                        <FavouriteButton
-                            onClick={
-                                isFavourite ?
-                                    () => markAsFavourite(userId, sessionId, id, false, mediaType) :
-                                    () => markAsFavourite(userId, sessionId, id, true, mediaType)
-                            }
-                            isFavourite={isFavourite}
-                            disabled={isFilmButtonsLoading}
-                        >
-                            {isInFavouriteLoading ? <CirclePreloader /> : 'В избранные'}
-                        </FavouriteButton>
-                        <WatchListButton
-                            onClick={
-                                isWatchlist ?
-                                    () => addToWatchlist(userId, sessionId, id, false, mediaType) :
-                                    () => addToWatchlist(userId, sessionId, id, true, mediaType)
-                            }
-                            isInWatchList={isWatchlist}
-                            disabled={isFilmButtonsLoading}
-                        >
-                            {isInWatchlistLoading ? <CirclePreloader /> : 'Посмотреть позже'}
-                        </WatchListButton>
-                        {
-                            rating &&
-                            <DeleteRatingButton
-                                onClick={() => deleteRating(sessionId, id)}
-                                disabled={isFilmButtonsLoading}
-                            >
-                                Удалить оценку
-                            </DeleteRatingButton>
-                        }
-                    </FilmButtonsWrapper>
-                </>
-            }
+        isLogged && <ErrorBoundary isError={isError}>
+            <Rating
+                initialRating={rating}
+                stop={10}
+                emptySymbol={<StarIcon src={Star} alt="star" className="icon" />}
+                fullSymbol={<StarIcon src={StarActive} alt="star" className="icon" />}
+                onClick={(rating) => changeRating(sessionId, id, rating)}
+                readonly={isFilmButtonsLoading}
+            />
+            <FilmButtonsWrapper>
+                <FavouriteButton
+                    onClick={
+                        isFavourite ?
+                            () => markAsFavourite(userId, sessionId, id, false, mediaType) :
+                            () => markAsFavourite(userId, sessionId, id, true, mediaType)
+                    }
+                    isFavourite={isFavourite}
+                    disabled={isFilmButtonsLoading}
+                >
+                    {isInFavouriteLoading ? <CirclePreloader /> : 'В избранные'}
+                </FavouriteButton>
+                <WatchListButton
+                    onClick={
+                        isWatchlist ?
+                            () => addToWatchlist(userId, sessionId, id, false, mediaType) :
+                            () => addToWatchlist(userId, sessionId, id, true, mediaType)
+                    }
+                    isInWatchList={isWatchlist}
+                    disabled={isFilmButtonsLoading}
+                >
+                    {isInWatchlistLoading ? <CirclePreloader /> : 'Посмотреть позже'}
+                </WatchListButton>
+                {
+                    rating &&
+                    <DeleteRatingButton
+                        onClick={() => deleteRating(sessionId, id)}
+                        disabled={isFilmButtonsLoading}
+                    >
+                        Удалить оценку
+                    </DeleteRatingButton>
+                }
+            </FilmButtonsWrapper>
         </ErrorBoundary>
     )
 }

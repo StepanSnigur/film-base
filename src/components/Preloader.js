@@ -46,32 +46,14 @@ let PreloaderLines = styled.div`
     height: 40px;
     position: absolute;
 `
-let PreloaderLine1 = styled.div`
+let PreloaderLine = styled.div`
     width: 80px;
     height: 10px;
     background-color: #000;
     position: absolute;
     clip: rect(0, 0, 20px, 0);
-    top: 0;
-    animation: ${slide} 2s ease 0s infinite;
-`
-let PreloaderLine2 = styled.div`
-    width: 80px;
-    height: 10px;
-    background-color: #000;
-    position: absolute;
-    clip: rect(0, 0, 20px, 0);
-    top: 15px;
-    animation: ${slide} 2s ease 0.25s infinite;
-`
-let PreloaderLine3 = styled.div`
-    width: 80px;
-    height: 10px;
-    background-color: #000;
-    position: absolute;
-    clip: rect(0, 0, 20px, 0);
-    top: 30px;
-    animation: ${slide} 2s ease 0.5s infinite;
+    top: ${props => props.topIndent};
+    animation: ${slide} 2s ease ${props => props.animationDelay} infinite;
 `
 let PreloaderText = styled.div`
     position: absolute;
@@ -87,19 +69,17 @@ let PreloaderText = styled.div`
     animation: ${fade} 1s ease 0s infinite;
 `
 
-class Preloader extends Component {
-    render() {
-        return (
-            <PreloaderContainer>
-                <PreloaderLines>
-                    <PreloaderLine1></PreloaderLine1>
-                    <PreloaderLine2></PreloaderLine2>
-                    <PreloaderLine3></PreloaderLine3>
-                </PreloaderLines>
-                <PreloaderText>ЗАГРУЗКА</PreloaderText>
-            </PreloaderContainer>
-        )
-    }
+let Preloader = () => {
+    return (
+        <PreloaderContainer>
+            <PreloaderLines>
+                <PreloaderLine topIndent={"0"} animationDelay={"0s"} />
+                <PreloaderLine topIndent={"15px"} animationDelay={".25s"} />
+                <PreloaderLine topIndent={"30px"} animationDelay={".5s"} />
+            </PreloaderLines>
+            <PreloaderText>ЗАГРУЗКА</PreloaderText>
+        </PreloaderContainer>
+    )
 }
 
 export default Preloader;

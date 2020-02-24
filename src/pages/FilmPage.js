@@ -62,13 +62,13 @@ let GoBackBtn = styled.button`
 
 class FilmPage extends Component {
     componentDidMount() {
-        let { sessionId, filmId } = this.props;
-        this.props.setCurrentFilm(filmId, sessionId);
+        let { sessionId, filmId, setCurrentFilm } = this.props;
+        setCurrentFilm(filmId, sessionId);
     }
     componentDidUpdate(prevProps) {
         if (prevProps.filmId !== this.props.filmId) {
-            let { sessionId, filmId } = this.props;
-            this.props.setCurrentFilm(filmId, sessionId);
+            let { sessionId, filmId, setCurrentFilm } = this.props;
+            setCurrentFilm(filmId, sessionId);
         }
     }
 
@@ -99,55 +99,45 @@ class FilmPage extends Component {
             deleteFilmRating
         } = this.props;
 
-        let FilmPageContent = () => {
-            return (
-                <>
-                    <LoadingBoundary isLoading={isLoading}>
-                        <div>
-                            <FilmCardWrapper>
-                                <img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt="film"/>
-                                <FilmCardInfo>
-                                    <FilmTitle>{film.title}</FilmTitle>
-                                    <h2>{film.tagline}</h2>
-                                    <FilmOverview>{film.overview}</FilmOverview>
-                                    <h3>Оценка: {film.vote_average}</h3>
-                                    <h3>Количество оценок: {film.vote_count}</h3>
-                                    <h3>Дата выхода: {film.release_date}</h3>
-                                    <h3>Бюджет: {film.budget}$</h3>
-                                    <h3>Статус: {film.status}</h3>
-                                    <ActionButtons
-                                        sessionId={sessionId}
-                                        userId={userId}
-                                        id={filmId}
-                                        isLogged={isLogged}
-                                        isFavourite={favorite}
-                                        isWatchlist={watchlist}
-                                        isError={isFilmStatesError}
-                                        isInFavouriteLoading={isInFavouriteLoading}
-                                        isFilmButtonsLoading={isFilmButtonsLoading}
-                                        isInWatchlistLoading={isInWatchlistLoading}
-                                        rating={rated.value}
-                                        changeRating={changeFilmRating}
-                                        deleteRating={deleteFilmRating}
-                                        addToWatchlist={addToWatchlist}
-                                    />
-                                </FilmCardInfo>
-                            </FilmCardWrapper>
-                            <FilmVideos />
-                            <FilmReviews reviews={reviews} />
-                            <SimilarFilmsSlider />
-                        </div>
-                    </LoadingBoundary>
-                    <GoBackBtn onClick={history.goBack}>Назад</GoBackBtn>
-                </>
-            )
-        }
-
         return (
             <ErrorBoundary isError={error}>
-                <FilmPageContent />
+                <LoadingBoundary isLoading={isLoading}>
+                    <FilmCardWrapper>
+                        <img src={`https://image.tmdb.org/t/p/w500${film.poster_path}`} alt="film"/>
+                        <FilmCardInfo>
+                            <FilmTitle>{film.title}</FilmTitle>
+                            <h2>{film.tagline}</h2>
+                            <FilmOverview>{film.overview}</FilmOverview>
+                            <h3>Оценка: {film.vote_average}</h3>
+                            <h3>Количество оценок: {film.vote_count}</h3>
+                            <h3>Дата выхода: {film.release_date}</h3>
+                            <h3>Бюджет: {film.budget}$</h3>
+                            <h3>Статус: {film.status}</h3>
+                            <ActionButtons
+                                sessionId={sessionId}
+                                userId={userId}
+                                id={filmId}
+                                isLogged={isLogged}
+                                isFavourite={favorite}
+                                isWatchlist={watchlist}
+                                isError={isFilmStatesError}
+                                isInFavouriteLoading={isInFavouriteLoading}
+                                isFilmButtonsLoading={isFilmButtonsLoading}
+                                isInWatchlistLoading={isInWatchlistLoading}
+                                rating={rated.value}
+                                changeRating={changeFilmRating}
+                                deleteRating={deleteFilmRating}
+                                addToWatchlist={addToWatchlist}
+                            />
+                        </FilmCardInfo>
+                    </FilmCardWrapper>
+                    <FilmVideos />
+                    <FilmReviews reviews={reviews} />
+                    <SimilarFilmsSlider />
+                </LoadingBoundary>
+                <GoBackBtn onClick={history.goBack}>Назад</GoBackBtn>
             </ErrorBoundary>
-        );
+        )
     }
 }
 
