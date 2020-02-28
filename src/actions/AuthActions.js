@@ -18,9 +18,11 @@ export let AuthUser = (userName, password) => async (dispatch) => {
         }
 
         let sessionId = await FilmService.createSessionId(validatedToken.request_token);
-        dispatch({type: 'SET_SESSION_ID', payload: sessionId});
         let userData = await FilmService.getAccountDetails(sessionId.session_id);
-        dispatch({type: 'SET_USER_DATA', payload: userData});
+        dispatch({
+            type: 'SET_USER_DATA',
+            payload: {...userData, ...sessionId}
+        });
     } catch (err) {
         dispatch({type: 'SET_USER_LOADING', payload: false});
         dispatch(stopSubmit("auth", {_error: err.errors}));

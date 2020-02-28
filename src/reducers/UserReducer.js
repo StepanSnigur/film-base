@@ -62,16 +62,12 @@ let UserReducer = (state = initialState, action) => {
                 ...state,
                 requestToken: action.payload.request_token
             }
-        case 'SET_SESSION_ID':
-            return {
-                ...state,
-                sessionId: action.payload.session_id
-            }
         case 'SET_USER_DATA':
             return {
                 ...state,
                 userName: action.payload.username,
                 userId: action.payload.id,
+                sessionId: action.payload.session_id,
                 userAvatarHash: action.payload.avatar.gravatar.hash,
                 isLogged: true,
                 isLoading: false
