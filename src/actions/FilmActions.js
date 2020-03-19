@@ -1,43 +1,63 @@
 import FilmService from '../services/FilmService';
+import {
+    setCurrentFilmDataLoading,
+    setCurrentPopularPage,
+    setCurrentRatedPage,
+    setCurrentUpcomingPage,
+    changeCurrentListData,
+    setFilmListError,
+    setCurrentFilmLoading,
+    setFilmStates,
+    setCurrentFilmData,
+    setCurrentFilmError,
+    searchFilmData,
+    searchFilmError,
+    loadFavouriteMovies,
+    loadFavouriteMoviesError,
+    loadRatedMovies,
+    loadRatedMoviesError,
+    loadWatchList,
+    loadWatchListError
+} from './actionCreators/FilmActionCreators';
 
 export let getTopRatedFilms = page => async dispatch => {
     try {
-        dispatch({type: 'SET_CURRENT_FILM_DATA_LOADING'});
+        dispatch(setCurrentFilmDataLoading());
 
         let result = await FilmService.getTopRatedFilms(page);
-        dispatch({type: 'SET_CURRENT_RATED_PAGE', payload: result.page});
-        dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result});
+        dispatch(setCurrentRatedPage(result.page));
+        dispatch(changeCurrentListData(result));
     } catch {
-        dispatch({type: 'SET_FILM_LIST_ERROR'});
+        dispatch(setFilmListError());
     }
 }
 
 export let loadMostPopularFilms = page => async dispatch => {
     try {
-        dispatch({type: 'SET_CURRENT_FILM_DATA_LOADING'});
+        dispatch(setCurrentFilmDataLoading());
 
         let result = await FilmService.getPopularFilms(page);
-        dispatch({type: 'SET_CURRENT_POPULAR_PAGE', payload: result.page});
-        dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result});
+        dispatch(setCurrentPopularPage(result.page));
+        dispatch(changeCurrentListData(result));
     } catch {
-        dispatch({type: 'SET_FILM_LIST_ERROR'});
+        dispatch(setFilmListError());
     }
 }
 
 export let loadUpComingFilms = page => async dispatch => {
     try {
-        dispatch({type: 'SET_CURRENT_FILM_DATA_LOADING'});
+        dispatch(setCurrentFilmDataLoading());
 
         let result = await FilmService.getUpcomingFilms(page);
-        dispatch({type: 'SET_CURRENT_UPCOMING_PAGE', payload: result.page});
-        dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result});
+        dispatch(setCurrentUpcomingPage(result.page));
+        dispatch(changeCurrentListData(result));
     } catch {
-        dispatch({type: 'SET_FILM_LIST_ERROR'});
+        dispatch(setFilmListError());
     }
 }
 
 export let setCurrentFilm = (id, sessionId) => async dispatch => {
-    dispatch({type: 'SET_CURRENT_FILM_LOADING'});
+    dispatch(setCurrentFilmLoading());
     try {
         let filmData = await FilmService.getFilm(id);
         let filmVideos = await FilmService.getFilmVideos(id);
@@ -46,48 +66,38 @@ export let setCurrentFilm = (id, sessionId) => async dispatch => {
 
         if (sessionId) {
             let filmStates = await FilmService.getMovieAccountStates(id, sessionId);
-            dispatch({type: 'SET_FILM_STATES', payload: filmStates});
+            dispatch(setFilmStates(filmStates));
         }
 
-        dispatch(
-            {
-                type: 'SET_CURRENT_FILM',
-                payload: {
-                    film: filmData,
-                    videos: filmVideos,
-                    reviews: filmReviews,
-                    similar: similarFilms
-                }
-            }
-        );
+        dispatch(setCurrentFilmData(filmData, filmVideos, filmReviews, similarFilms));
     } catch (err) {
-        dispatch({type: 'SET_CURRENT_FILM_ERROR'});
+        dispatch(setCurrentFilmError());
     }
 }
 
 export let searchFilm = inputValue => dispatch => {
     FilmService.searchFilm(inputValue)
-        .then((result) => dispatch({type: 'SEARCH_FILM', payload: result}))
-        .catch((err) => dispatch({type: 'SEARCH_FILM_ERROR'}));
+        .then(result => dispatch(searchFilmData(result)))
+        .catch(() => dispatch(searchFilmError()));
 }
 
 export let getFavouriteMovies = (userId, sessionId, page) => dispatch => {
     dispatch({type: 'SET_FAVOURITE_MOVIES_LOADING', payload: true});
     FilmService.getFavouriteMovies(userId, sessionId, page)
-        .then((result) => dispatch({type: 'LOAD_FAVOURITE_MOVIES', payload: result}))
-        .catch((err) => dispatch({type: 'LOAD_FAVOURITE_MOVIES_ERROR'}));
+        .then(result => dispatch(loadFavouriteMovies(result)))
+        .catch(() => dispatch(loadFavouriteMoviesError()));
 }
 
 export let getRatedMovies = (userId, sessionId, page) => dispatch => {
     dispatch({type: 'SET_RATED_MOVIES_LOADING', payload: true});
     FilmService.getRatedMovies(userId, sessionId, page)
-        .then((result) => dispatch({type: 'LOAD_RATED_MOVIES', payload: result}))
-        .catch((err) => dispatch({type: 'LOAD_RATED_MOVIES_ERROR'}));
+        .then(result => dispatch(loadRatedMovies(result)))
+        .catch(() => dispatch(loadRatedMoviesError()));
 }
 
 export let getWatchList = (userId, sessionId, page) => dispatch => {
     dispatch({type: 'SET_WATCHLIST_LOADING', payload: true});
     FilmService.getWatchList(userId, sessionId, page)
-        .then((result) => dispatch({type: 'LOAD_WATCHLIST', payload: result}))
-        .catch((err) => dispatch({type: 'LOAD_WATCHLIST_ERROR'}));
+        .then(result => dispatch(loadWatchList(result)))
+        .catch(() => dispatch(loadWatchListError()));
 }

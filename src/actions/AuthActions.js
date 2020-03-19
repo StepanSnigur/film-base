@@ -1,9 +1,10 @@
 import FilmService from '../services/FilmService';
 import { stopSubmit, SubmissionError } from 'redux-form';
+import { setUserData, setUserLoading, clearUserData } from './actionCreators/AuthActionCreators';
 
 export let AuthUser = (userName, password) => async (dispatch) => {
     try {
-        dispatch({type: 'SET_USER_LOADING', payload: true});
+        dispatch(setUserLoading(true));
         let token = await FilmService.createRequestToken();
         let validatedToken = await FilmService.validateRequestToken(userName, password, token.request_token);
 
@@ -19,17 +20,14 @@ export let AuthUser = (userName, password) => async (dispatch) => {
 
         let sessionId = await FilmService.createSessionId(validatedToken.request_token);
         let userData = await FilmService.getAccountDetails(sessionId.session_id);
-        dispatch({
-            type: 'SET_USER_DATA',
-            payload: {...userData, ...sessionId}
-        });
+        dispatch(setUserData(userData, sessionId));
     } catch (err) {
-        dispatch({type: 'SET_USER_LOADING', payload: false});
+        dispatch(setUserLoading(false));
         dispatch(stopSubmit("auth", {_error: err.errors}));
     }
 }
 
 export let logOut = (sessionId) => (dispatch) => {
     FilmService.logOut(sessionId)
-        .then((response) => dispatch({type: 'CLEAR_USER_DATA'}))
+        .then(() => dispatch(clearUserData()))
 }

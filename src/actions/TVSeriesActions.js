@@ -1,74 +1,92 @@
 import TVSeriesService from '../services/TVSeriesService';
+import {
+    setCurrentListDataLoading,
+    setCurrentPopularPage,
+    changeCurrentListData,
+    setTVSeriesError,
+    setCurrentRatedPage,
+    setCurrentOnAirPage,
+    setCurrentTVSeriesLoading,
+    setTVSeriesStates,
+    setCurrentTVSeriesData,
+    setCurrentTVSeriesError,
+    setRatedTVSeriesLoading,
+    loadRatedTVSeries,
+    loadRatedTVSeriesError,
+    setFavouriteTVSeriesLoading,
+    loadFavouriteTVSeries,
+    loadFavouriteTVSeriesError,
+    setTVSeriesWatchListLoading,
+    loadTVSeriesWatchList,
+    loadTVSeriesWatchListError
+} from './actionCreators/TVSeriesActionCreators';
 
 export let getPopularTVSeries = page => async dispatch => {
     try {
-        dispatch({type: 'SET_CURRENT_LIST_DATA_LOADING'});
+        dispatch(setCurrentListDataLoading());
 
         let result = await TVSeriesService.getPopularTVSeries(page);
-        dispatch({type: 'SET_CURRENT_POPULAR_PAGE', payload: result.page});
-        dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result});
+        dispatch(setCurrentPopularPage(result.page));
+        dispatch(changeCurrentListData(result));
     } catch {
-        dispatch({type: 'SET_TV_SERIES_LIST_ERROR'});
+        dispatch(setTVSeriesError());
     }
 }
 export let getTopRatedTVSeries = page => async dispatch => {
     try {
-        dispatch({type: 'SET_CURRENT_LIST_DATA_LOADING'});
+        dispatch(setCurrentListDataLoading());
 
         let result = await TVSeriesService.getTopRatedTVSeries(page);
-        dispatch({type: 'SET_CURRENT_RATED_PAGE', payload: result.page});
-        dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result});
+        dispatch(setCurrentRatedPage(result.page));
+        dispatch(changeCurrentListData(result));
     } catch {
-        dispatch({type: 'SET_TV_SERIES_LIST_ERROR'});
+        dispatch(setTVSeriesError());
     }
 }
 export let getTVSeriesOnAir = page => async dispatch => {
     try {
-        dispatch({type: 'SET_CURRENT_LIST_DATA_LOADING'});
+        dispatch(setCurrentListDataLoading());
 
         let result = await TVSeriesService.getTVSeriesOnAir(page);
-        dispatch({type: 'SET_CURRENT_ON_AIR_PAGE', payload: result.page});
-        dispatch({type: 'CHANGE_CURRENT_LIST_DATA', payload: result});
+        dispatch(setCurrentOnAirPage(result.page));
+        dispatch(changeCurrentListData(result));
     } catch {
-        dispatch({type: 'SET_TV_SERIES_LIST_ERROR'});
+        dispatch(setTVSeriesError());
     }
 }
 
 export let setCurrentTVSeries = (id, sessionId) => async dispatch => {
-    dispatch({type: 'SET_CURRENT_TV_SERIES_LOADING'});
+    dispatch(setCurrentTVSeriesLoading());
     try {
         let tvSeriesData = await TVSeriesService.getTVSeries(id);
         let tvSeriesReviews = await TVSeriesService.getTVSeriesReviews(id);
 
         if (sessionId) {
             let tvSeriesStates = await TVSeriesService.getTVSeriesAccountStates(id, sessionId);
-            dispatch({type: 'SET_TV_SERIES_STATES', payload: tvSeriesStates});
+            dispatch(setTVSeriesStates(tvSeriesStates));
         }
 
-        dispatch({type: 'SET_CURRENT_TV_SERIES', payload: {
-            tvSeriesData: tvSeriesData,
-            reviews: tvSeriesReviews
-        }});
+        dispatch(setCurrentTVSeriesData(tvSeriesData, tvSeriesReviews));
     } catch (err) {
-        dispatch({type: 'SET_CURRENT_TV_SERIES_ERROR'})
+        dispatch(setCurrentTVSeriesError())
     }
 }
 
 export let getRatedTVSeries = (userId, sessionId, page) => dispatch => {
-    dispatch({type: 'SET_RATED_TV_SERIES_LOADING'});
+    dispatch(setRatedTVSeriesLoading());
     TVSeriesService.getRatedTVSeries(userId, sessionId, page)
-        .then((result) => dispatch({type: 'LOAD_RATED_TV_SERIES', payload: result}))
-        .catch(() => dispatch({type: 'LOAD_RATED_TV_SERIES_ERROR'}));
+        .then((result) => dispatch(loadRatedTVSeries(result)))
+        .catch(() => dispatch(loadRatedTVSeriesError()));
 }
 export let getFavoriteTVSeries = (userId, sessionId, page) => dispatch => {
-    dispatch({type: 'SET_FAVORITE_TV_SERIES_LOADING'});
+    dispatch(setFavouriteTVSeriesLoading());
     TVSeriesService.getFavoriteTVSeries(userId, sessionId, page)
-        .then((result) => dispatch({type: 'LOAD_FAVORITE_TV_SERIES', payload: result}))
-        .catch(() => dispatch({type: 'LOAD_FAVORITE_TV_SERIES_ERROR'}));
+        .then((result) => dispatch(loadFavouriteTVSeries(result)))
+        .catch(() => dispatch(loadFavouriteTVSeriesError()));
 }
 export let getTVSeriesWatchlist = (userId, sessionId, page) => dispatch => {
-    dispatch({type: 'SET_TV_SERIES_WATCHLIST_LOADING'});
+    dispatch(setTVSeriesWatchListLoading());
     TVSeriesService.getTVSeriesWatchlist(userId, sessionId, page)
-        .then((result) => dispatch({type: 'LOAD_TV_SERIES_WATCHLIST', payload: result}))
-        .catch(() => dispatch({type: 'LOAD_TV_SERIES_WATCHLIST_ERROR'}))
+        .then((result) => dispatch(loadTVSeriesWatchList(result)))
+        .catch(() => dispatch(loadTVSeriesWatchListError()))
 }
