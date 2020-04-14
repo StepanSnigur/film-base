@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import { Field, reduxForm } from 'redux-form';
@@ -9,7 +9,11 @@ import { Input } from './FormControls';
 import { AuthUser } from '../actions/AuthActions';
 import Preloader from './Preloader';
 
+import showPasswordIcon from '../img/showPasswordIcon.png';
+import hidePasswordIcon from '../img/hidePasswordIcon.png';
+
 let AuthFormWrapper = styled.form`
+    position: relative;
     width: 300px;
     margin: 0 auto;
     margin-top: 20px;
@@ -24,6 +28,20 @@ let AuthFormInput = styled(Field)`
     border-radius: 5px;
     border: 1px solid #eee;
     font-size: 16px;
+`
+let ShowPasswordBtn = styled.span`
+    position: absolute;
+    right: 7px;
+    top: 50px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    cursor: pointer;
+    
+    img {
+        width: 100%;
+        height: auto;
+    }
 `
 let FormBtn = styled.button`
     width: 100%;
@@ -55,6 +73,8 @@ let RegistrationBtn = styled.a`
 `
 
 let AuthenticationForm = (props) => {
+    let [isPasswordVisible, changePasswordVisible] = useState(false)
+
     return (
         <AuthFormWrapper onSubmit={props.handleSubmit}>
             <AuthFormInput
@@ -66,11 +86,17 @@ let AuthenticationForm = (props) => {
             />
             <AuthFormInput
                 component={Input}
-                type="password"
+                type={isPasswordVisible ? "text" : "password"}
                 name="password"
                 placeholder="Введите пароль"
                 validate={[required]}
             />
+            <ShowPasswordBtn onClick={() => changePasswordVisible(!isPasswordVisible)}>
+                <img
+                    src={isPasswordVisible ? hidePasswordIcon : showPasswordIcon}
+                    alt={isPasswordVisible ? "hide password" : "show password"}
+                />
+            </ShowPasswordBtn>
             { props.error && <ErrorMessage>{props.error}</ErrorMessage> }
             <FormBtn type="submit">Войти</FormBtn>
             <RegistrationBtn href="https://www.themoviedb.org/account/signup" target="_blank">Регистрация</RegistrationBtn>
@@ -81,24 +107,22 @@ let ReduxAuthForm = reduxForm({
     form: 'auth'
 })(AuthenticationForm);
 
-class AuthForm extends Component {
-    render() {
-        let onSubmit = (formData) => {
-            let { nickName, password } = formData;
-            this.props.AuthUser(nickName, password);
-        }
-
-        return (
-            <>
-                { this.props.isLoading && <Preloader /> }
-                {
-                    this.props.isLogged ?
-                    <Redirect to={'./profile'} /> :
-                    <ReduxAuthForm onSubmit={onSubmit} />
-                }
-            </>
-        );
+let AuthForm = ({ isLoading, isLogged, AuthUser }) => {
+    let onSubmit = (formData) => {
+        let { nickName, password } = formData;
+        AuthUser(nickName, password);
     }
+
+    return (
+        <>
+            { isLoading && <Preloader /> }
+            {
+                isLogged ?
+                <Redirect to={'./profile'} /> :
+                <ReduxAuthForm onSubmit={onSubmit} />
+            }
+        </>
+    )
 }
 
 let mapStateToProps = ({ user }) => {
