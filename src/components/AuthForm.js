@@ -13,7 +13,6 @@ import showPasswordIcon from '../img/showPasswordIcon.png';
 import hidePasswordIcon from '../img/hidePasswordIcon.png';
 
 let AuthFormWrapper = styled.form`
-    position: relative;
     width: 300px;
     margin: 0 auto;
     margin-top: 20px;
@@ -29,10 +28,14 @@ let AuthFormInput = styled(Field)`
     border: 1px solid #eee;
     font-size: 16px;
 `
+let PasswordInputWrapper = styled.div`
+    position: relative;
+`
 let ShowPasswordBtn = styled.span`
     position: absolute;
     right: 7px;
-    top: 50px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 25px;
     height: 25px;
     line-height: 25px;
@@ -84,19 +87,21 @@ let AuthenticationForm = (props) => {
                 placeholder="Введите никнейм"
                 validate={[required]}
             />
-            <AuthFormInput
-                component={Input}
-                type={isPasswordVisible ? "text" : "password"}
-                name="password"
-                placeholder="Введите пароль"
-                validate={[required]}
-            />
-            <ShowPasswordBtn onClick={() => changePasswordVisible(!isPasswordVisible)}>
-                <img
-                    src={isPasswordVisible ? hidePasswordIcon : showPasswordIcon}
-                    alt={isPasswordVisible ? "hide password" : "show password"}
+            <PasswordInputWrapper>
+                <AuthFormInput
+                    component={Input}
+                    type={isPasswordVisible ? "text" : "password"}
+                    name="password"
+                    placeholder="Введите пароль"
+                    validate={[required]}
                 />
-            </ShowPasswordBtn>
+                <ShowPasswordBtn onClick={() => changePasswordVisible(!isPasswordVisible)}>
+                    <img
+                        src={isPasswordVisible ? hidePasswordIcon : showPasswordIcon}
+                        alt={isPasswordVisible ? "hide password" : "show password"}
+                    />
+                </ShowPasswordBtn>
+            </PasswordInputWrapper>
             { props.error && <ErrorMessage>{props.error}</ErrorMessage> }
             <FormBtn type="submit">Войти</FormBtn>
             <RegistrationBtn href="https://www.themoviedb.org/account/signup" target="_blank">Регистрация</RegistrationBtn>
