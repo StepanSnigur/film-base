@@ -34,7 +34,7 @@ let PasswordInputWrapper = styled.div`
 let ShowPasswordBtn = styled.span`
     position: absolute;
     right: 7px;
-    top: 50%;
+    top: calc(35px/2);
     transform: translateY(-50%);
     width: 25px;
     height: 25px;
@@ -121,11 +121,7 @@ let AuthForm = ({ isLoading, isLogged, AuthUser }) => {
     return (
         <>
             { isLoading && <Preloader /> }
-            {
-                isLogged ?
-                <Redirect to={'./profile'} /> :
-                <ReduxAuthForm onSubmit={onSubmit} />
-            }
+            { isLogged ? <Redirect to={'./profile'} /> : <ReduxAuthForm onSubmit={onSubmit} /> }
         </>
     )
 }
