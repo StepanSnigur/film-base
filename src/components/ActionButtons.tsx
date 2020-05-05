@@ -126,7 +126,7 @@ interface IActionButtons {
   isInFavouriteLoading: boolean,
   isFilmButtonsLoading: boolean,
   isInWatchlistLoading: boolean,
-  rating: number,
+  rating?: number,
   changeRating: (sessionId: string, filmId: number, rating: number) => void,
   deleteRating: (sessionId: string, filmId: number) => void,
   markAsFavourite: (userId: number, sessionId: string, filmId: number, isAdding: boolean, mediaType?: string) => void,
@@ -188,13 +188,13 @@ const ActionButtons: React.FC<IActionButtons> = props => {
           >
             {isInWatchlistLoading ? <CirclePreloader /> : 'Посмотреть позже'}
           </WatchListButton>
-            {rating &&
-            <DeleteRatingButton
-                onClick={() => deleteRating(sessionId!, id)}
-                disabled={isFilmButtonsLoading}
-            >
-                Удалить оценку
-            </DeleteRatingButton>}
+          {rating &&
+          <DeleteRatingButton
+              onClick={() => deleteRating(sessionId!, id)}
+              disabled={isFilmButtonsLoading}
+          >
+              Удалить оценку
+          </DeleteRatingButton>}
         </FilmButtonsWrapper>
       </ErrorBoundary>}
     </>

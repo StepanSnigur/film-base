@@ -25,6 +25,7 @@ export const AuthUser = (userName: string, password: string) => async (
     const sessionId = await FilmService.createSessionId(validatedToken.request_token);
     const userData = await FilmService.getAccountDetails(sessionId.session_id);
     dispatch(setUserData(userData, sessionId));
+    localStorage.setItem('userAuthData', JSON.stringify({ userName, password }))
   } catch (err) {
     dispatch(setUserLoading(false));
     dispatch(stopSubmit("auth", {_error: err.errors}));
@@ -32,6 +33,7 @@ export const AuthUser = (userName: string, password: string) => async (
 }
 
 export const logOut = (sessionId: string) => (dispatch: Dispatch<IClearUserData>) => {
+  localStorage.removeItem('userAuthData')
   FilmService.logOut(sessionId)
     .then(() => dispatch(clearUserData()))
 }

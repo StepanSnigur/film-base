@@ -74,9 +74,7 @@ const initialState: ICurrentFilmReducer = {
   },
   filmStates: {
     id: 0,
-    rated: {
-      value: 0
-    },
+    rated: {},
     favorite: false,
     watchlist: false
   },

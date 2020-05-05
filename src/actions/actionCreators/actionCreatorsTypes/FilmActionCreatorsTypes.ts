@@ -27,7 +27,7 @@ export interface IFilmListData {
 export interface IFilmStates {
   id: number,
   favorite: boolean,
-  rated: { value: number },
+  rated: { value?: number },
   watchlist: boolean
 }
 export interface IFilmData {
