@@ -4,7 +4,7 @@ import { stopSubmit, FormAction, SubmissionError } from 'redux-form';
 import { setUserData, setUserLoading, clearUserData } from './actionCreators/AuthActionCreators';
 import { ISetUserData, ISetUserLoading, IClearUserData } from './actionTypes/AuthActionTypes';
 
-export const AuthUser = (userName: string, password: string) => async (
+export const AuthUser = (userName: string, password: string, rememberMe?: boolean) => async (
   dispatch: Dispatch<ISetUserData | ISetUserLoading | FormAction>
 ) => {
   try {
@@ -25,7 +25,7 @@ export const AuthUser = (userName: string, password: string) => async (
     const sessionId = await FilmService.createSessionId(validatedToken.request_token);
     const userData = await FilmService.getAccountDetails(sessionId.session_id);
     dispatch(setUserData(userData, sessionId));
-    localStorage.setItem('userAuthData', JSON.stringify({ userName, password }))
+    rememberMe && localStorage.setItem('userAuthData', JSON.stringify({ userName, password }))
   } catch (err) {
     dispatch(setUserLoading(false));
     dispatch(stopSubmit("auth", {_error: err.errors}));

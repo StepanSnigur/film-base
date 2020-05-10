@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Field, reduxForm, InjectedFormProps } from 'redux-form';
 import { Redirect } from 'react-router-dom';
 import { required } from '../utils/Validators';
-import { Input } from './FormControls';
+import { Input, CheckboxInput } from './FormControls';
 
 import { AuthUser } from '../actions/AuthActions';
 import Preloader from './Preloader';
@@ -28,6 +28,15 @@ const AuthFormInput = styled(Field)`
   border-radius: 5px;
   border: 1px solid #eee;
   font-size: 16px;
+`
+const RememberMeCheckboxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  
+  label {
+    margin-left: 7px;
+  }
 `
 const PasswordInputWrapper = styled.div`
   position: relative;
@@ -76,7 +85,7 @@ const RegistrationBtn = styled.a`
   cursor: pointer;
 `
 
-const AuthenticationForm: React.FC<InjectedFormProps> = (props) => {
+const AuthenticationForm: React.FC<InjectedFormProps> = props => {
   const [isPasswordVisible, changePasswordVisible] = useState(false)
 
   return (
@@ -105,6 +114,14 @@ const AuthenticationForm: React.FC<InjectedFormProps> = (props) => {
           />
         </ShowPasswordBtn>
       </PasswordInputWrapper>
+      <RememberMeCheckboxWrapper>
+        <Field
+          component={CheckboxInput}
+          id="rememberMe"
+          name="rememberMe"
+        />
+        <label htmlFor="rememberMe">запомнить меня</label>
+      </RememberMeCheckboxWrapper>
       {props.error && <ErrorMessage>{props.error}</ErrorMessage>}
       <FormBtn type="submit">Войти</FormBtn>
       <RegistrationBtn href="https://www.themoviedb.org/account/signup" target="_blank">Регистрация</RegistrationBtn>
@@ -113,21 +130,22 @@ const AuthenticationForm: React.FC<InjectedFormProps> = (props) => {
 }
 interface IFormData {
   nickName: string,
-  password: string
+  password: string,
+  rememberMe: boolean
 }
 const ReduxAuthForm = reduxForm<IFormData>({
   form: 'auth'
-})(AuthenticationForm);
+})(AuthenticationForm)
 
 interface IAuthForm {
   isLoading: boolean,
   isLogged: boolean,
-  AuthUser: (nickName: string, password: string) => void
+  AuthUser: (nickName: string, password: string, rememberMe: boolean) => void
 }
 const AuthForm: React.FC<IAuthForm> = ({ isLoading, isLogged, AuthUser }) => {
   const onSubmit = (formData: IFormData) => {
-    const { nickName, password } = formData;
-    AuthUser(nickName, password);
+    const { nickName, password, rememberMe } = formData
+    AuthUser(nickName, password, rememberMe)
   }
 
   return (

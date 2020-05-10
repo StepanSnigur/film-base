@@ -10,7 +10,6 @@ interface IInput {
   input: any,
   meta: any
 }
-
 export const Input: React.FC<IInput> = ({ input, meta, ...props }) => {
   const isError = meta.touched && meta.error;
   return (
@@ -20,3 +19,5 @@ export const Input: React.FC<IInput> = ({ input, meta, ...props }) => {
     </div>
   )
 }
+
+export const CheckboxInput: React.FC<IInput> = ({ input, meta, ...props }) => <input type="checkbox" {...props} {...input} />
