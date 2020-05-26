@@ -69,13 +69,17 @@ interface IFilmCard {
 }
 
 const FilmCard: React.FC<IFilmCard> = (props) => {
-
-  let { id, backdrop_path, release_date, vote_average, title, overview } = props.film;
+  const { id, backdrop_path, release_date, vote_average, title, overview } = props.film;
 
   return (
     <FilmCardWrapper>
       <FilmCardImg>
-        <img src={`https://image.tmdb.org/t/p/w500${backdrop_path}`} alt="Film preview"/>
+        <img
+          src={backdrop_path ?
+          `https://image.tmdb.org/t/p/w500${backdrop_path}` :
+          'https://via.placeholder.com/400x250.png?text=Image+not+found'}
+          alt="Film preview"
+        />
         <FilmCardImgDescription>
           <h4>Дата выхода: {release_date}</h4>
           <h4>Оценка: {vote_average}</h4>

@@ -74,7 +74,12 @@ const TVSeriesCard: React.FC<ITVSeriesCard> = ({ film }) => {
   return (
     <TVSeriesCardWrapper>
       <TVSeriesCardImg>
-        <img src={`https://image.tmdb.org/t/p/w500${backdrop_path}`} alt="Film preview"/>
+        <img
+          src={backdrop_path ?
+            `https://image.tmdb.org/t/p/w500${backdrop_path}` :
+            'https://via.placeholder.com/400x250.png?text=Image+not+found'}
+          alt="TV series preview"
+        />
         <TVSeriesCardImgDescription>
           <h4>Дата выхода: {first_air_date}</h4>
           <h4>Оценка: {vote_average}</h4>
