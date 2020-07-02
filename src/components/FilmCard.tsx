@@ -87,7 +87,9 @@ const FilmCard: React.FC<IFilmCard> = (props) => {
       </FilmCardImg>
       <FilmInfo>
         <FilmInfoTitle>{title}</FilmInfoTitle>
-        <FilmInfoDescription>{overview.length >= 200 ? `${overview.slice(0, 200)}...` : overview}</FilmInfoDescription>
+        <FilmInfoDescription>
+          {overview.length >= 200 ? `${overview.slice(0, 200)}...` : overview}
+        </FilmInfoDescription>
         <Link to={`/film/${id}`}>
           <img src={ExpandArrow} alt="open"/>
         </Link>
