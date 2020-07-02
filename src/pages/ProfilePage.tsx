@@ -92,6 +92,15 @@ interface IProfilePage {
   getTVSeriesWatchlist: (userId: number, sessionId: string, page?: number) => void,
   logOut: (sessionId: string) => void
 }
+interface ITab {
+  list: IUserMoviesList,
+  name: string,
+  currentPage: number,
+  pagesCount: number,
+  error: boolean,
+  updatePage: (page: number) => void,
+  isTVSeries?: boolean
+}
 
 class ProfilePage extends Component<IProfilePage> {
   state = {
@@ -149,6 +158,67 @@ class ProfilePage extends Component<IProfilePage> {
       logOut
     } = this.props;
     const { activeTab } = this.state;
+    const tabNames = [
+      {name: 'favourite', title: 'Избранные фильмы'},
+      {name: 'rated', title: 'Оцененные фильмы'},
+      {name: 'watchlist', title: 'Посмотреть позже (фильмы)'},
+      {name: 'ratedTVSeries', title: 'Оцененные сериалы'},
+      {name: 'favouriteTVSeries', title: 'Избранные сериалы'},
+      {name: 'tvSeriesWatchList', title: 'Посмотреть позже (сериалы)'}
+    ]
+    const tabs = [
+      {
+        list: favouriteMovies,
+        name: tabNames[0].name,
+        currentPage: favouriteMovies.currentPage,
+        pagesCount: favouriteMovies.pagesCount,
+        error: favouriteMovies.isError,
+        updatePage: (page: number) => getFavouriteMovies(userId!, sessionId!, page)
+      },
+      {
+        list: ratedMovies,
+        name: tabNames[1].name,
+        currentPage: ratedMovies.currentPage,
+        pagesCount: ratedMovies.pagesCount,
+        error: ratedMovies.isError,
+        updatePage: (page: number) => getRatedMovies(userId!, sessionId!, page)
+      },
+      {
+        list: watchList,
+        name: tabNames[2].name,
+        currentPage: watchList.currentPage,
+        pagesCount: watchList.pagesCount,
+        error: watchList.isError,
+        updatePage: (page: number) => getWatchList(userId!, sessionId!, page)
+      },
+      {
+        list: ratedTVSeries,
+        name: tabNames[3].name,
+        currentPage: ratedTVSeries.currentPage,
+        pagesCount: ratedTVSeries.pagesCount,
+        error: ratedTVSeries.isError,
+        updatePage: (page: number) => getRatedTVSeries(userId!, sessionId!, page),
+        isTVSeries: true
+      },
+      {
+        list: favouriteTVSeries,
+        name: tabNames[4].name,
+        currentPage: favouriteTVSeries.currentPage,
+        pagesCount: favouriteTVSeries.pagesCount,
+        error: favouriteTVSeries.isError,
+        updatePage: (page: number) => getFavoriteTVSeries(userId!, sessionId!, page),
+        isTVSeries: true
+      },
+      {
+        list: tvSeriesWatchList,
+        name: tabNames[5].name,
+        currentPage: tvSeriesWatchList.currentPage,
+        pagesCount: tvSeriesWatchList.pagesCount,
+        error: tvSeriesWatchList.isError,
+        updatePage: (page: number) => getTVSeriesWatchlist(userId!, sessionId!, page),
+        isTVSeries: true
+      },
+    ]
 
     const ProfilePageContent = () => {
       return (
@@ -159,77 +229,26 @@ class ProfilePage extends Component<IProfilePage> {
             <LogOutButton onClick={() => logOut(sessionId!)}>Выйти</LogOutButton>
           </UserInfoWrapper>
           <TabIconsWrapper>
-            <TabIcon onClick={() => this.changeActiveTab('favourite')} isActive={activeTab === 'favourite'}>Избранные
-              фильмы</TabIcon>
-            <TabIcon onClick={() => this.changeActiveTab('rated')} isActive={activeTab === 'rated'}>Оцененные
-              фильмы</TabIcon>
-            <TabIcon onClick={() => this.changeActiveTab('watchlist')} isActive={activeTab === 'watchlist'}>Посмотреть
-              позже (фильмы)</TabIcon>
-            <TabIcon onClick={() => this.changeActiveTab('ratedTVSeries')}
-                     isActive={activeTab === 'ratedTVSeries'}>Оцененные сериалы</TabIcon>
-            <TabIcon onClick={() => this.changeActiveTab('favouriteTVSeries')}
-                     isActive={activeTab === 'favouriteTVSeries'}>Избранные сериалы</TabIcon>
-            <TabIcon onClick={() => this.changeActiveTab('tvSeriesWatchlist')}
-                     isActive={activeTab === 'tvSeriesWatchlist'}>Посмотреть позже (сериалы)</TabIcon>
+            {tabNames.map(({ name, title }) => {
+              return <TabIcon
+                onClick={() => this.changeActiveTab(name)}
+                isActive={activeTab === name}
+              >{title}</TabIcon>
+            })}
           </TabIconsWrapper>
           <div>
-            <TabListContent
-              list={favouriteMovies}
-              componentName="favourite"
-              activeComponentName={activeTab}
-              currentPage={favouriteMovies.currentPage}
-              pagesCount={favouriteMovies.pagesCount}
-              isError={favouriteMovies.isError}
-              updatePage={(page) => getFavouriteMovies(userId!, sessionId!, page)}
-            />
-            <TabListContent
-              list={ratedMovies}
-              componentName="rated"
-              activeComponentName={activeTab}
-              currentPage={ratedMovies.currentPage}
-              pagesCount={ratedMovies.pagesCount}
-              isError={ratedMovies.isError}
-              updatePage={(page) => getRatedMovies(userId!, sessionId!, page)}
-            />
-            <TabListContent
-              list={watchList}
-              componentName="watchlist"
-              activeComponentName={activeTab}
-              currentPage={ratedTVSeries.currentPage}
-              pagesCount={ratedTVSeries.pagesCount}
-              isError={ratedTVSeries.isError}
-              updatePage={(page) => getWatchList(userId!, sessionId!, page)}
-            />
-            <TabListContent
-              list={ratedTVSeries}
-              componentName="ratedTVSeries"
-              activeComponentName={activeTab}
-              currentPage={watchList.currentPage}
-              pagesCount={watchList.pagesCount}
-              isError={watchList.isError}
-              isTVSeries={true}
-              updatePage={(page) => getRatedTVSeries(userId!, sessionId!, page)}
-            />
-            <TabListContent
-              list={favouriteTVSeries}
-              componentName="favouriteTVSeries"
-              activeComponentName={activeTab}
-              currentPage={favouriteTVSeries.currentPage}
-              pagesCount={favouriteTVSeries.pagesCount}
-              isError={favouriteTVSeries.isError}
-              isTVSeries={true}
-              updatePage={(page) => getFavoriteTVSeries(userId!, sessionId!, page)}
-            />
-            <TabListContent
-              list={tvSeriesWatchList}
-              componentName="tvSeriesWatchlist"
-              activeComponentName={activeTab}
-              currentPage={tvSeriesWatchList.currentPage}
-              pagesCount={tvSeriesWatchList.pagesCount}
-              isError={tvSeriesWatchList.isError}
-              isTVSeries={true}
-              updatePage={(page) => getTVSeriesWatchlist(userId!, sessionId!, page)}
-            />
+            {tabs.map((tab: ITab) => {
+              return <TabListContent
+                list={tab.list}
+                componentName={tab.name}
+                activeComponentName={activeTab}
+                currentPage={tab.currentPage}
+                pagesCount={tab.pagesCount}
+                isError={tab.error}
+                updatePage={tab.updatePage}
+                isTVSeries={tab.isTVSeries}
+              />
+            })}
           </div>
         </div>
       )
