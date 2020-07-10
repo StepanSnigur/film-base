@@ -7,6 +7,7 @@ import searchFilms from '../reducers/SearchFilmReducer';
 import TVSeriesListReducer from '../reducers/TVSeriesListReducer';
 import currentTVSeries from '../reducers/TVSeriesPageReducer';
 import UserReducer from '../reducers/UserReducer';
+import FilmHistoryReducer from '../reducers/FilmHistoryReducer';
 import { reducer as formReducer } from 'redux-form';
 
 // @ts-ignore
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   TVSeriesListReducer,
   currentTVSeries,
   user: UserReducer,
+  FilmHistoryReducer,
   form: formReducer
 })
 export type AppStateType = ReturnType<typeof rootReducer>

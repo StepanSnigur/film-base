@@ -14,6 +14,7 @@ import NextEpisodeTimeCounter from '../components/NextEpisodeTimeCounter';
 
 import { setCurrentTVSeries } from '../actions/TVSeriesActions';
 import { changeTVSeriesRating, deleteTVSeriesRating } from '../actions/UserActions';
+import { addLastPage, removeLastPage } from '../actions/actionCreators/HistoryReducerActionCreators';
 
 const TVSeriesCardWrapper = styled.div`
   width: 100%;
@@ -73,13 +74,21 @@ interface ITVSeriesPage {
   setCurrentTVSeries: (tvSeriesId: number, sessionId: string | null) => void,
   changeTVSeriesRating: (sessionId: string, filmId: number, rating: number) => void,
   deleteTVSeriesRating: (sessionId: string, filmId: number) => void,
+  addLastPage: (url: string) => void,
+  removeLastPage: () => void,
   history: History
 }
 
 class TVSeriesPage extends Component<ITVSeriesPage> {
   componentDidMount() {
-    const { tvSeriesId, sessionId } = this.props;
+    const { tvSeriesId, sessionId, addLastPage } = this.props;
     this.props.setCurrentTVSeries(tvSeriesId, sessionId);
+    addLastPage(window.location.pathname)
+  }
+  componentWillUnmount() {
+    const { removeLastPage } = this.props
+    const path = window.location.pathname
+    if (path !== '/authForm') removeLastPage()
   }
 
   render() {
@@ -180,5 +189,7 @@ let mapStateToProps = ({ currentTVSeries, user, currentFilm }: AppStateType) => 
 export default connect(mapStateToProps, {
   setCurrentTVSeries,
   changeTVSeriesRating,
-  deleteTVSeriesRating
+  deleteTVSeriesRating,
+  addLastPage,
+  removeLastPage
 })(TVSeriesPage);

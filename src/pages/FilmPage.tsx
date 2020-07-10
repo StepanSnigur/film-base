@@ -14,6 +14,7 @@ import FilmVideos from '../components/FilmVideos';
 
 import { setCurrentFilm } from '../actions/FilmActions';
 import { changeFilmRating, deleteFilmRating } from '../actions/UserActions';
+import { addLastPage, removeLastPage } from '../actions/actionCreators/HistoryReducerActionCreators'
 
 const FilmCardWrapper = styled.div`
   width: 100%;
@@ -72,20 +73,28 @@ interface IFilmPage {
   setCurrentFilm: (filmId: number, sessionId: string | null) => void,
   changeFilmRating: (sessionId: string, filmId: number, rating: number) => void,
   deleteFilmRating: (sessionId: string, filmId: number) => void,
+  addLastPage: (url: string) => void,
+  removeLastPage: () => void,
   history: History
 }
 
 class FilmPage extends Component<IFilmPage> {
   componentDidMount() {
-    const { sessionId, filmId, setCurrentFilm } = this.props;
+    const { sessionId, filmId, setCurrentFilm, addLastPage } = this.props;
     setCurrentFilm(filmId, sessionId);
+    addLastPage(window.location.pathname)
   }
-
   componentDidUpdate(prevProps: IFilmPage) {
     if (prevProps.filmId !== this.props.filmId) {
-      const { sessionId, filmId, setCurrentFilm } = this.props;
+      const { sessionId, filmId, setCurrentFilm, addLastPage } = this.props;
       setCurrentFilm(filmId, sessionId);
+      addLastPage(window.location.pathname)
     }
+  }
+  componentWillUnmount() {
+    const { removeLastPage } = this.props
+    const path = window.location.pathname
+    if (path !== '/authForm') removeLastPage()
   }
 
   render() {
@@ -169,5 +178,7 @@ const mapStateToProps = ({ currentFilm, user }: AppStateType) => {
 export default connect(mapStateToProps, {
   setCurrentFilm,
   changeFilmRating,
-  deleteFilmRating
+  deleteFilmRating,
+  addLastPage,
+  removeLastPage
 })(FilmPage);
