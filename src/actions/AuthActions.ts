@@ -3,9 +3,12 @@ import FilmService from '../services/FilmService';
 import { stopSubmit, FormAction, SubmissionError } from 'redux-form';
 import { setUserData, setUserLoading, clearUserData } from './actionCreators/AuthActionCreators';
 import { ISetUserData, ISetUserLoading, IClearUserData } from './actionTypes/AuthActionTypes';
+import { AppStateType } from '../store/Store';
+import { appHistory } from '../App';
 
 export const AuthUser = (userName: string, password: string, rememberMe?: boolean) => async (
-  dispatch: Dispatch<ISetUserData | ISetUserLoading | FormAction>
+  dispatch: Dispatch<ISetUserData | ISetUserLoading | FormAction>,
+  getState: () => AppStateType
 ) => {
   try {
     dispatch(setUserLoading(true));
@@ -26,6 +29,10 @@ export const AuthUser = (userName: string, password: string, rememberMe?: boolea
     const userData = await FilmService.getAccountDetails(sessionId.session_id);
     dispatch(setUserData(userData, sessionId));
     rememberMe && localStorage.setItem('userAuthData', JSON.stringify({ userName, password }))
+
+    // if redirect from film page then after auth return user back
+    const { lastPageUrl } = getState().FilmHistoryReducer;
+    lastPageUrl && appHistory.push(lastPageUrl);
   } catch (err) {
     dispatch(setUserLoading(false));
     dispatch(stopSubmit("auth", {_error: err.errors}));

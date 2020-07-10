@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { AuthUser } from './actions/AuthActions';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
+import { createBrowserHistory } from 'history';
 import styled from 'styled-components';
 
 import Header from './components/Header';
@@ -37,6 +38,7 @@ const Wrapper = styled.div`
   }
 `
 
+export const appHistory = createBrowserHistory()
 const App = () => {
   const dispatch = useDispatch()
   useEffect(() => {
@@ -48,35 +50,53 @@ const App = () => {
   }, [])
 
   return (
-    <Router>
+    <Router history={appHistory}>
       <Header/>
       <Wrapper>
         <Switch>
-          <Route path="/" exact render={() => <FilmListPage listRole={"Лучшие фильмы"}/>}/>
-          <Route path="/upcoming-films"
-                 render={() => <FilmListPage listRole={"Недавно вышедшие фильмы"}/>}/>
-          <Route path="/popular-films" render={() => <FilmListPage listRole={"Популярные фильмы"}/>}/>
-          <Route path="/film/:id"
-                 render={
-                   ({ match, history }) => {
-                     let {id} = match.params;
-                     return <FilmPage history={history} filmId={id}/>
-                   }
-                 }
+          <Route
+            path="/"
+            exact
+            render={() => <FilmListPage listRole={"Лучшие фильмы"} />}
+          />
+          <Route
+            path="/upcoming-films"
+            render={() => <FilmListPage listRole={"Недавно вышедшие фильмы"} />}
+          />
+          <Route
+            path="/popular-films"
+            render={() => <FilmListPage listRole={"Популярные фильмы"} />}
+          />
+          <Route
+            path="/film/:id"
+            render={
+             ({ match, history }) => {
+               const { id } = match.params;
+               return <FilmPage history={history} filmId={id} />
+             }
+            }
           />
 
-          <Route path="/tv-series-on-air" render={() => <TVSeriesListPage listRole={"Сериалы" +
-          " в эфире"}/>}/>
-          <Route path="/popular-tv-series"
-                 render={() => <TVSeriesListPage listRole={"Популярные сериалы"}/>}/>
-          <Route path="/best-tv-series" render={() => <TVSeriesListPage listRole={"Лучшие сериалы"}/>}/>
-          <Route path="/tv-series/:id"
-                 render={
-                   ({ match, history }) => {
-                     let {id} = match.params;
-                     return <TVSeriesPage history={history} tvSeriesId={id}/>
-                   }
-                 }
+          <Route
+            path="/tv-series-on-air"
+            render={() => <TVSeriesListPage listRole={"Сериалы в эфире"}/>}
+          />
+          <Route
+            path="/popular-tv-series"
+            render={() => <TVSeriesListPage listRole={"Популярные сериалы"}/>}
+          />
+          <Route
+            path="/best-tv-series"
+            render={() => <TVSeriesListPage listRole={"Лучшие сериалы"}/>}
+          />
+          <Route
+            path="/tv-series/:id"
+            render={
+             ({ match, history }) => {
+               let {id} = match.params;
+               return <TVSeriesPage history={history} tvSeriesId={id}/>
+             }
+            }
           />
 
           <Route path="/authForm" render={WithSuspense(AuthForm)}/>
