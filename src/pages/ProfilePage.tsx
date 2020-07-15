@@ -229,10 +229,11 @@ class ProfilePage extends Component<IProfilePage> {
             <LogOutButton onClick={() => logOut(sessionId!)}>Выйти</LogOutButton>
           </UserInfoWrapper>
           <TabIconsWrapper>
-            {tabNames.map(({ name, title }) => {
+            {tabNames.map(({ name, title }, i) => {
               return <TabIcon
                 onClick={() => this.changeActiveTab(name)}
                 isActive={activeTab === name}
+                key={i}
               >{title}</TabIcon>
             })}
           </TabIconsWrapper>

@@ -47,7 +47,7 @@ const App = () => {
       password: string
     } = JSON.parse(localStorage.getItem('userAuthData')!)
     userData && dispatch(AuthUser(userData.userName, userData.password))
-  }, [])
+  }, [dispatch])
 
   return (
     <Router history={appHistory}>
