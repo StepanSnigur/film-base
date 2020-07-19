@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { AppStateType } from '../store/Store';
 import { IUserMoviesList } from '../reducers/UserReducer';
 import styled from 'styled-components';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import { Redirect } from 'react-router-dom';
 
 import TabListContent from '../components/TabListContent';
@@ -69,6 +70,15 @@ const TabIcon = styled.button`
   
   @media (max-width: 900px) {
     font-size: 18px;
+  }
+`
+const AnimationWrapper = styled.div`
+  &.change-tab-appear {
+    opacity: 0;
+  }
+  &.change-tab-appear.change-tab-appear-active {
+    opacity: 1;
+    transition: opacity .5s ease-in;
   }
 `
 
@@ -222,7 +232,7 @@ class ProfilePage extends Component<IProfilePage> {
 
     const ProfilePageContent = () => {
       return (
-        <div>
+        <>
           <UserInfoWrapper>
             <UserIcon src={`https://secure.gravatar.com/avatar/${userAvatarHash}.jpg?s=100`} alt="Avatar"/>
             <UserName>{userName}</UserName>
@@ -237,21 +247,27 @@ class ProfilePage extends Component<IProfilePage> {
               >{title}</TabIcon>
             })}
           </TabIconsWrapper>
-          <div>
-            {tabs.map((tab: ITab) => {
-              return <TabListContent
-                list={tab.list}
-                componentName={tab.name}
-                activeComponentName={activeTab}
-                currentPage={tab.currentPage}
-                pagesCount={tab.pagesCount}
-                isError={tab.error}
-                updatePage={tab.updatePage}
-                isTVSeries={tab.isTVSeries}
-              />
+          <CSSTransitionGroup
+            transitionAppearTimeout={300}
+            transitionName="change-tab"
+            transitionAppear={true}
+          >
+            {tabs.map((tab: ITab, i) => {
+              return <AnimationWrapper key={i}>
+                <TabListContent
+                  list={tab.list}
+                  componentName={tab.name}
+                  activeComponentName={activeTab}
+                  currentPage={tab.currentPage}
+                  pagesCount={tab.pagesCount}
+                  isError={tab.error}
+                  updatePage={tab.updatePage}
+                  isTVSeries={tab.isTVSeries}
+                />
+              </AnimationWrapper>
             })}
-          </div>
-        </div>
+          </CSSTransitionGroup>
+        </>
       )
     }
 

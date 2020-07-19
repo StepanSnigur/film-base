@@ -37,32 +37,28 @@ const TabListContent: React.FC<ITabListContent> = (props) => {
 
   return (
     <>
-      {
-        isTabActive && <TabContent>
-          <ErrorBoundary isError={isError}>
-            <LoadingBoundary isLoading={isLoading}>
-              {
-                results.length === 0 ?
-                  <span>Здесь пока ничего нет</span> :
-                  <>
-                    <TabContentList>
-                      {results.map((el) => {
-                        return !isTVSeries ?
-                          <FilmCard key={el.id} film={el}/> :
-                          <TVSeriesCard key={el.id} film={el}/>
-                      })}
-                    </TabContentList>
-                    <PaginationBar
-                      currentPage={currentPage}
-                      maxPagesCount={pagesCount}
-                      updatePage={(page) => updatePage(page)}
-                    />
-                  </>
-              }
-            </LoadingBoundary>
-          </ErrorBoundary>
-        </TabContent>
-      }
+      {isTabActive && <TabContent>
+        <ErrorBoundary isError={isError}>
+          <LoadingBoundary isLoading={isLoading}>
+            {results.length === 0 ?
+            <span>Здесь пока ничего нет</span> :
+            <>
+              <TabContentList>
+                {results.map((el) => {
+                  return !isTVSeries ?
+                    <FilmCard key={el.id} film={el}/> :
+                    <TVSeriesCard key={el.id} film={el}/>
+                })}
+              </TabContentList>
+              <PaginationBar
+                currentPage={currentPage}
+                maxPagesCount={pagesCount}
+                updatePage={(page) => updatePage(page)}
+              />
+            </>}
+          </LoadingBoundary>
+        </ErrorBoundary>
+      </TabContent>}
     </>
   )
 }
