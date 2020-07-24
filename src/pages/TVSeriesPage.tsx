@@ -81,9 +81,16 @@ interface ITVSeriesPage {
 
 class TVSeriesPage extends Component<ITVSeriesPage> {
   componentDidMount() {
-    const { tvSeriesId, sessionId, addLastPage } = this.props;
-    this.props.setCurrentTVSeries(tvSeriesId, sessionId);
+    const { tvSeriesId, setCurrentTVSeries, sessionId, addLastPage } = this.props;
+    setCurrentTVSeries(tvSeriesId, sessionId);
     addLastPage(window.location.pathname)
+  }
+  componentDidUpdate(prevProps: Readonly<ITVSeriesPage>) {
+    if (prevProps.tvSeriesId !== this.props.tvSeriesId) {
+      const { sessionId, tvSeriesId, setCurrentTVSeries, addLastPage } = this.props;
+      setCurrentTVSeries(tvSeriesId, sessionId);
+      addLastPage(window.location.pathname)
+    }
   }
   componentWillUnmount() {
     const { removeLastPage } = this.props
