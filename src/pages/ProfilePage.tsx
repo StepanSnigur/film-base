@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { AppStateType } from '../store/Store';
 import { IUserMoviesList } from '../reducers/UserReducer';
@@ -47,6 +47,7 @@ const LogOutButton = styled.button`
   }
 `
 const TabIconsWrapper = styled.div`
+  position: relative;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -63,13 +64,21 @@ const TabIcon = styled.button`
   font-weight: bold;
   cursor: pointer;
   
-  ${(props: { isActive: boolean }) => props.isActive && `
-    border-bottom: 2px solid #000;
-  `}
-  
   @media (max-width: 900px) {
     font-size: 18px;
   }
+`
+const TabIconUnderline = styled.span`
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background: #000;
+  transition: .3s;
+  
+  ${(props: { tabUnderlineWidth: number, tabUnderlineLeft: number }) => `
+    width: ${props.tabUnderlineWidth}px;
+    left: ${props.tabUnderlineLeft}px;
+  `};
 `
 
 interface IProfilePage {
@@ -92,9 +101,17 @@ interface IProfilePage {
   getTVSeriesWatchlist: (userId: number, sessionId: string, page?: number) => void,
   logOut: (sessionId: string) => void
 }
+interface IProfilePageContent {
+  sessionId: string | null,
+  userName: string | null,
+  userAvatarHash: string | null,
+  logOut: (sessionId: string) => void,
+  tabs: ITab[]
+}
 interface ITab {
   list: IUserMoviesList,
   name: string,
+  title: string,
   currentPage: number,
   pagesCount: number,
   error: boolean,
@@ -102,24 +119,93 @@ interface ITab {
   isTVSeries?: boolean
 }
 
-class ProfilePage extends Component<IProfilePage> {
-  state = {
-    activeTab: 'favourite'
+const ProfilePageContent: React.FC<IProfilePageContent> = (props) => {
+  const tabHeadline = useRef<HTMLButtonElement>(null)
+  const [tabUnderlineWidth, setTabUnderlineWidth] = useState(0)
+  const [tabUnderlineLeft, setTabUnderlineLeft] = useState(0)
+  const [activeTab, setActiveTab] = useState('favourite')
+  const {
+    sessionId,
+    userName,
+    userAvatarHash,
+    logOut,
+    tabs
+  } = props;
+  const tabNames = tabs.map(tab => ({name: tab.name, title: tab.title}))
+
+  useEffect(() => {
+    setTabUnderlineWidth(tabHeadline.current!.offsetWidth)
+  }, [tabHeadline])
+
+  const changeActiveTab = (e: React.MouseEvent<HTMLElement>, tabName: string) => {
+    const node = e.target as HTMLElement
+    const nodeLeftIndent = node.offsetLeft
+    const nodeWidth = node.offsetWidth
+
+    setTabUnderlineWidth(nodeWidth)
+    setTabUnderlineLeft(nodeLeftIndent)
+    setActiveTab(tabName)
   }
 
-  componentDidMount() {
-    const {
-      sessionId,
-      userId,
-      isLogged,
-      getFavouriteMovies,
-      getRatedMovies,
-      getWatchList,
-      getRatedTVSeries,
-      getFavoriteTVSeries,
-      getTVSeriesWatchlist
-    } = this.props;
+  return (
+    <>
+      <UserInfoWrapper>
+        <UserIcon src={`https://secure.gravatar.com/avatar/${userAvatarHash}.jpg?s=100`} alt="Avatar"/>
+        <UserName>{userName}</UserName>
+        <LogOutButton onClick={() => logOut(sessionId!)}>Выйти</LogOutButton>
+      </UserInfoWrapper>
+      <TabIconsWrapper>
+        {tabNames.map(({ name, title }: any, i) => {
+          return <TabIcon
+            onClick={(e) => changeActiveTab(e, name)}
+            key={i}
+            ref={i === 0 ? tabHeadline : null}
+          >{title}</TabIcon>
+        })}
+        <TabIconUnderline tabUnderlineWidth={tabUnderlineWidth} tabUnderlineLeft={tabUnderlineLeft}/>
+      </TabIconsWrapper>
+      <div>
+        {tabs.map((tab: ITab, i) => {
+          return <TabListContent
+            key={i}
+            list={tab.list}
+            componentName={tab.name}
+            activeComponentName={activeTab}
+            currentPage={tab.currentPage}
+            pagesCount={tab.pagesCount}
+            isError={tab.error}
+            updatePage={tab.updatePage}
+            isTVSeries={tab.isTVSeries}
+          />
+        })}
+      </div>
+    </>
+  )
+}
 
+const ProfilePage: React.FC<IProfilePage> = (props) => {
+  const {
+    isLogged,
+    sessionId,
+    userId,
+    userName,
+    userAvatarHash,
+    favouriteMovies,
+    getFavouriteMovies,
+    ratedMovies,
+    getRatedMovies,
+    watchList,
+    getWatchList,
+    ratedTVSeries,
+    getRatedTVSeries,
+    favouriteTVSeries,
+    getFavoriteTVSeries,
+    tvSeriesWatchList,
+    getTVSeriesWatchlist,
+    logOut
+  } = props;
+
+  useEffect(() => {
     if (isLogged) {
       getFavouriteMovies(userId!, sessionId!);
       getRatedMovies(userId!, sessionId!);
@@ -128,141 +214,80 @@ class ProfilePage extends Component<IProfilePage> {
       getFavoriteTVSeries(userId!, sessionId!);
       getTVSeriesWatchlist(userId!, sessionId!);
     }
-  }
+  }, [])
+  const tabs = [
+    {
+      list: favouriteMovies,
+      name: 'favourite',
+      title: 'Избранные фильмы',
+      currentPage: favouriteMovies.currentPage,
+      pagesCount: favouriteMovies.pagesCount,
+      error: favouriteMovies.isError,
+      updatePage: (page: number) => getFavouriteMovies(userId!, sessionId!, page)
+    },
+    {
+      list: ratedMovies,
+      name: 'rated',
+      title: 'Оцененные фильмы',
+      currentPage: ratedMovies.currentPage,
+      pagesCount: ratedMovies.pagesCount,
+      error: ratedMovies.isError,
+      updatePage: (page: number) => getRatedMovies(userId!, sessionId!, page)
+    },
+    {
+      list: watchList,
+      name: 'watchlist',
+      title: 'Посмотреть позже (фильмы)',
+      currentPage: watchList.currentPage,
+      pagesCount: watchList.pagesCount,
+      error: watchList.isError,
+      updatePage: (page: number) => getWatchList(userId!, sessionId!, page)
+    },
+    {
+      list: ratedTVSeries,
+      name: 'ratedTVSeries',
+      title: 'Оцененные сериалы',
+      currentPage: ratedTVSeries.currentPage,
+      pagesCount: ratedTVSeries.pagesCount,
+      error: ratedTVSeries.isError,
+      updatePage: (page: number) => getRatedTVSeries(userId!, sessionId!, page),
+      isTVSeries: true
+    },
+    {
+      list: favouriteTVSeries,
+      name: 'favouriteTVSeries',
+      title: 'Избранные сериалы',
+      currentPage: favouriteTVSeries.currentPage,
+      pagesCount: favouriteTVSeries.pagesCount,
+      error: favouriteTVSeries.isError,
+      updatePage: (page: number) => getFavoriteTVSeries(userId!, sessionId!, page),
+      isTVSeries: true
+    },
+    {
+      list: tvSeriesWatchList,
+      name: 'tvSeriesWatchList',
+      title: 'Посмотреть позже (сериалы)',
+      currentPage: tvSeriesWatchList.currentPage,
+      pagesCount: tvSeriesWatchList.pagesCount,
+      error: tvSeriesWatchList.isError,
+      updatePage: (page: number) => getTVSeriesWatchlist(userId!, sessionId!, page),
+      isTVSeries: true
+    },
+  ]
 
-  changeActiveTab = (tabName: string) => {
-    this.setState({
-      activeTab: tabName
-    })
-  }
-
-  render() {
-    const {
-      isLogged,
-      sessionId,
-      userId,
-      userName,
-      userAvatarHash,
-      favouriteMovies,
-      getFavouriteMovies,
-      ratedMovies,
-      getRatedMovies,
-      watchList,
-      getWatchList,
-      ratedTVSeries,
-      getRatedTVSeries,
-      favouriteTVSeries,
-      getFavoriteTVSeries,
-      tvSeriesWatchList,
-      getTVSeriesWatchlist,
-      logOut
-    } = this.props;
-    const { activeTab } = this.state;
-    const tabNames = [
-      {name: 'favourite', title: 'Избранные фильмы'},
-      {name: 'rated', title: 'Оцененные фильмы'},
-      {name: 'watchlist', title: 'Посмотреть позже (фильмы)'},
-      {name: 'ratedTVSeries', title: 'Оцененные сериалы'},
-      {name: 'favouriteTVSeries', title: 'Избранные сериалы'},
-      {name: 'tvSeriesWatchList', title: 'Посмотреть позже (сериалы)'}
-    ]
-    const tabs = [
-      {
-        list: favouriteMovies,
-        name: tabNames[0].name,
-        currentPage: favouriteMovies.currentPage,
-        pagesCount: favouriteMovies.pagesCount,
-        error: favouriteMovies.isError,
-        updatePage: (page: number) => getFavouriteMovies(userId!, sessionId!, page)
-      },
-      {
-        list: ratedMovies,
-        name: tabNames[1].name,
-        currentPage: ratedMovies.currentPage,
-        pagesCount: ratedMovies.pagesCount,
-        error: ratedMovies.isError,
-        updatePage: (page: number) => getRatedMovies(userId!, sessionId!, page)
-      },
-      {
-        list: watchList,
-        name: tabNames[2].name,
-        currentPage: watchList.currentPage,
-        pagesCount: watchList.pagesCount,
-        error: watchList.isError,
-        updatePage: (page: number) => getWatchList(userId!, sessionId!, page)
-      },
-      {
-        list: ratedTVSeries,
-        name: tabNames[3].name,
-        currentPage: ratedTVSeries.currentPage,
-        pagesCount: ratedTVSeries.pagesCount,
-        error: ratedTVSeries.isError,
-        updatePage: (page: number) => getRatedTVSeries(userId!, sessionId!, page),
-        isTVSeries: true
-      },
-      {
-        list: favouriteTVSeries,
-        name: tabNames[4].name,
-        currentPage: favouriteTVSeries.currentPage,
-        pagesCount: favouriteTVSeries.pagesCount,
-        error: favouriteTVSeries.isError,
-        updatePage: (page: number) => getFavoriteTVSeries(userId!, sessionId!, page),
-        isTVSeries: true
-      },
-      {
-        list: tvSeriesWatchList,
-        name: tabNames[5].name,
-        currentPage: tvSeriesWatchList.currentPage,
-        pagesCount: tvSeriesWatchList.pagesCount,
-        error: tvSeriesWatchList.isError,
-        updatePage: (page: number) => getTVSeriesWatchlist(userId!, sessionId!, page),
-        isTVSeries: true
-      },
-    ]
-
-    const ProfilePageContent = () => {
-      return (
-        <div>
-          <UserInfoWrapper>
-            <UserIcon src={`https://secure.gravatar.com/avatar/${userAvatarHash}.jpg?s=100`} alt="Avatar"/>
-            <UserName>{userName}</UserName>
-            <LogOutButton onClick={() => logOut(sessionId!)}>Выйти</LogOutButton>
-          </UserInfoWrapper>
-          <TabIconsWrapper>
-            {tabNames.map(({ name, title }, i) => {
-              return <TabIcon
-                onClick={() => this.changeActiveTab(name)}
-                isActive={activeTab === name}
-                key={i}
-              >{title}</TabIcon>
-            })}
-          </TabIconsWrapper>
-          <div>
-            {tabs.map((tab: ITab) => {
-              return <TabListContent
-                list={tab.list}
-                componentName={tab.name}
-                activeComponentName={activeTab}
-                currentPage={tab.currentPage}
-                pagesCount={tab.pagesCount}
-                isError={tab.error}
-                updatePage={tab.updatePage}
-                isTVSeries={tab.isTVSeries}
-              />
-            })}
-          </div>
-        </div>
-      )
-    }
-
-    return (
-      <>
-        {isLogged ?
-        <ProfilePageContent/> :
-        <Redirect to={'/authForm'}/>}
-      </>
-    );
-  }
+  return (
+    <>
+      {isLogged ?
+      <ProfilePageContent
+        sessionId={sessionId}
+        userName={userName}
+        userAvatarHash={userAvatarHash}
+        tabs={tabs}
+        logOut={logOut}
+      /> :
+      <Redirect to={'/authForm'}/>}
+    </>
+  )
 }
 
 const mapStateToProps = ({ user }: AppStateType) => {
