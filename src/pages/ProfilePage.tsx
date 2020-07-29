@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { AppStateType } from '../store/Store';
 import { IUserMoviesList } from '../reducers/UserReducer';
 import styled from 'styled-components';
-import { Redirect } from 'react-router-dom';
+import LoginBoundary from '../hoc/LoginBoundary';
 
 import TabListContent from '../components/TabListContent';
 
@@ -276,17 +276,15 @@ const ProfilePage: React.FC<IProfilePage> = (props) => {
   ]
 
   return (
-    <>
-      {isLogged ?
+    <LoginBoundary>
       <ProfilePageContent
         sessionId={sessionId}
         userName={userName}
         userAvatarHash={userAvatarHash}
         tabs={tabs}
         logOut={logOut}
-      /> :
-      <Redirect to={'/authForm'}/>}
-    </>
+      />
+    </LoginBoundary>
   )
 }
 
