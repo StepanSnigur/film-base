@@ -152,7 +152,7 @@ const ActionButtons: React.FC<IActionButtons> = props => {
     markAsFavourite,
     addToWatchlist,
     mediaType
-  } = props;
+  } = props
 
   return (
     <>
@@ -188,12 +188,11 @@ const ActionButtons: React.FC<IActionButtons> = props => {
           >
             {isInWatchlistLoading ? <CirclePreloader /> : 'Посмотреть позже'}
           </WatchListButton>
-          {rating &&
-          <DeleteRatingButton
-              onClick={() => deleteRating(sessionId!, id)}
-              disabled={isFilmButtonsLoading}
+          {!!rating && <DeleteRatingButton
+            onClick={() => deleteRating(sessionId!, id)}
+            disabled={isFilmButtonsLoading}
           >
-              Удалить оценку
+            Удалить оценку
           </DeleteRatingButton>}
         </FilmButtonsWrapper>
       </ErrorBoundary>}
