@@ -64,8 +64,8 @@ const PaginationBar: React.FC<IPaginationBar> = (props) => {
     pagesCount.push(i);
   }
 
-  let selectPage = (pageId: number | string) => {
-    if (+pageId > 0 && +pageId <= maxPagesCount && +pageId !== currentPage) props.updatePage(+pageId);
+  const selectPage = (pageId: number) => {
+    if (pageId > 0 && pageId <= maxPagesCount && pageId !== currentPage) props.updatePage(pageId);
   }
 
   return (
@@ -73,17 +73,15 @@ const PaginationBar: React.FC<IPaginationBar> = (props) => {
       {maxPagesCount > 1 && <Wrapper>
         <button onClick={() => selectPage(currentPage - 1)}>&lt;</button>
         <div>
-          {
-            pagesCount.map((el) => {
-              return (
-                <PageLink
-                  isActive={el === currentPage}
-                  onClick={(e: React.MouseEvent<HTMLSpanElement>) => selectPage(e.currentTarget.innerHTML)}
-                  key={el}
-                >{el}</PageLink>
-              )
-            }).slice(PaginationBarLimiter, currentPage + 11)
-          }
+          {pagesCount.map((el) => {
+            return (
+              <PageLink
+                isActive={el === currentPage}
+                onClick={(e: React.MouseEvent<HTMLSpanElement>) => selectPage(+e.currentTarget.innerHTML)}
+                key={el}
+              >{el}</PageLink>
+            )
+          }).slice(PaginationBarLimiter, currentPage + 11)}
         </div>
         <button onClick={() => selectPage(currentPage + 1)}>&gt;</button>
       </Wrapper>}

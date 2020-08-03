@@ -131,7 +131,6 @@ const ProfilePageContent: React.FC<IProfilePageContent> = (props) => {
     logOut,
     tabs
   } = props;
-  const tabNames = tabs.map(tab => ({name: tab.name, title: tab.title}))
 
   useEffect(() => {
     setTabUnderlineWidth(tabHeadline.current!.offsetWidth)
@@ -155,7 +154,7 @@ const ProfilePageContent: React.FC<IProfilePageContent> = (props) => {
         <LogOutButton onClick={() => logOut(sessionId!)}>Выйти</LogOutButton>
       </UserInfoWrapper>
       <TabIconsWrapper>
-        {tabNames.map(({ name, title }: any, i) => {
+        {tabs.map(({ name, title }: any, i) => {
           return <TabIcon
             onClick={(e) => changeActiveTab(e, name)}
             key={i}
