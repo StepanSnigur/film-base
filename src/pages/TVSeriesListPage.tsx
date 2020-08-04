@@ -42,20 +42,19 @@ class TVSeriesListPage extends Component<ITVSeriesListPage> {
 
   changeCurrentListRole = () => {
     const { listRole, getPopularTVSeries, getTopRatedTVSeries, getTVSeriesOnAir } = this.props;
-    const { currentPopularPage, currentRatedPage, currentOnAirPage } = this.props.TVSeriesListReducer;
 
     if (listRole === "Сериалы в эфире") {
-      getTVSeriesOnAir(currentOnAirPage);
+      getTVSeriesOnAir();
       this.setState({
         getDataFunc: getTVSeriesOnAir
       })
     } else if (listRole === "Популярные сериалы") {
-      getPopularTVSeries(currentPopularPage);
+      getPopularTVSeries();
       this.setState({
         getDataFunc: getPopularTVSeries
       })
     } else if (listRole === "Лучшие сериалы") {
-      getTopRatedTVSeries(currentRatedPage);
+      getTopRatedTVSeries();
       this.setState({
         getDataFunc: getTopRatedTVSeries
       })

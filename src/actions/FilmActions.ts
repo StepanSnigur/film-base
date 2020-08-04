@@ -1,4 +1,5 @@
 import { Dispatch } from 'redux';
+import { AppStateType } from '../store/Store';
 import FilmService from '../services/FilmService';
 import {
   setCurrentFilmDataLoading,
@@ -48,12 +49,13 @@ import {
 } from './actionTypes/FilmActionTypes';
 
 export const getTopRatedFilms = (page?: number) => async (
-  dispatch: Dispatch<ISetCurrentFilmDataLoading | ISetCurrentRatedPage | IChangeCurrentListData | ISetFilmListError>
+  dispatch: Dispatch<ISetCurrentFilmDataLoading | ISetCurrentRatedPage | IChangeCurrentListData | ISetFilmListError>,
+  getState: () => AppStateType
 ) => {
   try {
     dispatch(setCurrentFilmDataLoading());
 
-    let result = await FilmService.getTopRatedFilms(page);
+    const result = await FilmService.getTopRatedFilms(page || getState().FilmListReducer.currentRatedPage);
     dispatch(setCurrentRatedPage(result.page));
     dispatch(changeCurrentListData(result));
   } catch {
@@ -62,12 +64,13 @@ export const getTopRatedFilms = (page?: number) => async (
 }
 
 export const loadMostPopularFilms = (page?: number) => async (
-  dispatch: Dispatch<ISetCurrentFilmDataLoading | ISetCurrentPopularPage | IChangeCurrentListData | ISetFilmListError>
+  dispatch: Dispatch<ISetCurrentFilmDataLoading | ISetCurrentPopularPage | IChangeCurrentListData | ISetFilmListError>,
+  getState: () => AppStateType
 ) => {
   try {
     dispatch(setCurrentFilmDataLoading());
 
-    let result = await FilmService.getPopularFilms(page);
+    const result = await FilmService.getPopularFilms(page || getState().FilmListReducer.currentPopularPage);
     dispatch(setCurrentPopularPage(result.page));
     dispatch(changeCurrentListData(result));
   } catch {
@@ -76,12 +79,13 @@ export const loadMostPopularFilms = (page?: number) => async (
 }
 
 export const loadUpComingFilms = (page?: number) => async (
-  dispatch: Dispatch<ISetCurrentFilmDataLoading | ISetCurrentUpcomingPage | IChangeCurrentListData | ISetFilmListError>
+  dispatch: Dispatch<ISetCurrentFilmDataLoading | ISetCurrentUpcomingPage | IChangeCurrentListData | ISetFilmListError>,
+  getState: () => AppStateType
 ) => {
   try {
     dispatch(setCurrentFilmDataLoading());
 
-    let result = await FilmService.getUpcomingFilms(page);
+    const result = await FilmService.getUpcomingFilms(page || getState().FilmListReducer.currentUpcomingPage);
     dispatch(setCurrentUpcomingPage(result.page));
     dispatch(changeCurrentListData(result));
   } catch {
@@ -94,14 +98,14 @@ export const setCurrentFilm = (id: number, sessionId: string | null) => async (
 ) => {
   try {
     dispatch(setCurrentFilmLoading());
-    let filmData = await FilmService.getFilm(id);
-    let filmVideos = await FilmService.getFilmVideos(id);
-    let filmReviews = await FilmService.getFilmReviews(id);
-    let similarFilms = await FilmService.getSimilarFilms(id);
+    const filmData = await FilmService.getFilm(id);
+    const filmVideos = await FilmService.getFilmVideos(id);
+    const filmReviews = await FilmService.getFilmReviews(id);
+    const similarFilms = await FilmService.getSimilarFilms(id);
 
     if (sessionId) {
-        let filmStates = await FilmService.getMovieAccountStates(id, sessionId);
-        dispatch(setFilmStates(filmStates));
+      const filmStates = await FilmService.getMovieAccountStates(id, sessionId);
+      dispatch(setFilmStates(filmStates));
     }
 
     dispatch(setCurrentFilmData(filmData, filmVideos, filmReviews, similarFilms));

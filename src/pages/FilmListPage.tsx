@@ -42,20 +42,19 @@ class FilmListPage extends Component<IFilmListPage> {
 
   changeCurrentListRole = () => {
     const { listRole, loadUpComingFilms, loadMostPopularFilms, getTopRatedFilms } = this.props;
-    const { currentPopularPage, currentRatedPage, currentUpcomingPage } = this.props.FilmListReducer;
 
     if (listRole === "Недавно вышедшие фильмы") {
-      loadUpComingFilms(currentUpcomingPage);
+      loadUpComingFilms();
       this.setState({
         getDataFunc: loadUpComingFilms
       })
     } else if (listRole === "Популярные фильмы") {
-      loadMostPopularFilms(currentPopularPage);
+      loadMostPopularFilms();
       this.setState({
         getDataFunc: loadMostPopularFilms
       })
     } else if (listRole === "Лучшие фильмы") {
-      getTopRatedFilms(currentRatedPage);
+      getTopRatedFilms();
       this.setState({
         getDataFunc: getTopRatedFilms
       })

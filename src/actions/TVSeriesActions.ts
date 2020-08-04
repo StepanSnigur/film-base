@@ -1,4 +1,5 @@
-import {Dispatch} from 'redux';
+import { Dispatch } from 'redux';
+import { AppStateType } from '../store/Store';
 import TVSeriesService from '../services/TVSeriesService';
 import {
   setCurrentListDataLoading,
@@ -46,38 +47,43 @@ import {
 } from './actionTypes/TVSeriesActionTypes';
 
 export const getPopularTVSeries = (page?: number) => async (
-  dispatch: Dispatch<ISetCurrentListDataLoading | ISetTVSeriesListError | ISetCurrentPopularPage | IChangeCurrentListData>
+  dispatch: Dispatch<ISetCurrentListDataLoading | ISetTVSeriesListError | ISetCurrentPopularPage | IChangeCurrentListData>,
+  getState: () => AppStateType
 ) => {
   try {
     dispatch(setCurrentListDataLoading());
 
-    let result = await TVSeriesService.getPopularTVSeries(page);
+    const result = await TVSeriesService.getPopularTVSeries(page || getState().TVSeriesListReducer.currentPopularPage);
     dispatch(setCurrentPopularPage(result.page));
     dispatch(changeCurrentListData(result));
   } catch {
     dispatch(setTVSeriesError());
   }
 }
+
 export const getTopRatedTVSeries = (page?: number) => async (
-  dispatch: Dispatch<ISetCurrentListDataLoading | ISetTVSeriesListError | ISetCurrentRatedPage | IChangeCurrentListData>
+  dispatch: Dispatch<ISetCurrentListDataLoading | ISetTVSeriesListError | ISetCurrentRatedPage | IChangeCurrentListData>,
+  getState: () => AppStateType
 ) => {
   try {
     dispatch(setCurrentListDataLoading());
 
-    let result = await TVSeriesService.getTopRatedTVSeries(page);
+    const result = await TVSeriesService.getTopRatedTVSeries(page || getState().TVSeriesListReducer.currentRatedPage);
     dispatch(setCurrentRatedPage(result.page));
     dispatch(changeCurrentListData(result));
   } catch {
     dispatch(setTVSeriesError());
   }
 }
+
 export const getTVSeriesOnAir = (page?: number) => async (
-  dispatch: Dispatch<ISetCurrentListDataLoading | ISetTVSeriesListError | ISetCurrentOnAirPage | IChangeCurrentListData>
+  dispatch: Dispatch<ISetCurrentListDataLoading | ISetTVSeriesListError | ISetCurrentOnAirPage | IChangeCurrentListData>,
+  getState: () => AppStateType
 ) => {
   try {
     dispatch(setCurrentListDataLoading());
 
-    let result = await TVSeriesService.getTVSeriesOnAir(page);
+    const result = await TVSeriesService.getTVSeriesOnAir(page || getState().TVSeriesListReducer.currentOnAirPage);
     dispatch(setCurrentOnAirPage(result.page));
     dispatch(changeCurrentListData(result));
   } catch {
@@ -90,11 +96,11 @@ export const setCurrentTVSeries = (id: number, sessionId: string | null) => asyn
 ) => {
   dispatch(setCurrentTVSeriesLoading());
   try {
-    let tvSeriesData = await TVSeriesService.getTVSeries(id);
-    let tvSeriesReviews = await TVSeriesService.getTVSeriesReviews(id);
+    const tvSeriesData = await TVSeriesService.getTVSeries(id);
+    const tvSeriesReviews = await TVSeriesService.getTVSeriesReviews(id);
 
     if (sessionId) {
-      let tvSeriesStates = await TVSeriesService.getTVSeriesAccountStates(id, sessionId);
+      const tvSeriesStates = await TVSeriesService.getTVSeriesAccountStates(id, sessionId);
       dispatch(setTVSeriesStates(tvSeriesStates));
     }
 
