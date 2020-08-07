@@ -1,5 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useMemo } from 'react'
+import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
 
 const Wrapper = styled.div`
   width: 100%;
@@ -49,39 +50,40 @@ const PageLink = styled.span`
 `
 
 interface IPaginationBar {
+  pagesCount: number,
   currentPage: number,
-  maxPagesCount: number,
-  updatePage: (pageId: number) => void
+  onPageChange: (pageId: number) => void,
+  isFunctionWrapped?: boolean
 }
 
-const PaginationBar: React.FC<IPaginationBar> = (props) => {
-  const pagesCount = [];
-  const currentPage = props.currentPage;
-  const maxPagesCount = props.maxPagesCount;
-  const PaginationBarLimiter = currentPage - 10 <= 0 ? 1 : currentPage - 10;
-
-  for (let i = 0; i <= maxPagesCount; i++) {
-    pagesCount.push(i);
+const PaginationBar: React.FC<IPaginationBar> = ({ pagesCount, currentPage = 1, onPageChange, isFunctionWrapped = true }) => {
+  const dispatch = useDispatch()
+  const generatePages = (pagesCount: number): number[] => {
+    return Array.from({ length: pagesCount }, (_, i) => i + 1)
   }
+  const getPages = useMemo(() => generatePages(pagesCount), [pagesCount])
 
+  const paginationBarLimiter = currentPage - 10 <= 0 ? 0 : currentPage - 11;
   const selectPage = (pageId: number) => {
-    if (pageId > 0 && pageId <= maxPagesCount && pageId !== currentPage) props.updatePage(pageId);
+    if (pageId > 0 && pageId <= pagesCount && pageId !== currentPage) {
+      isFunctionWrapped ? onPageChange(pageId) : dispatch(onPageChange(pageId))
+    }
   }
 
   return (
     <>
-      {maxPagesCount > 1 && <Wrapper>
+      {pagesCount > 1 && <Wrapper>
         <button onClick={() => selectPage(currentPage - 1)}>&lt;</button>
         <div>
-          {pagesCount.map((el) => {
-            return (
+          {getPages
+            .slice(paginationBarLimiter, currentPage + 10)
+            .map(pageId => (
               <PageLink
-                isActive={el === currentPage}
-                onClick={(e: React.MouseEvent<HTMLSpanElement>) => selectPage(+e.currentTarget.innerHTML)}
-                key={el}
-              >{el}</PageLink>
-            )
-          }).slice(PaginationBarLimiter, currentPage + 11)}
+                isActive={pageId === currentPage}
+                onClick={() => selectPage(pageId)}
+                key={pageId}
+              >{pageId}</PageLink>
+            ))}
         </div>
         <button onClick={() => selectPage(currentPage + 1)}>&gt;</button>
       </Wrapper>}

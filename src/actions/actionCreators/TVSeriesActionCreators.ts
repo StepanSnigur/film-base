@@ -1,6 +1,4 @@
 import {
-  ISetCurrentListDataLoading,
-  ISetTVSeriesListError,
   ISetCurrentOnAirPage,
   ISetCurrentTVSeriesLoading,
   ISetTVSeriesStates,
@@ -17,28 +15,18 @@ import {
   ILoadTVSeriesWatchListError
 } from '../actionTypes/TVSeriesActionTypes';
 import {
-  ISetCurrentPopularPage,
-  ISetCurrentRatedPage
-} from '../actionTypes/FilmActionTypes';
+  ISetCurrentRatedTVSeriesPage
+} from '../FilmsList/ActionTypes';
 import { IFilmStates, IFilmReviews, IFilmsResults } from './actionCreatorsTypes/FilmActionCreatorsTypes';
 import { ITVSeriesData } from './actionCreatorsTypes/TVSeriesActionCreatorsTypes';
 
-export const setCurrentListDataLoading = (): ISetCurrentListDataLoading => ({
-  type: 'SET_CURRENT_LIST_DATA_LOADING'
-})
-export const setCurrentPopularPage = (page: number): ISetCurrentPopularPage => ({
-  type: 'SET_CURRENT_POPULAR_PAGE',
+export const setCurrentRatedTVSeriesPage = (page: number): ISetCurrentRatedTVSeriesPage => ({
+  type: 'FILMS_LIST/SET_RATED_TV_SERIES_PAGE',
   payload: page
 })
-export const setTVSeriesError = (): ISetTVSeriesListError => ({
-  type: 'SET_TV_SERIES_LIST_ERROR'
-})
-export const setCurrentRatedPage = (page: number): ISetCurrentRatedPage => ({
-  type: 'SET_CURRENT_RATED_PAGE',
-  payload: page
-})
+
 export const setCurrentOnAirPage = (page: number): ISetCurrentOnAirPage => ({
-  type: 'SET_CURRENT_ON_AIR_PAGE',
+  type: 'FILMS_LIST/SET_TV_SERIES_ON_AIR',
   payload: page
 })
 

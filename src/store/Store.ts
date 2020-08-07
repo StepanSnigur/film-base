@@ -2,9 +2,8 @@ import { applyMiddleware, createStore, combineReducers, compose } from 'redux';
 import ReduxThunk from 'redux-thunk';
 
 import currentFilm from '../reducers/FilmPageReducer';
-import FilmListReducer from '../reducers/FilmListReducer';
+import FilmsListReducer from '../reducers/FilmsListReducer'
 import searchFilms from '../reducers/SearchFilmReducer';
-import TVSeriesListReducer from '../reducers/TVSeriesListReducer';
 import currentTVSeries from '../reducers/TVSeriesPageReducer';
 import UserReducer from '../reducers/UserReducer';
 import FilmHistoryReducer from '../reducers/FilmHistoryReducer';
@@ -14,9 +13,8 @@ import { reducer as formReducer } from 'redux-form';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const rootReducer = combineReducers({
   currentFilm,
-  FilmListReducer,
+  FilmsListReducer,
   searchFilms,
-  TVSeriesListReducer,
   currentTVSeries,
   user: UserReducer,
   FilmHistoryReducer,

@@ -6,10 +6,9 @@ import { createBrowserHistory } from 'history';
 import styled from 'styled-components';
 
 import Header from './components/Header';
-import FilmListPage from './pages/FilmListPage';
+import FilmsListPage from './pages/FilmsListPage';
 import FilmPage from './pages/FilmPage';
 import TVSeriesPage from './pages/TVSeriesPage';
-import TVSeriesListPage from './pages/TVSeriesListPage';
 import Footer from './components/Footer';
 
 import WithSuspense from './hoc/WithSuspense';
@@ -57,15 +56,15 @@ const App = () => {
           <Route
             path="/"
             exact
-            render={() => <FilmListPage listRole={"Лучшие фильмы"} />}
+            render={() => <FilmsListPage listRole={"Лучшие фильмы"} />}
           />
           <Route
             path="/upcoming-films"
-            render={() => <FilmListPage listRole={"Недавно вышедшие фильмы"} />}
+            render={() => <FilmsListPage listRole={"Недавно вышедшие фильмы"} />}
           />
           <Route
             path="/popular-films"
-            render={() => <FilmListPage listRole={"Популярные фильмы"} />}
+            render={() => <FilmsListPage listRole={"Популярные фильмы"} />}
           />
           <Route
             path="/film/:id"
@@ -79,15 +78,15 @@ const App = () => {
 
           <Route
             path="/tv-series-on-air"
-            render={() => <TVSeriesListPage listRole={"Сериалы в эфире"}/>}
+            render={() => <FilmsListPage listRole={"Сериалы в эфире"}/>}
           />
           <Route
             path="/popular-tv-series"
-            render={() => <TVSeriesListPage listRole={"Популярные сериалы"}/>}
+            render={() => <FilmsListPage listRole={"Популярные сериалы"}/>}
           />
           <Route
             path="/best-tv-series"
-            render={() => <TVSeriesListPage listRole={"Лучшие сериалы"}/>}
+            render={() => <FilmsListPage listRole={"Лучшие сериалы"}/>}
           />
           <Route
             path="/tv-series/:id"

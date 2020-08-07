@@ -1,35 +1,10 @@
 import {
-  IFilmListData,
   IFilmStates,
   IFilmData,
   IFilmVideos,
   IFilmReviews,
   IFilmsResults
 } from '../actionCreators/actionCreatorsTypes/FilmActionCreatorsTypes';
-
-export interface ISetCurrentFilmDataLoading {
-  type: 'SET_CURRENT_FILM_DATA_LOADING'
-}
-export interface IChangeCurrentListData {
-  type: 'CHANGE_CURRENT_LIST_DATA',
-  payload: IFilmListData
-}
-
-export interface ISetCurrentRatedPage {
-  type: 'SET_CURRENT_RATED_PAGE',
-  payload: number
-}
-export interface ISetCurrentPopularPage {
-  type: 'SET_CURRENT_POPULAR_PAGE',
-  payload: number
-}
-export interface ISetCurrentUpcomingPage {
-  type: 'SET_CURRENT_UPCOMING_PAGE',
-  payload: number
-}
-export interface ISetFilmListError {
-  type: 'SET_FILM_LIST_ERROR'
-}
 
 export interface ISetCurrentFilmLoading {
   type: 'SET_CURRENT_FILM_LOADING'

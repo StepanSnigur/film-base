@@ -62,8 +62,8 @@ const TabListContent: React.FC<ITabListContent> = (props) => {
               </TabContentList>
               <PaginationBar
                 currentPage={currentPage}
-                maxPagesCount={pagesCount}
-                updatePage={(page) => updatePage(page)}
+                pagesCount={pagesCount}
+                onPageChange={updatePage}
               />
             </>}
           </LoadingBoundary>

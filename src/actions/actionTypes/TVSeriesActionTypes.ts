@@ -13,7 +13,7 @@ export interface ISetTVSeriesListError {
 }
 
 export interface ISetCurrentOnAirPage {
-  type: 'SET_CURRENT_ON_AIR_PAGE',
+  type: 'FILMS_LIST/SET_TV_SERIES_ON_AIR',
   payload: number
 }
 

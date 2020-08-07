@@ -1,10 +1,4 @@
 import {
-  ISetCurrentFilmDataLoading,
-  IChangeCurrentListData,
-  ISetCurrentRatedPage,
-  ISetCurrentPopularPage,
-  ISetCurrentUpcomingPage,
-  ISetFilmListError,
   ISetCurrentFilmLoading,
   ISetFilmStates,
   ISetCurrentFilmData,
@@ -22,37 +16,12 @@ import {
   ILoadWatchListError
 } from '../actionTypes/FilmActionTypes';
 import {
-  IFilmListData,
   IFilmStates,
   IFilmData,
   IFilmVideos,
   IFilmReviews,
   IFilmsResults
 } from './actionCreatorsTypes/FilmActionCreatorsTypes';
-
-export const setCurrentFilmDataLoading = (): ISetCurrentFilmDataLoading => ({
-  type: 'SET_CURRENT_FILM_DATA_LOADING'
-})
-export const changeCurrentListData = (listData: IFilmListData): IChangeCurrentListData => ({
-  type: 'CHANGE_CURRENT_LIST_DATA',
-  payload: listData
-})
-
-export const setCurrentPopularPage = (page: number): ISetCurrentPopularPage => ({
-  type: 'SET_CURRENT_POPULAR_PAGE',
-  payload: page
-})
-export const setCurrentRatedPage = (page: number): ISetCurrentRatedPage => ({
-  type: 'SET_CURRENT_RATED_PAGE',
-  payload: page
-})
-export const setCurrentUpcomingPage = (page: number): ISetCurrentUpcomingPage => ({
-  type: 'SET_CURRENT_UPCOMING_PAGE',
-  payload: page
-})
-export const setFilmListError = (): ISetFilmListError => ({
-  type: 'SET_FILM_LIST_ERROR'
-})
 
 export  const setCurrentFilmLoading = (): ISetCurrentFilmLoading => ({
   type: 'SET_CURRENT_FILM_LOADING'
