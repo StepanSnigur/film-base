@@ -35,51 +35,6 @@ import {
   ILoadWatchListError
 } from './actionTypes/FilmActionTypes';
 
-// export const getTopRatedFilms = (page?: number) => async (
-//   dispatch: Dispatch<ISetCurrentListDataLoading | ISetCurrentRatedFilmPage | IChangeCurrentListData | ISetFilmListError>,
-//   getState: () => AppStateType
-// ) => {
-//   try {
-//     dispatch(setCurrentListDataLoading());
-//
-//     const result = await FilmService.getTopRatedFilms(page || getState().FilmsListReducer.currentRatedFilmPage);
-//     dispatch(setCurrentRatedFilmPage(result.page));
-//     dispatch(changeCurrentListData(result));
-//   } catch {
-//     dispatch(setFilmListError());
-//   }
-// }
-//
-// export const loadMostPopularFilms = (page?: number) => async (
-//   dispatch: Dispatch<ISetCurrentListDataLoading | ISetCurrentPopularFilmPage | IChangeCurrentListData | ISetFilmListError>,
-//   getState: () => AppStateType
-// ) => {
-//   try {
-//     dispatch(setCurrentListDataLoading());
-//
-//     const result = await FilmService.getPopularFilms(page || getState().FilmsListReducer.currentPopularFilmPage);
-//     dispatch(setCurrentPopularPage(result.page));
-//     dispatch(changeCurrentListData(result));
-//   } catch {
-//     dispatch(setFilmListError());
-//   }
-// }
-//
-// export const loadUpComingFilms = (page?: number) => async (
-//   dispatch: Dispatch<ISetCurrentListDataLoading | ISetCurrentUpcomingPage | IChangeCurrentListData | ISetFilmListError>,
-//   getState: () => AppStateType
-// ) => {
-//   try {
-//     dispatch(setCurrentListDataLoading());
-//
-//     const result = await FilmService.getUpcomingFilms(page || getState().FilmsListReducer.currentUpcomingFilmPage);
-//     dispatch(setCurrentUpcomingPage(result.page));
-//     dispatch(changeCurrentListData(result));
-//   } catch {
-//     dispatch(setFilmListError());
-//   }
-// }
-
 export const setCurrentFilm = (id: number, sessionId: string | null) => async (
   dispatch: Dispatch<ISetCurrentFilmLoading | ISetFilmStates | ISetCurrentFilmData | ISetCurrentFilmError>
 ) => {
