@@ -1,9 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React from 'react'
+import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
-import SearchMovieForm from './SearchMovieForm';
-import AuthButton from './AuthButton';
+import { FilmsLists } from '../data/ListPages'
+import SearchMovieForm from './SearchMovieForm'
+import AuthButton from './AuthButton'
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -36,19 +37,19 @@ const HeaderContainer = styled.div`
     width: 345px;
   }
 `
-let HeaderLogo = styled(Link)`
+const HeaderLogo = styled(Link)`
   text-decoration: none;
   color: #fff;
   font-size: 40px;
   cursor: pointer;
 `
-let HeaderLinksWrapper = styled.div`
+const HeaderLinksWrapper = styled.div`
   justify-content: center;
   text-align: center;
   padding-bottom: 30px;
   margin-top: 10px;
 `
-let HeaderLink = styled(Link)`
+const HeaderLink = styled(Link)`
   position: relative;
   text-decoration: none;
   color: #fff;
@@ -83,24 +84,19 @@ let HeaderLink = styled(Link)`
   }
 `
 
-const Header = () => {
-  return (
-    <HeaderWrapper>
-      <HeaderContainer>
-        <HeaderLogo to="/">FB</HeaderLogo>
-        <SearchMovieForm/>
-        <AuthButton/>
-      </HeaderContainer>
-      <HeaderLinksWrapper>
-        <HeaderLink to="/">Лучшие фильмы</HeaderLink>
-        <HeaderLink to="/upcoming-films">Недавно вышедшие фильмы</HeaderLink>
-        <HeaderLink to="/popular-films">Популярные фильмы</HeaderLink>
-        <HeaderLink to="/popular-tv-series">Популярные сериалы</HeaderLink>
-        <HeaderLink to="/tv-series-on-air">Сериалы в эфире</HeaderLink>
-        <HeaderLink to="/best-tv-series">Лучшие сериалы</HeaderLink>
-      </HeaderLinksWrapper>
-    </HeaderWrapper>
-  )
-}
+const Header = () => (
+  <HeaderWrapper>
+    <HeaderContainer>
+      <HeaderLogo to="/">FB</HeaderLogo>
+      <SearchMovieForm />
+      <AuthButton />
+    </HeaderContainer>
+    <HeaderLinksWrapper>
+      {FilmsLists.map(({ title, url }, i) => (
+        <HeaderLink key={i} to={url}>{title}</HeaderLink>
+      ))}
+    </HeaderLinksWrapper>
+  </HeaderWrapper>
+)
 
 export default Header;

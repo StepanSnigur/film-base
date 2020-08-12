@@ -5,6 +5,7 @@ import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import styled from 'styled-components';
 
+import { FilmsLists } from './data/ListPages'
 import Header from './components/Header';
 import FilmsListPage from './pages/FilmsListPage';
 import FilmPage from './pages/FilmPage';
@@ -53,49 +54,28 @@ const App = () => {
       <Header/>
       <Wrapper>
         <Switch>
-          <Route
-            path="/"
-            exact
-            render={() => <FilmsListPage listRole={"Лучшие фильмы"} />}
-          />
-          <Route
-            path="/upcoming-films"
-            render={() => <FilmsListPage listRole={"Недавно вышедшие фильмы"} />}
-          />
-          <Route
-            path="/popular-films"
-            render={() => <FilmsListPage listRole={"Популярные фильмы"} />}
-          />
-          <Route
-            path="/film/:id"
-            render={
-             ({ match, history }) => {
-               const { id } = match.params;
-               return <FilmPage history={history} filmId={id} />
-             }
-            }
-          />
+          {FilmsLists.map((filmList, i) => (
+            <Route
+              key={i}
+              path={filmList.url}
+              exact={filmList.url === '/'}
+              render={() => <FilmsListPage listRole={filmList.title} />}
+            />
+          ))}
 
           <Route
-            path="/tv-series-on-air"
-            render={() => <FilmsListPage listRole={"Сериалы в эфире"}/>}
-          />
-          <Route
-            path="/popular-tv-series"
-            render={() => <FilmsListPage listRole={"Популярные сериалы"}/>}
-          />
-          <Route
-            path="/best-tv-series"
-            render={() => <FilmsListPage listRole={"Лучшие сериалы"}/>}
+            path="/film/:id"
+            render={({ match, history }) => {
+              const { id } = match.params
+              return <FilmPage history={history} filmId={id} />
+            }}
           />
           <Route
             path="/tv-series/:id"
-            render={
-             ({ match, history }) => {
-               let {id} = match.params;
-               return <TVSeriesPage history={history} tvSeriesId={id}/>
-             }
-            }
+            render={({ match, history }) => {
+              const { id } = match.params
+              return <TVSeriesPage history={history} tvSeriesId={id} />
+            }}
           />
 
           <Route path="/authForm" render={WithSuspense(AuthForm)}/>

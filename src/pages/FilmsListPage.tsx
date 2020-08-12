@@ -3,21 +3,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { AppStateType } from '../store/Store'
 import styled from 'styled-components'
 
+import { FilmsLists } from '../data/ListPages'
 import PaginationBar from '../components/PaginationBar'
 import ErrorBoundary from '../hoc/ErrorBoundary'
 import LoadingBoundary from '../hoc/LoadingBoundary'
 
 import FilmCard from '../components/FilmCard'
 import TVSeriesCard from '../components/TVSeriesCard';
-
-import {
-  loadUpComingFilms,
-  loadMostPopularFilms,
-  getTopRatedFilms,
-  getPopularTVSeries,
-  getTopRatedTVSeries,
-  getTVSeriesOnAir
-} from '../actions/FilmsList/Actions'
 
 const FilmsPageContainer = styled.div`
   display: flex;
@@ -36,32 +28,13 @@ const FilmsListPage: React.FC<IFilmsListPage> = ({ listRole }) => {
   const filmsList = useSelector((state: AppStateType) => state.FilmsListReducer.listData)
 
   useLayoutEffect(() => {
-    switch (listRole) {
-      case 'Лучшие фильмы':
-        dispatch(getTopRatedFilms())
-        changeLoadPage(() => getTopRatedFilms)
-        break
-      case 'Недавно вышедшие фильмы':
-        dispatch(loadUpComingFilms())
-        changeLoadPage(() => loadUpComingFilms)
-        break
-      case 'Популярные фильмы':
-        dispatch(loadMostPopularFilms())
-        changeLoadPage(() => loadMostPopularFilms)
-        break
-
-      case 'Сериалы в эфире':
-        dispatch(getTVSeriesOnAir())
-        changeLoadPage(() => getTVSeriesOnAir)
-        break
-      case 'Популярные сериалы':
-        dispatch(getPopularTVSeries())
-        changeLoadPage(() => getPopularTVSeries)
-        break
-      case 'Лучшие сериалы':
-        dispatch(getTopRatedTVSeries())
-        changeLoadPage(() => getTopRatedTVSeries)
-        break
+    try {
+      const currentList = FilmsLists.find(list => list.title === listRole)
+      if (!currentList) throw Error('List not found')
+      dispatch(currentList.getList())
+      changeLoadPage(() => currentList.getList)
+    } catch (e) {
+      console.log('Films list page error: ', e)
     }
   }, [listRole, dispatch])
 
