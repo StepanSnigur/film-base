@@ -31,6 +31,7 @@ const SearchedFilmsWrapperItem = styled(Link)`
   text-decoration: none;
   
   img {
+    width: 40px;
     height: 60px;
   }
   h3 {
