@@ -7,6 +7,10 @@ export interface IChangeCurrentListData {
   type: 'FILMS_LIST/CHANGE_CURRENT_LIST',
   payload: IFilmListData
 }
+export interface IUpdateCurrentListData {
+  type: 'FILMS_LIST/UPDATE_CURRENT_LIST',
+  payload: IFilmListData
+}
 export interface ISetCurrentRatedFilmPage {
   type: 'FILMS_LIST/SET_RATED_FILM_PAGE',
   payload: number

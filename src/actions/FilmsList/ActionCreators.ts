@@ -6,11 +6,16 @@ import {
   ISetCurrentPopularTVSeriesPage,
   ISetCurrentRatedFilmPage,
   ISetCurrentUpcomingPage,
-  ISetFilmListError
+  ISetFilmListError,
+  IUpdateCurrentListData
 } from './ActionTypes'
 
 export const changeCurrentListData = (listData: IFilmListData): IChangeCurrentListData => ({
   type: 'FILMS_LIST/CHANGE_CURRENT_LIST',
+  payload: listData
+})
+export const updateCurrentListData = (listData: IFilmListData): IUpdateCurrentListData => ({
+  type: 'FILMS_LIST/UPDATE_CURRENT_LIST',
   payload: listData
 })
 export const setCurrentListDataLoading = (): ISetCurrentListDataLoading => ({

@@ -1,4 +1,4 @@
-import { ISetCurrentListDataLoading } from '../actions/FilmsList/ActionTypes'
+import { ISetCurrentListDataLoading, IUpdateCurrentListData } from '../actions/FilmsList/ActionTypes'
 import {
   IChangeCurrentListData,
   ISetCurrentPopularFilmPage,
@@ -31,7 +31,7 @@ interface IFilmsListReducer {
 }
 type FilmsListReducerActions = ISetCurrentListDataLoading | IChangeCurrentListData | ISetFilmListError |
   ISetCurrentRatedTVSeriesPage | ISetCurrentRatedFilmPage | ISetCurrentUpcomingPage | ISetCurrentPopularFilmPage |
-  ISetCurrentPopularTVSeriesPage | ISetCurrentOnAirPage
+  ISetCurrentPopularTVSeriesPage | ISetCurrentOnAirPage | IUpdateCurrentListData
 
 const initialState: IFilmsListReducer = {
   listData: {
@@ -54,6 +54,17 @@ const FilmsListReducer = (state = initialState, action: FilmsListReducerActions)
       return {
         ...state,
         listData: action.payload,
+        isLoading: false,
+        isError: false
+      }
+    case 'FILMS_LIST/UPDATE_CURRENT_LIST':
+      return {
+        ...state,
+        listData: {
+          ...state.listData,
+          ...action.payload,
+          results: [...state.listData.results, ...action.payload.results]
+        },
         isLoading: false,
         isError: false
       }

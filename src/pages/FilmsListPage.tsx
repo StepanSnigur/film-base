@@ -16,13 +16,20 @@ const FilmsPageContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 `
+const LoadMoreBtn = styled.button`
+  display: block;
+  width: 400px;
+  height: 50px;
+  margin: 27px auto 0;
+  cursor: pointer;
+`
 
 interface IFilmsListPage {
   listRole: string
 }
 const FilmsListPage: React.FC<IFilmsListPage> = ({ listRole }) => {
   const dispatch = useDispatch()
-  const [loadPage, changeLoadPage] = useState<(pageId: number) => void>((pageId: number) => {})
+  const [loadPage, changeLoadPage] = useState<(pageId: number, isUpdating?: string) => void>((pageId: number) => {})
   const isLoading = useSelector((state: AppStateType) => state.FilmsListReducer.isLoading)
   const isError = useSelector((state: AppStateType) => state.FilmsListReducer.isError)
   const filmsList = useSelector((state: AppStateType) => state.FilmsListReducer.listData)
@@ -48,6 +55,7 @@ const FilmsListPage: React.FC<IFilmsListPage> = ({ listRole }) => {
               return el.title ? <FilmCard key={el.id} film={el}/> : <TVSeriesCard key={el.id} film={el} />
             })}
           </FilmsPageContainer>
+          <LoadMoreBtn onClick={() => dispatch(loadPage(filmsList.page + 1, 'update'))}>Загрузить еще</LoadMoreBtn>
           <PaginationBar
             currentPage={filmsList.page}
             pagesCount={filmsList.total_pages}
