@@ -151,7 +151,7 @@ const AuthForm: React.FC<IAuthForm> = ({ isLoading, isLogged, AuthUser }) => {
   return (
     <>
       {isLoading && <Preloader/>}
-      {isLogged ? <Redirect to={'./profile'}/> : <ReduxAuthForm onSubmit={onSubmit}/>}
+      {isLogged ? <Redirect to={{ pathname: './profile', state: { title: 'Профиль' } }}/> : <ReduxAuthForm onSubmit={onSubmit}/>}
     </>
   )
 }

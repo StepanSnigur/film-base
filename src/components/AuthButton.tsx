@@ -32,11 +32,19 @@ const AuthButton: React.FC<IAuthButton> = (props) => {
     <ButtonWrapper>
       {
         props.isLogged ?
-        <Link to={'/profile'}>
+        <Link
+          to={{
+            pathname: '/profile',
+            state: { title: 'Профиль' }
+          }}
+        >
           <UserIcon src={`https://secure.gravatar.com/avatar/${props.userAvatar}.jpg?s=50`}
                     alt="Avatar"/>
         </Link> :
-        <AuthBtn to={'/authForm'}>войти</AuthBtn>
+        <AuthBtn to={{
+          pathname: '/authForm',
+          state: { title: 'Войти' }
+        }}>войти</AuthBtn>
       }
     </ButtonWrapper>
   )

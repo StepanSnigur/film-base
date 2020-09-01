@@ -34,9 +34,12 @@ import {
   ILoadWatchList,
   ILoadWatchListError
 } from './actionTypes/FilmActionTypes';
+import { addLastPage } from './actionCreators/HistoryReducerActionCreators';
+import { IAddLastPage } from './actionTypes/HistoryReducerActionTypes';
 
 export const setCurrentFilm = (id: number, sessionId: string | null) => async (
-  dispatch: Dispatch<ISetCurrentFilmLoading | ISetFilmStates | ISetCurrentFilmData | ISetCurrentFilmError>
+  dispatch: Dispatch<ISetCurrentFilmLoading | ISetFilmStates | ISetCurrentFilmData | ISetCurrentFilmError |
+    IAddLastPage>
 ) => {
   try {
     dispatch(setCurrentFilmLoading());
@@ -51,6 +54,7 @@ export const setCurrentFilm = (id: number, sessionId: string | null) => async (
     }
 
     dispatch(setCurrentFilmData(filmData, filmVideos, filmReviews, similarFilms));
+    dispatch(addLastPage({ url: window.location.pathname, title: filmData.title }))
   } catch (err) {
     dispatch(setCurrentFilmError());
   }

@@ -73,22 +73,19 @@ interface IFilmPage {
   setCurrentFilm: (filmId: number, sessionId: string | null) => void,
   changeFilmRating: (sessionId: string, filmId: number, rating: number) => void,
   deleteFilmRating: (sessionId: string, filmId: number) => void,
-  addLastPage: (url: string) => void,
   removeLastPage: () => void,
   history: History
 }
 
 class FilmPage extends Component<IFilmPage> {
   componentDidMount() {
-    const { sessionId, filmId, setCurrentFilm, addLastPage } = this.props;
+    const { sessionId, filmId, setCurrentFilm } = this.props;
     setCurrentFilm(filmId, sessionId);
-    addLastPage(window.location.pathname)
   }
   componentDidUpdate(prevProps: IFilmPage) {
     if (prevProps.filmId !== this.props.filmId) {
-      const { sessionId, filmId, setCurrentFilm, addLastPage } = this.props;
+      const { sessionId, filmId, setCurrentFilm } = this.props;
       setCurrentFilm(filmId, sessionId);
-      addLastPage(window.location.pathname)
     }
   }
   componentWillUnmount() {
@@ -179,6 +176,5 @@ export default connect(mapStateToProps, {
   setCurrentFilm,
   changeFilmRating,
   deleteFilmRating,
-  addLastPage,
   removeLastPage
 })(FilmPage);

@@ -1,21 +1,24 @@
-import { addLastPageType, removeLastPageType } from '../actions/actionTypes/HistoryReducerActionTypes'
+import { IAddLastPage, IRemoveLastPage } from '../actions/actionTypes/HistoryReducerActionTypes'
 
 const initialState = {
-  lastPageUrl: ''
+  lastPageUrl: '',
+  lastPageTitle: ''
 }
 
-type FilmHistoryReducerActionType = addLastPageType | removeLastPageType
+type FilmHistoryReducerActionType = IAddLastPage | IRemoveLastPage
 const FilmHistoryReducer = (state = initialState, action: FilmHistoryReducerActionType) => {
   switch (action.type) {
     case 'ADD_LAST_PAGE':
       return {
         ...state,
-        lastPageUrl: action.payload
+        lastPageUrl: action.payload.url,
+        lastPageTitle: action.payload.title
       }
     case 'REMOVE_LAST_PAGE':
       return {
         ...state,
-        lastPageUrl: ''
+        lastPageUrl: '',
+        lastPageTitle: '',
       }
     default:
       return state

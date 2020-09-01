@@ -31,8 +31,11 @@ export const AuthUser = (userName: string, password: string, rememberMe?: boolea
     rememberMe && localStorage.setItem('userAuthData', JSON.stringify({ userName, password }))
 
     // if redirect from film page then after auth return user back
-    const { lastPageUrl } = getState().FilmHistoryReducer;
-    lastPageUrl && appHistory.push(lastPageUrl);
+    const { lastPageUrl, lastPageTitle } = getState().FilmHistoryReducer;
+    lastPageUrl && appHistory.push({
+      pathname: lastPageUrl,
+      state: { title: lastPageTitle }
+    });
   } catch (err) {
     dispatch(setUserLoading(false));
     dispatch(stopSubmit("auth", {_error: err.errors}));

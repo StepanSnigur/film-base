@@ -30,9 +30,12 @@ import {
   ILoadTVSeriesWatchList,
   ILoadTVSeriesWatchListError
 } from './actionTypes/TVSeriesActionTypes';
+import { addLastPage } from './actionCreators/HistoryReducerActionCreators';
+import { IAddLastPage } from './actionTypes/HistoryReducerActionTypes';
 
 export const setCurrentTVSeries = (id: number, sessionId: string | null) => async (
-  dispatch: Dispatch<ISetCurrentTVSeriesLoading | ISetTVSeriesStates | ISetCurrentTVSeriesData | ISetCurrentTVSeriesError>
+  dispatch: Dispatch<ISetCurrentTVSeriesLoading | ISetTVSeriesStates | ISetCurrentTVSeriesData | ISetCurrentTVSeriesError |
+    IAddLastPage>
 ) => {
   dispatch(setCurrentTVSeriesLoading());
   try {
@@ -45,6 +48,7 @@ export const setCurrentTVSeries = (id: number, sessionId: string | null) => asyn
     }
 
     dispatch(setCurrentTVSeriesData(tvSeriesData, tvSeriesReviews));
+    dispatch(addLastPage({ url: window.location.pathname, title: tvSeriesData.name }))
   } catch (err) {
     dispatch(setCurrentTVSeriesError())
   }

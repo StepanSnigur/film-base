@@ -57,7 +57,10 @@ const SearchedFilmsList: React.FC<ISearchedFilmsList> = (props) => {
     return searchedFilmsList.slice(0, 5).map((el) => {
       return (
         <SearchedFilmsWrapperItem
-          to={el.media_type === 'movie' ? `/film/${el.id}` : `/tv-series/${el.id}`}
+          to={{
+            pathname: el.media_type === 'movie' ? `/film/${el.id}` : `/tv-series/${el.id}`,
+            state: { title: el.title || el.name }
+          }}
           onClick={clearInput}
           key={el.id}
         >

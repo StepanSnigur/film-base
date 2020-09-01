@@ -88,7 +88,12 @@ const TVSeriesCard: React.FC<ITVSeriesCard> = ({ film }) => {
       <TVSeriesInfo>
         <TVSeriesInfoTitle>{name}</TVSeriesInfoTitle>
         <TVSeriesInfoDescription>{overview.length >= 200 ? `${overview.slice(0, 200)}...` : overview}</TVSeriesInfoDescription>
-        <Link to={`/tv-series/${id}`}>
+        <Link
+          to={{
+            pathname: `/tv-series/${id}`,
+            state: { title: name }
+          }}
+        >
           <img src={ExpandArrow} alt="open"/>
         </Link>
       </TVSeriesInfo>

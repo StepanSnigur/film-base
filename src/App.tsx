@@ -48,6 +48,11 @@ const App = () => {
     } = JSON.parse(localStorage.getItem('userAuthData')!)
     userData && dispatch(AuthUser(userData.userName, userData.password))
   }, [dispatch])
+  useEffect(() => {
+    return appHistory.listen((location: any) => {
+      document.title = `FilmBase | ${location.state.title}`
+    })
+  }, [])
 
   return (
     <Router history={appHistory}>

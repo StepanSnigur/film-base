@@ -90,7 +90,12 @@ const FilmCard: React.FC<IFilmCard> = (props) => {
         <FilmInfoDescription>
           {overview.length >= 200 ? `${overview.slice(0, 200)}...` : overview}
         </FilmInfoDescription>
-        <Link to={`/film/${id}`}>
+        <Link
+          to={{
+            pathname: `/film/${id}`,
+            state: { title }
+          }}
+        >
           <img src={ExpandArrow} alt="open"/>
         </Link>
       </FilmInfo>

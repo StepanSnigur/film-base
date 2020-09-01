@@ -87,13 +87,22 @@ const HeaderLink = styled(Link)`
 const Header = () => (
   <HeaderWrapper>
     <HeaderContainer>
-      <HeaderLogo to="/">FB</HeaderLogo>
+      <HeaderLogo to={{
+        pathname: '/',
+        state: { title: 'Лучшие фильмы' }
+      }}>FB</HeaderLogo>
       <SearchMovieForm />
       <AuthButton />
     </HeaderContainer>
     <HeaderLinksWrapper>
       {FilmsLists.map(({ title, url }, i) => (
-        <HeaderLink key={i} to={url}>{title}</HeaderLink>
+        <HeaderLink
+          key={i}
+          to={{
+            pathname: url,
+            state: { title }
+          }}
+        >{title}</HeaderLink>
       ))}
     </HeaderLinksWrapper>
   </HeaderWrapper>

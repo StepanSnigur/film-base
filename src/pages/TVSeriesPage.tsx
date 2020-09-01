@@ -74,22 +74,19 @@ interface ITVSeriesPage {
   setCurrentTVSeries: (tvSeriesId: number, sessionId: string | null) => void,
   changeTVSeriesRating: (sessionId: string, filmId: number, rating: number) => void,
   deleteTVSeriesRating: (sessionId: string, filmId: number) => void,
-  addLastPage: (url: string) => void,
   removeLastPage: () => void,
   history: History
 }
 
 class TVSeriesPage extends Component<ITVSeriesPage> {
   componentDidMount() {
-    const { tvSeriesId, setCurrentTVSeries, sessionId, addLastPage } = this.props;
+    const { tvSeriesId, setCurrentTVSeries, sessionId } = this.props;
     setCurrentTVSeries(tvSeriesId, sessionId);
-    addLastPage(window.location.pathname)
   }
   componentDidUpdate(prevProps: Readonly<ITVSeriesPage>) {
     if (prevProps.tvSeriesId !== this.props.tvSeriesId) {
-      const { sessionId, tvSeriesId, setCurrentTVSeries, addLastPage } = this.props;
+      const { sessionId, tvSeriesId, setCurrentTVSeries } = this.props;
       setCurrentTVSeries(tvSeriesId, sessionId);
-      addLastPage(window.location.pathname)
     }
   }
   componentWillUnmount() {
@@ -197,6 +194,5 @@ export default connect(mapStateToProps, {
   setCurrentTVSeries,
   changeTVSeriesRating,
   deleteTVSeriesRating,
-  addLastPage,
   removeLastPage
 })(TVSeriesPage);

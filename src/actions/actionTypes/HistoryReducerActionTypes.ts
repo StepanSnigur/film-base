@@ -1,7 +1,10 @@
-export interface addLastPageType {
+export interface IAddLastPage {
   type: 'ADD_LAST_PAGE',
-  payload: string
+  payload: {
+    url: string,
+    title: string
+  }
 }
-export interface removeLastPageType {
+export interface IRemoveLastPage {
   type: 'REMOVE_LAST_PAGE'
 }
